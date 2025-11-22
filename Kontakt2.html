@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kontaktdaten Möbelaufbau</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+
+<!-- EmailJS -->
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+<script>(function(){ emailjs.init("j0Uaqqq79lXy6XOCx"); })();</script>
+
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:'Roboto',sans-serif;background:#f4f6f8;color:#333;line-height:1.5;}
+a{text-decoration:none;color:inherit;}
+
+.Kopfzeile{
+  position:fixed;top:0;left:0;right:0;padding:15px 30px;
+  display:grid;grid-template-columns:1fr auto 1fr;align-items:center;
+  background:#ffffffcc;box-shadow:0 4px 20px rgba(0,0,0,0.08);
+  border-bottom-left-radius:12px;border-bottom-right-radius:12px;
+  backdrop-filter:blur(5px);z-index:1000;
+}
+.left-logo img{height:80px;}
+.center-logo img{height:100px;}
+.menu-button{display:flex;flex-direction:column;width:32px;height:24px;justify-content:space-between;cursor:pointer;}
+.menu-button div{width:100%;height:3px;background:#0077cc;border-radius:2px;transition:0.3s;}
+.menu-button.open div:nth-child(1){transform:rotate(45deg) translateY(8px);}
+.menu-button.open div:nth-child(2){opacity:0;}
+.menu-button.open div:nth-child(3){transform:rotate(-45deg) translateY(-8px);}
+.nav-links{
+  display:none;flex-direction:column;background:#fff;position:absolute;
+  right:20px;top:90px;width:200px;padding:15px;border-radius:12px;
+  box-shadow:0 8px 18px rgba(0,0,0,0.15);
+}
+.nav-links.active{display:flex;}
+.Kopfzeile-Link{padding:10px;border-radius:8px;}
+.Kopfzeile-Link:hover{background:#e0f0ff;color:#0077cc;}
+
+.center-content{margin-top:140px;text-align:center;padding:20px;}
+h2{color:#0077cc;margin-bottom:12px;}
+.form-container{
+  background:white;padding:25px;border-radius:16px;
+  box-shadow:0 10px 25px rgba(0,0,0,0.06);
+  max-width:650px;margin:0 auto;
+  text-align:left;
+}
+label{font-weight:600;margin-bottom:6px;display:block;}
+input,textarea{
+  width:100%;padding:12px;border:1px solid #ccc;border-radius:10px;
+  margin-bottom:16px;font-size:16px;
+}
+.section-box{
+  background:#f7f7f7;padding:15px;border-radius:12px;margin-bottom:20px;
+  font-size:15px;
+}
+button{
+  width:100%;padding:14px;font-size:18px;font-weight:600;
+  border:none;border-radius:12px;cursor:pointer;
+  background:linear-gradient(90deg,#0077cc,#00aaff);color:white;
+}
+button:hover{background:linear-gradient(90deg,#005fa3,#0099dd);}
+
+.footer{background:#0077cc;padding:40px 20px;color:#fff;margin-top:60px;}
+.footer-container{max-width:1100px;margin:0 auto;display:flex;justify-content:space-between;flex-wrap:wrap;}
+.footer-section{text-align:center;width:30%;}
+@media(max-width:850px){.footer-section{width:100%;margin-bottom:20px;}}
+</style>
+
+</head>
+<body>
+
+<!-- HEADER -->
+<div class="Kopfzeile">
+  <div class="left-logo"><a href="index.html"><img src="Img/Logo2.png"></a></div>
+  <div class="center-logo"><a href="index.html"><img src="Img/Logo.png"></a></div>
+  <div class="right-menu">
+    <div class="menu-button" id="menuButton"><div></div><div></div><div></div></div>
+  </div>
+  <div class="nav-links" id="navLinks">
+    <a class="Kopfzeile-Link" href="index.html">Home</a>
+    <a class="Kopfzeile-Link" href="Umzug.html">Umzug</a>
+    <a class="Kopfzeile-Link" href="MoebelAufbau.html">Möbel Ab-/Aufbau</a>
+    <a class="Kopfzeile-Link" href="Transport.html">Transport</a>
+    <a class="Kopfzeile-Link" href="ÜberUns.html">Über uns</a>
+  </div>
+</div>
+
+<!-- CONTENT -->
+<div class="center-content">
+  <h2>Kontaktdaten für Ihr Angebot</h2>
+  <p>Überprüfen Sie Ihre Angaben unten & senden Sie Ihre Anfrage.</p>
+
+  <div class="form-container">
+    <h3 style="color:#0077cc;margin-bottom:10px;">Ihre Angaben</h3>
+
+    <div id="reviewData" class="section-box"></div>
+
+    <label>Name</label>
+    <input type="text" id="name" required>
+
+    <label>E-Mail</label>
+    <input type="email" id="email" required>
+
+    <label>Telefonnummer</label>
+    <input type="tel" id="telefon" required>
+
+    <button onclick="sendMail()">Jetzt Anfrage senden</button>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="footer-container">
+    <div class="footer-section"><a href="Impressum.html">Impressum</a></div>
+    <div class="footer-section">
+      <h3>Kontakt</h3>
+      <p><a href="mailto:studies.kontakt@gmail.com">studies.kontakt@gmail.com</a></p>
+      <p><a href="tel:+491782550568">+49 178 2550 568</a></p>
+    </div>
+    <div class="footer-section"><a href="Datenschutz.html">Datenschutz</a></div>
+  </div>
+</footer>
+
+<script>
+// Menü
+const menuButton=document.getElementById("menuButton");
+const navLinks=document.getElementById("navLinks");
+menuButton.onclick=()=>{navLinks.classList.toggle("active");menuButton.classList.toggle("open");};
+
+// Daten laden
+const data = JSON.parse(sessionStorage.getItem("fullReviewData") || "{}");
+
+// Möbel-Liste
+let moebelHTML = "";
+if(data.moebel && data.moebel.length){
+  data.moebel.forEach(m=>{
+    moebelHTML += `<div>- ${m.art} (${m.typ}) – Menge: ${m.menge}</div>`;
+  });
+} else { moebelHTML = "Keine Möbel angegeben"; }
+
+// Ausgabe
+document.getElementById("reviewData").innerHTML = `
+  <div><strong>Adresse(n):</strong></div>
+  ${data.adresse1 ? `<div>• Aufbau-Adresse: ${data.adresse1}</div>` : ""}
+  ${data.adresse2 ? `<div>• Abbau-Adresse: ${data.adresse2}</div>` : ""}
+  <div>• Art: ${data.aufbauAbb || "-"}</div>
+  <br>
+
+  <div><strong>Auf-/Abbau:</strong></div>
+  <div>• Aufwand: ${data.aufbauAufwand || "-"}</div>
+  ${data.aufbau_text ? `<div>• Beschreibung: ${data.aufbau_text}</div>` : ""}
+  <br>
+
+  <div><strong>Möbel:</strong></div>
+  ${moebelHTML}
+  <br>
+
+  <div><strong>Entfernung gesamt:</strong> ${data.entfernungGesamt || "0"} km</div>
+  <div><strong>Preis:</strong> ${data.totalPrice || "0"} €</div>
+`;
+
+// Email senden
+function sendMail(){
+  const params = {
+    from_name: document.getElementById("name").value,
+    from_email: document.getElementById("email").value,
+    telefon: document.getElementById("telefon").value,
+    adresse1: data.adresse1 || "",
+    adresse2: data.adresse2 || "",
+    aufbauAbb: data.aufbauAbb || "",
+    aufbauAufwand: data.aufbauAufwand || "",
+    aufbau_text: data.aufbau_text || "",
+    moebel: JSON.stringify(data.moebel || []),
+    entfernung: data.entfernungGesamt || "0",
+    totalPrice: data.totalPrice || "0"
+  };
+
+  emailjs.send("service_2jkzh5j","template_8uvfkzr",params)
+    .then(()=>{
+      sessionStorage.clear();
+      window.location.href = "Tanke.html"; // Weiterleitung nach dem Senden
+    })
+    .catch(err=>{
+      console.error(err);
+      alert("❌ Fehler beim Senden! Bitte erneut versuchen.");
+    });
+}
+</script>
+
+</body>
+</html>
