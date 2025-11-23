@@ -1,0 +1,731 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Möbel Ab-/Aufbau</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+
+<style>
+* {margin:0;padding:0;box-sizing:border-box;}
+body {
+  font-family:'Roboto',sans-serif;
+  background:#f4f6f8;color:#333;line-height:1.6;
+}
+a {text-decoration:none;color:inherit;}
+
+/* HEADER */
+.Kopfzeile {
+  position:fixed;top:0;left:0;right:0;
+  padding:15px 30px;
+  display:grid;
+  grid-template-columns:1fr auto 1fr;
+  align-items:center;
+  background:#ffffffcc;
+  box-shadow:0 4px 20px rgba(0,0,0,0.08);
+  border-bottom-left-radius:12px;
+  border-bottom-right-radius:12px;
+  backdrop-filter:blur(5px);
+  z-index:1000;
+}
+
+.left-logo img {height:80px;}
+.center-logo {display:flex;justify-content:center;}
+.center-logo img {height:100px;}
+.right-menu {display:flex;justify-content:flex-end;}
+
+.menu-button {
+  display:flex;flex-direction:column;width:32px;height:24px;
+  justify-content:space-between;cursor:pointer;
+}
+.menu-button div {
+  width:100%;height:3px;background:#0077cc;
+  border-radius:2px;transition:0.3s;
+}
+.menu-button.open div:nth-child(1){transform:rotate(45deg) translateY(8px);}
+.menu-button.open div:nth-child(2){opacity:0;}
+.menu-button.open div:nth-child(3){transform:rotate(-45deg) translateY(-8px);}
+
+.nav-links {
+  display:none;flex-direction:column;background:#fff;
+  position:absolute;right:20px;top:90px;width:200px;
+  padding:15px;border-radius:12px;
+  box-shadow:0 8px 18px rgba(0,0,0,0.15);
+}
+.nav-links.active {display:flex;}
+
+.Kopfzeile-Link {
+  font-size:16px;padding:10px 12px;
+  border-radius:8px;transition:0.3s;
+}
+.Kopfzeile-Link:hover {background:#e0f0ff;color:#0077cc;}
+
+@media(max-width:768px){
+  .left-logo img {height:60px;}
+  .center-logo img {height:55px;}
+}
+
+/* HEADER IMAGE + TITLE */
+.umzug-header {
+  display:flex;align-items:center;justify-content:center;
+  gap:25px;margin-bottom:30px;text-align:center;
+}
+.umzug-bild {
+  width:100px;height:auto;
+  filter:drop-shadow(0 5px 10px rgba(0,0,0,0.15));
+}
+.umzug-title {
+  font-size:40px;font-weight:700;color:#0077cc;margin:0;
+}
+
+@media(max-width:600px){
+  .umzug-title {font-size:28px;}
+  .umzug-bild {width:70px;}
+}
+
+/* CONTENT */
+.center-content {
+  margin-top:160px;padding:20px;text-align:center;
+}
+
+.form-container {
+  background:white;padding:30px;max-width:700px;
+  margin:0 auto;border-radius:20px;
+  box-shadow:0 10px 30px rgba(0,0,0,0.08);
+  text-align:left;
+}
+
+label {font-weight:500;margin-bottom:6px;display:block;}
+
+input[type=text],
+input[type=number],
+textarea,
+select {
+  width:100%;padding:12px 14px;border:1px solid #ddd;
+  border-radius:10px;font-size:16px;transition:0.3s;
+  background:#f9fbfd;
+}
+
+textarea {
+  min-height:120px;resize:vertical;
+}
+
+input:focus,
+textarea:focus,
+select:focus {
+  border-color:#0077cc;
+  box-shadow:0 0 8px rgba(0,119,204,0.2);
+  outline:none;
+}
+
+/* GRIDS */
+.adresse-gruppe,.plz-stadt {
+  display:grid;gap:15px;margin-bottom:15px;
+}
+.adresse-gruppe {grid-template-columns:2fr 1fr;}
+.plz-stadt {grid-template-columns:1fr 2fr;}
+
+@media(max-width:600px){
+  .adresse-gruppe,.plz-stadt {grid-template-columns:1fr;}
+}
+
+/* RADIO BUTTON GROUPS */
+.wohnart-gruppe,.benoetigt-gruppe {
+  display:flex;flex-wrap:wrap;gap:10px;margin-bottom:16px;
+}
+
+.wohnart-gruppe label,
+.benoetigt-gruppe label {
+  flex:1;text-align:center;padding:10px 12px;
+  border-radius:10px;background:#f7f9fc;
+  border:1px solid #ccc;cursor:pointer;transition:0.2s;
+  min-width:100px;
+}
+
+.wohnart-gruppe label:hover,
+.benoetigt-gruppe label:hover {
+  background:#e0f0ff;border-color:#0077cc;
+}
+
+input[type=radio] {display:none;}
+
+input[type=radio]:checked + label {
+  background:#0077cc;color:white;border-color:#005fa3;
+}
+
+/* MÖBEL LIST - Verbessertes Design mit Mobile Responsiveness */
+.moebel-section {
+  margin-top:25px;padding:20px;
+  background:#f7f9fc;border-radius:12px;
+  border:2px solid #e0f0ff;
+}
+
+.moebel-section h4 {
+  color:#0077cc;margin-bottom:15px;font-size:18px;
+}
+
+.moebel-section-header {
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-bottom:15px;
+  flex-wrap:wrap;
+  gap:10px;
+}
+
+.clear-all-btn {
+  padding:8px 16px;
+  background:#ff4444;
+  color:white;
+  border:none;
+  border-radius:8px;
+  font-size:14px;
+  font-weight:600;
+  cursor:pointer;
+  transition:0.3s;
+}
+
+.clear-all-btn:hover {
+  background:#cc0000;
+}
+
+.moebel-list {
+  display:flex;flex-direction:column;gap:12px;
+  margin-bottom:15px;
+}
+
+.moebel-item {
+  display:grid;
+  grid-template-columns:1.5fr 1fr 80px 40px 40px;
+  gap:10px;
+  align-items:center;
+  background:white;
+  padding:15px;
+  border-radius:12px;
+  box-shadow:0 2px 10px rgba(0,0,0,0.06);
+  transition:0.2s;
+}
+
+.moebel-item:hover {
+  box-shadow:0 4px 15px rgba(0,0,0,0.1);
+}
+
+/* Verbesserte Mobile Responsiveness */
+@media(max-width:700px){
+  .moebel-item {
+    grid-template-columns:1fr;
+    gap:10px;
+  }
+  
+  .moebel-item-buttons {
+    display:flex;
+    gap:10px;
+    justify-content:center;
+  }
+}
+
+@media(max-width:400px){
+  .moebel-item input,
+  .moebel-item select {
+    font-size:14px;
+    padding:10px;
+  }
+  
+  .form-container {
+    padding:20px;
+  }
+}
+
+.moebel-item input[type=text] {
+  padding:10px;font-size:15px;margin-bottom:0;
+}
+
+.moebel-item select {
+  padding:10px;font-size:15px;margin-bottom:0;
+}
+
+.moebel-item input[type=number] {
+  width:100%;text-align:center;
+  padding:10px;font-size:15px;margin-bottom:0;
+}
+
+.add-btn, .remove-btn {
+  width:40px;height:40px;border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  font-size:22px;font-weight:bold;
+  cursor:pointer;transition:0.3s;
+  border:none;
+}
+
+.add-btn {
+  background:#0077cc;color:white;
+}
+
+.add-btn:hover {
+  background:#005fa3;transform:scale(1.1);
+}
+
+.remove-btn {
+  background:#ff4444;color:white;
+}
+
+.remove-btn:hover {
+  background:#cc0000;transform:scale(1.1);
+}
+
+.add-moebel-btn {
+  width:100%;padding:12px;
+  background:#e0f0ff;color:#0077cc;
+  border:2px dashed #0077cc;
+  border-radius:10px;font-size:16px;
+  font-weight:600;cursor:pointer;
+  transition:0.3s;
+}
+
+.add-moebel-btn:hover {
+  background:#0077cc;color:white;
+  border-style:solid;
+}
+
+/* HINWEISBOX */
+.hinweis-box {
+  background:#fff3cd;
+  padding:15px 18px;
+  border-left:4px solid #ffc107;
+  border-radius:12px;
+  margin-bottom:18px;
+  color:#856404;
+}
+
+.hinweis-box strong {
+  color:#856404;
+}
+
+.info-box {
+  background:#d1ecf1;
+  padding:15px 18px;
+  border-left:4px solid #17a2b8;
+  border-radius:12px;
+  margin-bottom:18px;
+  color:#0c5460;
+}
+
+.info-box strong {
+  color:#0c5460;
+}
+
+/* BUTTON */
+button.submit-btn {
+  width:100%;padding:15px;margin-top:20px;
+  border:none;border-radius:12px;
+  background:linear-gradient(90deg,#0077cc,#00aaff);
+  color:white;font-size:18px;font-weight:600;
+  cursor:pointer;transition:0.3s;
+}
+button.submit-btn:hover {
+  background:linear-gradient(90deg,#005fa3,#0099dd);
+}
+
+hr {margin:25px 0;border:none;border-top:1px solid #eee;}
+
+h3 {margin-bottom:12px;font-size:18px;color:#0077cc;}
+
+/* FOOTER */
+.footer {
+  background:#0077cc;padding:40px 20px;
+  color:#fff;margin-top:60px;
+}
+
+.footer-container {
+  max-width:1100px;margin:0 auto;
+  display:flex;justify-content:space-between;flex-wrap:wrap;
+}
+
+.footer-section {width:30%;text-align:center;}
+
+@media(max-width:850px){
+  .footer-section {width:100%;margin-bottom:25px;}
+}
+
+.footer h3 {font-size:22px;margin-bottom:12px;}
+
+.footer-section a {
+  font-size:20px;color:#00e0ff;font-weight:500;
+}
+.footer-section a:hover {
+  color:white;text-decoration:underline;
+}
+
+.footer-section p {margin:5px 0;}
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<div class="Kopfzeile">
+  <div class="left-logo">
+    <a href="index.html"><img src="Img/Logo2.png" alt="Logo"></a>
+  </div>
+  <div class="center-logo">
+    <a href="index.html"><img src="Img/Logo.png" alt="Logo Mitte"></a>
+  </div>
+  <div class="right-menu">
+    <div class="menu-button" id="menuButton"><div></div><div></div><div></div></div>
+  </div>
+  <div class="nav-links" id="navLinks">
+    <a class="Kopfzeile-Link" href="index.html">Home</a>
+    <a class="Kopfzeile-Link" href="Umzug.html">Umzug</a>
+    <a class="Kopfzeile-Link" href="MoebelAufbau.html">Möbel Ab-/Aufbau</a>
+    <a class="Kopfzeile-Link" href="Transport.html">Transport</a>
+    <a class="Kopfzeile-Link" href="ÜberUns.html">Über uns</a>
+  </div>
+</div>
+
+<!-- CONTENT -->
+<div class="center-content">
+
+  <!-- HEADER IMAGE + TITLE -->
+  <div class="umzug-header">
+    <img src="Img/aufbau.png" alt="Aufbau Bild" class="umzug-bild">
+    <h1 class="umzug-title">Möbel Ab-/Aufbau</h1>
+  </div>
+  
+  <!-- Hier soll der Rabatt erscheinen -->
+  <div id="rabatt-hinweis"></div>
+  
+  <div class="form-container">
+
+    <!-- Auswahl Auf/Abbau -->
+    <label>Benötigen Sie Auf- oder Abbau?</label>
+    <div class="benoetigt-gruppe">
+      <input type="radio" id="aufbauOnly" name="aufbauAbb" value="Aufbau"><label for="aufbauOnly">Aufbau</label>
+      <input type="radio" id="abbauOnly" name="aufbauAbb" value="Abbau"><label for="abbauOnly">Abbau</label>
+      <input type="radio" id="beides" name="aufbauAbb" value="Beides"><label for="beides">Beides</label>
+    </div>
+
+    <!-- Eine Adresse -->
+    <div id="eineAdresse" style="display:none;">
+      <label>Adresse:</label>
+      <div class="adresse-gruppe">
+        <input type="text" id="addr1_strasse" placeholder="Straße">
+        <input type="text" id="addr1_hausnr" placeholder="Nr.">
+      </div>
+      <div class="plz-stadt">
+        <input type="text" id="addr1_plz" placeholder="PLZ">
+        <input type="text" id="addr1_stadt" placeholder="Stadt">
+      </div>
+    </div>
+
+    <!-- Zwei Adressen -->
+    <div id="zweiAdressen" style="display:none;">
+      <label>Adresse für Aufbau:</label>
+      <div class="adresse-gruppe">
+        <input type="text" id="aufbau_strasse" placeholder="Straße">
+        <input type="text" id="aufbau_hausnr" placeholder="Nr.">
+      </div>
+      <div class="plz-stadt">
+        <input type="text" id="aufbau_plz" placeholder="PLZ">
+        <input type="text" id="aufbau_stadt" placeholder="Stadt">
+      </div>
+
+      <label style="margin-top:15px;">Adresse für Abbau:</label>
+      <div class="adresse-gruppe">
+        <input type="text" id="abbau_strasse" placeholder="Straße">
+        <input type="text" id="abbau_hausnr" placeholder="Nr.">
+      </div>
+      <div class="plz-stadt">
+        <input type="text" id="abbau_plz" placeholder="PLZ">
+        <input type="text" id="abbau_stadt" placeholder="Stadt">
+      </div>
+    </div>
+
+    <hr>
+
+    <!-- Aufwand -->
+    <label>Auf-/Abbau Aufwand:</label>
+    <div class="wohnart-gruppe">
+      <input type="radio" id="gering" name="aufbauAufwand" value="Gering"><label for="gering">Gering</label>
+      <input type="radio" id="mittel" name="aufbauAufwand" value="Mittel"><label for="mittel">Mittel</label>
+      <input type="radio" id="hoch" name="aufbauAufwand" value="Hoch"><label for="hoch">Hoch</label>
+    </div>
+
+    <!-- MÖBEL SECTION -->
+    <div class="moebel-section">
+      <div class="moebel-section-header">
+        <h4>📦 Möbel Liste</h4>
+        <button type="button" class="clear-all-btn" onclick="clearAllMoebel()">🗑️ Alle löschen</button>
+      </div>
+      <p style="font-size:14px;color:#666;margin-bottom:15px;">
+        Geben Sie an, welche Möbel auf- oder abgebaut werden sollen.
+      </p>
+      
+      <div class="moebel-list" id="moebelList">
+        <div class="moebel-item">
+          <input type="text" placeholder="Möbelart (z.B. Schrank, Bett)" class="moebel-art">
+          <select class="moebel-typ">
+            <option value="Aufbau">Aufbau</option>
+            <option value="Abbau">Abbau</option>
+            <option value="Beides">Beides</option>
+          </select>
+          <input type="number" min="1" value="1" class="moebel-menge" placeholder="Anzahl">
+          <div class="moebel-item-buttons">
+            <button type="button" class="add-btn" onclick="addMoebel()">+</button>
+            <button type="button" class="remove-btn" onclick="removeMoebel(this)">−</button>
+          </div>
+        </div>
+      </div>
+      
+      <button type="button" class="add-moebel-btn" onclick="addMoebel()">+ Weiteres Möbelstück hinzufügen</button>
+    </div>
+
+    <!-- Hinweis -->
+    <div class="hinweis-box">
+      <strong>⚠️ Hinweis:</strong> Falls es sich bei dem Aufbau um eine <strong>Küche</strong> handelt, geben Sie dies bitte im Textfeld unten an.<br>
+      So können wir Ihnen eine genauere Preisberechnung erstellen.<br>
+      Wir werden Sie anschließend schnellstmöglich kontaktieren.
+    </div>
+
+    <!-- Zusatzinfo -->
+    <label>Wollen Sie uns noch etwas mitteilen?</label>
+    <textarea id="zusatzinfo" placeholder="Hier können Sie zusätzliche Informationen oder Wünsche eintragen (z.B. Küche, besondere Anforderungen...)"></textarea>
+
+    <button class="submit-btn" id="absenden" type="button">Angebot anfordern</button>
+
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="footer-container">
+    <div class="footer-section">
+      <a href="Impressum.html">Impressum</a>
+    </div>
+    <div class="footer-section">
+      <h3>Kontakt</h3>
+      <p><a href="mailto:studies.kontakt@gmail.com">studies.kontakt@gmail.com</a></p>
+      <p><a href="tel:+491782550568">+49 178 2550 568</a></p>
+    </div>
+    <div class="footer-section">
+      <a href="Datenschutz.html">Datenschutz</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+const menuButton = document.getElementById('menuButton');
+const navLinks = document.getElementById('navLinks');
+menuButton.addEventListener('click', () => {
+  navLinks.classList.toggle('active');
+  menuButton.classList.toggle('open');
+});
+
+// Adressfelder anzeigen
+const eineAdresse = document.getElementById('eineAdresse');
+const zweiAdressen = document.getElementById('zweiAdressen');
+
+function updateAdressfelder() {
+  if (document.getElementById('aufbauOnly').checked || document.getElementById('abbauOnly').checked) {
+    eineAdresse.style.display = 'block';
+    zweiAdressen.style.display = 'none';
+  } else if (document.getElementById('beides').checked) {
+    eineAdresse.style.display = 'none';
+    zweiAdressen.style.display = 'block';
+  }
+}
+
+document.getElementById('aufbauOnly').addEventListener('change', updateAdressfelder);
+document.getElementById('abbauOnly').addEventListener('change', updateAdressfelder);
+document.getElementById('beides').addEventListener('change', updateAdressfelder);
+
+// Möbel hinzufügen
+function addMoebel() {
+  const list = document.getElementById('moebelList');
+  const newItem = list.firstElementChild.cloneNode(true);
+  newItem.querySelector('.moebel-art').value = '';
+  newItem.querySelector('.moebel-menge').value = 1;
+  newItem.querySelector('.moebel-typ').value = 'Aufbau';
+  list.appendChild(newItem);
+}
+
+// Möbel entfernen
+function removeMoebel(btn) {
+  const list = document.getElementById('moebelList');
+  if (list.children.length > 1) {
+    btn.closest('.moebel-item').remove();
+  } else {
+    alert('Mindestens ein Möbelstück muss vorhanden sein.');
+  }
+}
+
+// NEUE FUNKTION: Alle Möbel löschen
+function clearAllMoebel() {
+  if (confirm('Möchten Sie wirklich alle Möbel aus der Liste entfernen?')) {
+    const list = document.getElementById('moebelList');
+    list.innerHTML = `
+      <div class="moebel-item">
+        <input type="text" placeholder="Möbelart (z.B. Schrank, Bett)" class="moebel-art">
+        <select class="moebel-typ">
+          <option value="Aufbau">Aufbau</option>
+          <option value="Abbau">Abbau</option>
+          <option value="Beides">Beides</option>
+        </select>
+        <input type="number" min="1" value="1" class="moebel-menge" placeholder="Anzahl">
+        <div class="moebel-item-buttons">
+          <button type="button" class="add-btn" onclick="addMoebel()">+</button>
+          <button type="button" class="remove-btn" onclick="removeMoebel(this)">−</button>
+        </div>
+      </div>
+    `;
+  }
+}
+
+// Absenden mit VERBESSERTER VALIDIERUNG
+document.getElementById('absenden').onclick = () => {
+  const data = {};
+
+  // 1. Auf/Abbau Auswahl prüfen
+  const aufbauAbb = document.querySelector('input[name="aufbauAbb"]:checked');
+  if (!aufbauAbb) {
+    alert('❌ Bitte wählen Sie aus, ob Sie Auf- oder Abbau benötigen.');
+    return;
+  }
+  data.aufbauAbb = aufbauAbb.value;
+
+  // 2. Adressen validieren
+  if (data.aufbauAbb === "Beides") {
+    // Zwei Adressen prüfen
+    if (!document.getElementById('aufbau_strasse').value.trim()) {
+      alert('❌ Bitte geben Sie die Aufbau-Straße ein.');
+      document.getElementById('aufbau_strasse').focus();
+      return;
+    }
+    if (!document.getElementById('aufbau_hausnr').value.trim()) {
+      alert('❌ Bitte geben Sie die Aufbau-Hausnummer ein.');
+      document.getElementById('aufbau_hausnr').focus();
+      return;
+    }
+    if (!document.getElementById('aufbau_plz').value.trim()) {
+      alert('❌ Bitte geben Sie die Aufbau-PLZ ein.');
+      document.getElementById('aufbau_plz').focus();
+      return;
+    }
+    if (!document.getElementById('aufbau_stadt').value.trim()) {
+      alert('❌ Bitte geben Sie die Aufbau-Stadt ein.');
+      document.getElementById('aufbau_stadt').focus();
+      return;
+    }
+    
+    if (!document.getElementById('abbau_strasse').value.trim()) {
+      alert('❌ Bitte geben Sie die Abbau-Straße ein.');
+      document.getElementById('abbau_strasse').focus();
+      return;
+    }
+    if (!document.getElementById('abbau_hausnr').value.trim()) {
+      alert('❌ Bitte geben Sie die Abbau-Hausnummer ein.');
+      document.getElementById('abbau_hausnr').focus();
+      return;
+    }
+    if (!document.getElementById('abbau_plz').value.trim()) {
+      alert('❌ Bitte geben Sie die Abbau-PLZ ein.');
+      document.getElementById('abbau_plz').focus();
+      return;
+    }
+    if (!document.getElementById('abbau_stadt').value.trim()) {
+      alert('❌ Bitte geben Sie die Abbau-Stadt ein.');
+      document.getElementById('abbau_stadt').focus();
+      return;
+    }
+    
+    const aufbau_str = document.getElementById('aufbau_strasse').value.trim();
+    const aufbau_nr = document.getElementById('aufbau_hausnr').value.trim();
+    const aufbau_plz = document.getElementById('aufbau_plz').value.trim();
+    const aufbau_stadt = document.getElementById('aufbau_stadt').value.trim();
+    
+    const abbau_str = document.getElementById('abbau_strasse').value.trim();
+    const abbau_nr = document.getElementById('abbau_hausnr').value.trim();
+    const abbau_plz = document.getElementById('abbau_plz').value.trim();
+    const abbau_stadt = document.getElementById('abbau_stadt').value.trim();
+    
+    data.adresse1 = `${aufbau_str} ${aufbau_nr}, ${aufbau_plz} ${aufbau_stadt}`;
+    data.adresse2 = `${abbau_str} ${abbau_nr}, ${abbau_plz} ${abbau_stadt}`;
+  } else {
+    // Eine Adresse prüfen
+    if (!document.getElementById('addr1_strasse').value.trim()) {
+      alert('❌ Bitte geben Sie die Straße ein.');
+      document.getElementById('addr1_strasse').focus();
+      return;
+    }
+    if (!document.getElementById('addr1_hausnr').value.trim()) {
+      alert('❌ Bitte geben Sie die Hausnummer ein.');
+      document.getElementById('addr1_hausnr').focus();
+      return;
+    }
+    if (!document.getElementById('addr1_plz').value.trim()) {
+      alert('❌ Bitte geben Sie die PLZ ein.');
+      document.getElementById('addr1_plz').focus();
+      return;
+    }
+    if (!document.getElementById('addr1_stadt').value.trim()) {
+      alert('❌ Bitte geben Sie die Stadt ein.');
+      document.getElementById('addr1_stadt').focus();
+      return;
+    }
+    
+    const str = document.getElementById('addr1_strasse').value.trim();
+    const nr = document.getElementById('addr1_hausnr').value.trim();
+    const plz = document.getElementById('addr1_plz').value.trim();
+    const stadt = document.getElementById('addr1_stadt').value.trim();
+    
+    data.adresse1 = `${str} ${nr}, ${plz} ${stadt}`;
+  }
+
+  // 3. Aufwand prüfen
+  const aufwand = document.querySelector('input[name="aufbauAufwand"]:checked');
+  if (!aufwand) {
+    alert('❌ Bitte wählen Sie den Aufwand aus.');
+    return;
+  }
+  data.aufbauAufwand = aufwand.value;
+
+  // 4. Zusatzinfo (optional)
+  const zusatz = document.getElementById('zusatzinfo').value.trim();
+  if (zusatz) data.aufbau_text = zusatz;
+
+  // 5. Möbel sammeln und validieren
+  const moebelList = [];
+  document.querySelectorAll('.moebel-item').forEach(item => {
+    const art = item.querySelector('.moebel-art').value.trim();
+    if (art) {
+      moebelList.push({
+        art: art,
+        typ: item.querySelector('.moebel-typ').value,
+        menge: item.querySelector('.moebel-menge').value
+      });
+    }
+  });
+  
+  if (moebelList.length === 0) {
+    alert('❌ Bitte geben Sie mindestens ein Möbelstück an.');
+    return;
+  }
+
+  data.moebel = JSON.stringify(moebelList);
+
+  // 6. Weiterleitung
+  const params = new URLSearchParams(data).toString();
+  window.location.href = `review2.html?${params}`;
+};
+</script>
+
+<!-- Firebase SDK -->
+<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database-compat.js"></script>
+
+<!-- Rabatt-Anzeige Script -->
+<script src="rabatt-anzeige.js"></script>
+
+</body>
+</html>

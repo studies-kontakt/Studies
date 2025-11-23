@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kontaktdaten für Angebot</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+
+<!-- EmailJS Script -->
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+<script>
+  (function(){ emailjs.init("j0Uaqqq79lXy6XOCx"); })();
+</script>
+
+<style>
+* {margin:0;padding:0;box-sizing:border-box;}
+body {
+  font-family:'Roboto',sans-serif;
+  background:#f4f6f8;color:#333;line-height:1.5;
+}
+a {text-decoration:none;color:inherit;}
+
+/* HEADER */
+.Kopfzeile {
+  position:fixed;top:0;left:0;right:0;
+  padding:15px 30px;
+  display:grid;
+  grid-template-columns:1fr auto 1fr;
+  align-items:center;
+  background:#ffffffcc;
+  box-shadow:0 4px 20px rgba(0,0,0,0.08);
+  border-bottom-left-radius:12px;
+  border-bottom-right-radius:12px;
+  backdrop-filter:blur(5px);
+  z-index:1000;
+}
+
+.left-logo img {height:80px;}
+.center-logo {display:flex;justify-content:center;}
+.center-logo img {height:100px;}
+.right-menu {display:flex;justify-content:flex-end;}
+
+.menu-button {
+  display:flex;flex-direction:column;width:32px;height:24px;
+  justify-content:space-between;cursor:pointer;
+}
+.menu-button div {
+  width:100%;height:3px;background:#0077cc;
+  border-radius:2px;transition:0.3s;
+}
+.menu-button.open div:nth-child(1){transform:rotate(45deg) translateY(8px);}
+.menu-button.open div:nth-child(2){opacity:0;}
+.menu-button.open div:nth-child(3){transform:rotate(-45deg) translateY(-8px);}
+
+.nav-links {
+  display:none;flex-direction:column;background:#fff;
+  position:absolute;right:20px;top:90px;width:200px;
+  padding:15px;border-radius:12px;
+  box-shadow:0 8px 18px rgba(0,0,0,0.15);
+}
+.nav-links.active {display:flex;}
+
+.Kopfzeile-Link {
+  font-size:16px;padding:10px 12px;
+  border-radius:8px;transition:0.3s;
+}
+.Kopfzeile-Link:hover {background:#e0f0ff;color:#0077cc;}
+
+@media(max-width:768px){
+  .left-logo img {height:60px;}
+  .center-logo img {height:55px;}
+}
+
+/* CONTENT */
+.center-content {
+  margin-top:140px;padding:20px;text-align:center;
+}
+
+h2 {color:#0077cc;margin-bottom:12px;}
+p {margin-bottom:20px;}
+
+.form-container {
+  background:white;padding:25px;border-radius:16px;
+  box-shadow:0 10px 25px rgba(0,0,0,0.06);
+  text-align:left;max-width:650px;margin:0 auto;
+}
+
+.label-group {
+  margin-bottom:15px;padding:12px;
+  background:#f7f9fc;border-radius:8px;
+}
+
+.label-group strong {
+  color:#0077cc;display:block;margin-bottom:5px;
+}
+
+.moebel-list {
+  background:#fff;padding:10px;border-radius:8px;
+  margin-top:8px;
+}
+
+.moebel-item {
+  padding:8px;font-size:14px;
+  border-left:3px solid #0077cc;
+  margin-bottom:6px;
+  background:#f9fbfd;
+  border-radius:4px;
+}
+
+.moebel-item:last-child {
+  margin-bottom:0;
+}
+
+label {
+  display:block;font-weight:600;margin-bottom:6px;
+  margin-top:15px;
+}
+
+input[type=text],
+input[type=email],
+input[type=tel] {
+  width:100%;padding:12px;border:1px solid #ccc;
+  border-radius:10px;font-size:16px;margin-bottom:16px;
+  outline:none;transition:0.2s;
+}
+
+input:focus {
+  border-color:#0077cc;
+  box-shadow:0 0 5px rgba(0,119,204,0.3);
+}
+
+button {
+  width:100%;padding:14px;font-size:18px;font-weight:600;
+  color:white;
+  background:linear-gradient(90deg,#0077cc,#00aaff);
+  border:none;border-radius:12px;cursor:pointer;
+  transition:0.3s;margin-top:10px;
+}
+
+button:hover {
+  background:linear-gradient(90deg,#005fa3,#0099dd);
+}
+
+button:active {
+  transform:scale(0.97);
+}
+
+.price-highlight {
+  background:#e0f0ff;padding:15px;
+  border-radius:10px;text-align:center;
+  font-size:20px;font-weight:600;
+  color:#0077cc;margin-top:15px;
+}
+
+/* FOOTER */
+.footer {
+  background:#0077cc;padding:40px 20px;
+  color:#fff;margin-top:60px;
+}
+
+.footer-container {
+  max-width:1100px;margin:0 auto;
+  display:flex;justify-content:space-between;flex-wrap:wrap;
+}
+
+.footer-section {width:30%;text-align:center;}
+
+@media(max-width:850px){
+  .footer-section {width:100%;margin-bottom:25px;}
+}
+
+.footer h3{font-size:22px;margin-bottom:12px;}
+
+.footer-section a{
+  font-size:20px;color:#00e0ff;font-weight:500;
+}
+.footer-section a:hover{
+  color:white;text-decoration:underline;
+}
+
+.footer-section p{margin:5px 0;}
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<div class="Kopfzeile">
+  <div class="left-logo">
+    <a href="index.html"><img src="Img/Logo2.png" alt="Logo"></a>
+  </div>
+  <div class="center-logo">
+    <a href="index.html"><img src="Img/Logo.png" alt="Logo Mitte"></a>
+  </div>
+  <div class="right-menu">
+    <div class="menu-button" id="menuButton"><div></div><div></div><div></div></div>
+  </div>
+  <div class="nav-links" id="navLinks">
+    <a class="Kopfzeile-Link" href="index.html">Home</a>
+    <a class="Kopfzeile-Link" href="Umzug.html">Umzug</a>
+    <a class="Kopfzeile-Link" href="MoebelAufbau.html">Möbel Ab-/Aufbau</a>
+    <a class="Kopfzeile-Link" href="Transport.html">Transport</a>
+    <a class="Kopfzeile-Link" href="ÜberUns.html">Über uns</a>
+  </div>
+</div>
+
+<!-- CONTENT -->
+<div class="center-content">
+  <h2>Kontaktdaten für Ihr Angebot</h2>
+  <p>Bitte überprüfen Sie ihre Angaben und tragen Sie Ihre Kontaktdaten ein, um ein unverbindliche Angebotsanfrage für ihren Umzug zu senden</p>
+
+  <div class="form-container">
+    <div id="umzugDetails"></div>
+
+    <hr style="margin:20px 0;border:none;border-top:1px solid #eee;">
+
+    <label for="name">Name:</label>
+    <input type="text" id="name" placeholder="Ihr Name" required>
+
+    <label for="email">E-Mail:</label>
+    <input type="email" id="email" placeholder="Ihre E-Mail" required>
+
+    <label for="telefon">Telefonnummer:</label>
+    <input type="tel" id="telefon" placeholder="Ihre Telefonnummer" required>
+
+    <button onclick="sendMail()">Jetzt Angebotsanfrage senden</button>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="footer-container">
+    <div class="footer-section">
+      <a href="Impressum.html">Impressum</a>
+    </div>
+    <div class="footer-section">
+      <h3>Kontakt</h3>
+      <p><a href="mailto:studies.kontakt@gmail.com">studies.kontakt@gmail.com</a></p>
+      <p><a href="tel:+491782550568">+49 178 2550 568</a></p>
+    </div>
+    <div class="footer-section">
+      <a href="Datenschutz.html">Datenschutz</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+// Hamburger Menü
+const menuButton = document.getElementById('menuButton');
+const navLinks = document.getElementById('navLinks');
+menuButton.addEventListener('click', () => {
+  navLinks.classList.toggle('active');
+  menuButton.classList.toggle('open');
+});
+
+// Daten aus SessionStorage
+const data = JSON.parse(sessionStorage.getItem('umzugData') || '{}');
+const vonAdresse = `${data.von_strasse||''} ${data.von_hausnr||''}, ${data.von_plz||''} ${data.von_stadt||''}`;
+const nachAdresse = `${data.nach_strasse||''} ${data.nach_hausnr||''}, ${data.nach_plz||''} ${data.nach_stadt||''}`;
+
+// Möbel HTML
+let moebelHTML = '';
+if (data.moebel && data.moebel.length > 0) {
+  moebelHTML = '<div class="moebel-list">';
+  data.moebel.forEach(m => {
+    moebelHTML += `<div class="moebel-item">📦 ${m.art} (${m.typ}) - Anzahl: ${m.menge}</div>`;
+  });
+  moebelHTML += '</div>';
+} else {
+  moebelHTML = '<p style="color:#999;font-style:italic;">Keine Möbel angegeben</p>';
+}
+
+const details = document.getElementById('umzugDetails');
+details.innerHTML = `
+  <div class="label-group">
+    <strong>VON-Adresse:</strong>
+    ${vonAdresse}
+  </div>
+  <div class="label-group">
+    <strong>NACH-Adresse:</strong>
+    ${nachAdresse}
+  </div>
+  <div class="label-group">
+    <strong>Datum:</strong> ${data.datum || '-'}
+  </div>
+  <div class="label-group">
+    <strong>Entfernung:</strong> ${data.distanceKm || '-'} km
+  </div>
+  
+  <div class="label-group">
+    <strong>Auszug:</strong><br>
+    • Wohnart: ${data.wohnart_auszug || '-'}<br>
+    • Etage: ${data.etage_auszug || '-'}<br>
+    • Zimmer: ${data.zimmer_auszug || '-'}<br>
+    • Größe: ${data.groesse_auszug || '-'} m²<br>
+    • Aufzug: ${data.aufzug_auszug || '-'}
+  </div>
+  
+  <div class="label-group">
+    <strong>Einzug:</strong><br>
+    • Wohnart: ${data.wohnart_einzug || '-'}<br>
+    • Etage: ${data.etage_einzug || '-'}<br>
+    • Zimmer: ${data.zimmer_einzug || '-'}<br>
+    • Größe: ${data.groesse_einzug || '-'} m²<br>
+    • Aufzug: ${data.aufzug_einzug || '-'}
+  </div>
+  
+  <div class="label-group">
+    <strong>Möbel zum Auf-/Abbau:</strong>
+    ${moebelHTML}
+  </div>
+  
+  <div class="price-highlight">
+    💰 Gesamtkosten: ${data.totalPrice || '-'} €
+  </div>
+`;
+
+function sendMail(){
+  const name = document.getElementById("name").value.trim();
+  const email = document.getElementById("email").value.trim();
+  const telefon = document.getElementById("telefon").value.trim();
+  
+  if(!name || !email || !telefon){
+    alert("Bitte füllen Sie alle Felder aus.");
+    return;
+  }
+  
+  // Möbel für E-Mail formatieren
+  let moebelText = 'Keine Möbel';
+  if(data.moebel && data.moebel.length > 0) {
+    moebelText = data.moebel.map(m => `${m.art} (${m.typ}) x${m.menge}`).join(', ');
+  }
+  
+  const parms = {
+    from_name:name,
+    from_email:email,
+    telefon:telefon,
+    von_adresse:vonAdresse,
+    nach_adresse:nachAdresse,
+    datum:data.datum||"-",
+    distanceKm:data.distanceKm||"-",
+    wohnart_auszug:data.wohnart_auszug||"-",
+    etage_auszug:data.etage_auszug||"-",
+    zimmer_auszug:data.zimmer_auszug||"-",
+    groesse_auszug:data.groesse_auszug||"-",
+    aufzug_auszug:data.aufzug_auszug||"-",
+    wohnart_einzug:data.wohnart_einzug||"-",
+    etage_einzug:data.etage_einzug||"-",
+    zimmer_einzug:data.zimmer_einzug||"-",
+    groesse_einzug:data.groesse_einzug||"-",
+    aufzug_einzug:data.aufzug_einzug||"-",
+    moebel:moebelText,
+    zahlung:data.zahlung||"-",
+    transporter:data.transporter||"-",
+    totalPrice:data.totalPrice||"-"
+  };
+  
+  emailjs.send("service_2jkzh5j","template_550bm0k",parms)
+    .then(()=>{
+      alert("✅ Ihre Anfrage wurde erfolgreich versendet!");
+      // VERBESSERUNG: SessionStorage komplett leeren
+      sessionStorage.clear();
+      window.location.href="Tanke.html";
+    })
+    .catch(err=>{
+      console.error("Fehler:",err);
+      alert("❌ Fehler beim Versenden. Bitte versuchen Sie es später erneut.");
+    });
+}
+
+// VERBESSERUNG: SessionStorage auch beim Verlassen der Seite leeren
+window.addEventListener('beforeunload', () => {
+  // Nur leeren wenn der User NICHT zur Danke-Seite geht
+  if (!window.location.href.includes('Tanke.html')) {
+    sessionStorage.removeItem('umzugData');
+  }
+});
+</script>
+
+</body>
+</html>

@@ -1,0 +1,473 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Transport-Anfrage prüfen</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+
+<style>
+* {margin:0;padding:0;box-sizing:border-box;}
+body {
+  font-family:'Roboto',sans-serif;
+  background:#f4f6f8;color:#333;line-height:1.5;
+}
+a {text-decoration:none;color:inherit;}
+
+/* HEADER */
+.Kopfzeile {
+  position:fixed;top:0;left:0;right:0;
+  padding:15px 30px;
+  display:grid;
+  grid-template-columns:1fr auto 1fr;
+  align-items:center;
+  background:#ffffffcc;
+  box-shadow:0 4px 20px rgba(0,0,0,0.08);
+  border-bottom-left-radius:12px;
+  border-bottom-right-radius:12px;
+  backdrop-filter:blur(5px);
+  z-index:1000;
+}
+
+.left-logo img {height:80px;}
+.center-logo {display:flex;justify-content:center;}
+.center-logo img {height:100px;}
+.right-menu {display:flex;justify-content:flex-end;}
+
+.menu-button {
+  display:flex;flex-direction:column;width:32px;height:24px;
+  justify-content:space-between;cursor:pointer;
+}
+.menu-button div {
+  width:100%;height:3px;background:#0077cc;
+  border-radius:2px;transition:0.3s;
+}
+.menu-button.open div:nth-child(1){transform:rotate(45deg) translateY(8px);}
+.menu-button.open div:nth-child(2){opacity:0;}
+.menu-button.open div:nth-child(3){transform:rotate(-45deg) translateY(-8px);}
+
+.nav-links {
+  display:none;flex-direction:column;background:#fff;
+  position:absolute;right:20px;top:90px;width:200px;
+  padding:15px;border-radius:12px;
+  box-shadow:0 8px 18px rgba(0,0,0,0.15);
+}
+.nav-links.active {display:flex;}
+
+.Kopfzeile-Link {
+  font-size:16px;padding:10px 12px;
+  border-radius:8px;transition:0.3s;
+}
+.Kopfzeile-Link:hover {background:#e0f0ff;color:#0077cc;}
+
+@media(max-width:768px){
+  .left-logo img {height:60px;}
+  .center-logo img {height:55px;}
+}
+
+/* CONTENT */
+.center-content {
+  margin-top:130px;text-align:center;padding:20px;
+}
+
+h2 {color:#0077cc;margin-bottom:12px;}
+p {margin-bottom:20px;}
+
+.form-container {
+  background:white;padding:25px;border-radius:16px;
+  box-shadow:0 10px 25px rgba(0,0,0,0.06);
+  text-align:left;max-width:650px;margin:0 auto;
+}
+
+.label-group {
+  margin-bottom:15px;padding:12px;
+  background:#f7f9fc;border-radius:8px;
+}
+
+.label-group strong {
+  color:#0077cc;display:block;margin-bottom:5px;
+}
+
+.price-section {
+  background:#e0f0ff;padding:20px;
+  border-radius:12px;margin-top:20px;
+  text-align:center;
+}
+
+.price-section h3 {
+  color:#0077cc;margin-bottom:15px;
+  font-size:24px;
+}
+
+.price-breakdown {
+  background:white;
+  padding:15px;
+  border-radius:8px;
+  margin-top:15px;
+  text-align:left;
+}
+
+.price-breakdown-item {
+  display:flex;
+  justify-content:space-between;
+  padding:8px 0;
+  border-bottom:1px solid #eee;
+}
+
+.price-breakdown-item:last-child {
+  border-bottom:none;
+  font-weight:600;
+  font-size:18px;
+  color:#0077cc;
+  padding-top:15px;
+}
+
+.error-box {
+  background:#f8d7da;
+  padding:15px 18px;
+  border-left:4px solid #dc3545;
+  border-radius:12px;
+  margin-bottom:18px;
+  color:#721c24;
+  display:none;
+}
+
+.loading {
+  text-align:center;
+  padding:40px;
+  color:#0077cc;
+  font-size:18px;
+}
+
+button {
+  padding:14px 20px;font-size:18px;font-weight:600;
+  border:none;border-radius:12px;cursor:pointer;
+  margin:10px 5px;transition:0.3s;
+}
+
+#back {
+  background:#ccc;color:#000;
+}
+
+#confirm {
+  background:linear-gradient(90deg,#0077cc,#00aaff);
+  color:white;
+}
+
+#confirm:hover {
+  background:linear-gradient(90deg,#005fa3,#0099dd);
+}
+
+.button-container {
+  text-align:center;margin-top:20px;
+}
+
+/* FOOTER */
+.footer {
+  background:#0077cc;padding:40px 20px;
+  color:#fff;margin-top:40px;
+}
+
+.footer-container {
+  max-width:1100px;margin:0 auto;
+  display:flex;justify-content:space-between;flex-wrap:wrap;
+}
+
+.footer-section {width:30%;text-align:center;}
+
+@media(max-width:850px){
+  .footer-section {width:100%;margin-bottom:20px;}
+}
+
+.footer h3 {font-size:22px;margin-bottom:12px;}
+
+.footer-section a {
+  font-size:20px;color:#00e0ff;font-weight:500;
+}
+.footer-section a:hover {
+  color:white;text-decoration:underline;
+}
+
+.footer-section p {margin:5px 0;}
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<div class="Kopfzeile">
+  <div class="left-logo">
+    <a href="index.html"><img src="Img/Logo2.png" alt="Logo"></a>
+  </div>
+  <div class="center-logo">
+    <a href="index.html"><img src="Img/Logo.png" alt="Logo Mitte"></a>
+  </div>
+  <div class="right-menu">
+    <div class="menu-button" id="menuButton"><div></div><div></div><div></div></div>
+  </div>
+  <div class="nav-links" id="navLinks">
+    <a class="Kopfzeile-Link" href="index.html">Home</a>
+    <a class="Kopfzeile-Link" href="Umzug.html">Umzug</a>
+    <a class="Kopfzeile-Link" href="MoebelAufbau.html">Möbel Ab-/Aufbau</a>
+    <a class="Kopfzeile-Link" href="Transport.html">Transport</a>
+    <a class="Kopfzeile-Link" href="ÜberUns.html">Über uns</a>
+  </div>
+</div>
+
+<!-- CONTENT -->
+<div class="center-content">
+  <h2>Transport-Anfrage prüfen</h2>
+  <p>Bitte überprüfen Sie Ihre Angaben!</p>
+
+  <div class="form-container">
+    <div class="error-box" id="apiFehler">
+      <strong>⚠️ Hinweis:</strong> Die Entfernung konnte nicht automatisch berechnet werden. Bitte überprüfen Sie die eingegebenen Adressen.
+    </div>
+    
+    <div id="transportDetails">
+      <div class="loading">🔄 Berechnung läuft...<br>Bitte warten Sie einen Moment.</div>
+    </div>
+    
+    <div class="button-container">
+      <button id="back">Zurück</button>
+      <button id="confirm">Weiter zur Kontaktseite</button>
+    </div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="footer-container">
+    <div class="footer-section">
+      <a href="Impressum.html">Impressum</a>
+    </div>
+    <div class="footer-section">
+      <h3>Kontakt</h3>
+      <p><a href="mailto:studies.kontakt@gmail.com">studies.kontakt@gmail.com</a></p>
+      <p><a href="tel:+491782550568">+49 178 2550 568</a></p>
+    </div>
+    <div class="footer-section">
+      <a href="Datenschutz.html">Datenschutz</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+const menuButton = document.getElementById('menuButton');
+const navLinks = document.getElementById('navLinks');
+menuButton.addEventListener('click', () => {
+  navLinks.classList.toggle('active');
+  menuButton.classList.toggle('open');
+});
+
+// Daten aus sessionStorage holen
+const data = JSON.parse(sessionStorage.getItem('transportData') || '{}');
+
+// ✅ VERBESSERTE Entfernung berechnen mit Fehlerbehandlung
+async function getDistance(vonAdresse, nachAdresse) {
+  const apiKey = 'eyJvcmciOiI1YjNjZTM1OTc4NTExMTAwMDFjZjYyNDgiLCJpZCI6IjZhMzUxMGQyMDMzODRhNzNiY2ExYmFiYjRjYTRhYTRkIiwiaCI6Im11cm11cjY0In0=';
+  
+  try {
+    let res = await fetch(`https://api.openrouteservice.org/geocode/search?api_key=${apiKey}&text=${encodeURIComponent(vonAdresse)}`);
+    
+    if (!res.ok) {
+      throw new Error(`Geocoding fehlgeschlagen: ${res.status}`);
+    }
+    
+    let geoData = await res.json();
+    
+    if (!geoData.features || geoData.features.length === 0) {
+      throw new Error('VON-Adresse konnte nicht gefunden werden');
+    }
+    
+    const vonCoords = geoData.features[0].geometry.coordinates;
+
+    res = await fetch(`https://api.openrouteservice.org/geocode/search?api_key=${apiKey}&text=${encodeURIComponent(nachAdresse)}`);
+    
+    if (!res.ok) {
+      throw new Error(`Geocoding fehlgeschlagen: ${res.status}`);
+    }
+    
+    geoData = await res.json();
+    
+    if (!geoData.features || geoData.features.length === 0) {
+      throw new Error('NACH-Adresse konnte nicht gefunden werden');
+    }
+    
+    const nachCoords = geoData.features[0].geometry.coordinates;
+
+    res = await fetch('https://api.openrouteservice.org/v2/directions/driving-car/geojson', {
+      method: 'POST',
+      headers: {
+        'Authorization': apiKey,
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        coordinates: [vonCoords, nachCoords]
+      })
+    });
+    
+    if (!res.ok) {
+      throw new Error(`Routing fehlgeschlagen: ${res.status}`);
+    }
+    
+    geoData = await res.json();
+    
+    if (!geoData.features || geoData.features.length === 0 || !geoData.features[0].properties) {
+      throw new Error('Keine Route gefunden');
+    }
+    
+    const distanceMeters = geoData.features[0].properties.summary.distance;
+    return distanceMeters / 1000;
+    
+  } catch(error) {
+    console.error('Fehler bei Entfernungsberechnung:', error);
+    document.getElementById('apiFehler').style.display = 'block';
+    return null;
+  }
+}
+
+// ✅ KORRIGIERTE Preis berechnen
+async function calculatePrice() {
+  console.log('🔄 Starte Transport-Berechnung...');
+  console.log('Daten:', data);
+  
+  const home = "Herzogenbuscherstraße 1d, 54292 Trier";
+  const vonAdresse = `${data.von_strasse || ''} ${data.von_hausnr || ''}, ${data.von_plz || ''} ${data.von_stadt || ''}`;
+  const nachAdresse = `${data.nach_strasse || ''} ${data.nach_hausnr || ''}, ${data.nach_plz || ''} ${data.nach_stadt || ''}`;
+  
+  console.log('📍 Adressen:');
+  console.log('  Home:', home);
+  console.log('  Von:', vonAdresse);
+  console.log('  Nach:', nachAdresse);
+  
+  // ✅ KORRIGIERT: Vollständige Route berechnen
+  console.log('📏 Berechne Entfernungen...');
+  
+  const distHomeVon = await getDistance(home, vonAdresse);
+  console.log(`  Home → Von: ${distHomeVon ? distHomeVon.toFixed(2) : 'FEHLER'} km`);
+  
+  const distVonNach = await getDistance(vonAdresse, nachAdresse);
+  console.log(`  Von → Nach: ${distVonNach ? distVonNach.toFixed(2) : 'FEHLER'} km`);
+  
+  const distNachHome = await getDistance(nachAdresse, home);
+  console.log(`  Nach → Home: ${distNachHome ? distNachHome.toFixed(2) : 'FEHLER'} km`);
+  
+  // Fehlerbehandlung
+  if (distHomeVon === null || distVonNach === null || distNachHome === null) {
+    console.error('❌ Entfernungsberechnung fehlgeschlagen!');
+    data.distanceHomeVon = 0;
+    data.distanceVonNach = 0;
+    data.distanceNachHome = 0;
+    data.kmProFahrt = 0;
+    data.gesamtKm = 0;
+    data.kmKosten = 0;
+  } else {
+    // ✅ KORRIGIERT: Komplette Rundfahrt
+    const kmProFahrt = distHomeVon + distVonNach + distNachHome;
+    const anzahlFahrten = parseInt(data.anzahl_fahrten) || 1;
+    const gesamtKm = kmProFahrt * anzahlFahrten;
+    const kmKosten = gesamtKm * 0.85;
+    
+    data.distanceHomeVon = distHomeVon.toFixed(2);
+    data.distanceVonNach = distVonNach.toFixed(2);
+    data.distanceNachHome = distNachHome.toFixed(2);
+    data.kmProFahrt = kmProFahrt.toFixed(2);
+    data.gesamtKm = gesamtKm.toFixed(2);
+    data.kmKosten = kmKosten.toFixed(2);
+    
+    console.log(`🚗 ${anzahlFahrten}x Rundfahrt: ${kmProFahrt.toFixed(2)} km = ${gesamtKm.toFixed(2)} km gesamt`);
+  }
+  
+  // Startpreis
+  const startpreis = data.tag_typ === 'Wochenende' ? 300 : 100;
+  console.log(`💵 Startpreis (${data.tag_typ}): ${startpreis}€`);
+  
+  // Arbeitsstunden
+  const arbeitsstunden = parseFloat(data.arbeitsstunden) || 1;
+  const stundenKosten = arbeitsstunden * 25;
+  console.log(`⏱️ Arbeitsstunden: ${arbeitsstunden} Std. = ${stundenKosten}€`);
+  
+  // Gesamtpreis
+  const gesamtpreis = startpreis + stundenKosten + parseFloat(data.kmKosten || 0);
+  
+  data.startpreis = startpreis;
+  data.stundenKosten = stundenKosten.toFixed(2);
+  data.totalPrice = gesamtpreis.toFixed(2);
+  
+  console.log('✅ Berechnung abgeschlossen. Gesamtpreis:', data.totalPrice, '€');
+  
+  return data;
+}
+
+// Anzeige
+async function displayData() {
+  const calculatedData = await calculatePrice();
+  
+  const vonAdresse = `${calculatedData.von_strasse} ${calculatedData.von_hausnr}, ${calculatedData.von_plz} ${calculatedData.von_stadt}`;
+  const nachAdresse = `${calculatedData.nach_strasse} ${calculatedData.nach_hausnr}, ${calculatedData.nach_plz} ${calculatedData.nach_stadt}`;
+  
+  document.getElementById('transportDetails').innerHTML = `
+    <div class="label-group">
+      <strong>VON-Adresse:</strong>
+      ${vonAdresse}
+    </div>
+    <div class="label-group">
+      <strong>NACH-Adresse:</strong>
+      ${nachAdresse}
+    </div>
+    <div class="label-group">
+      <strong>📅 Datum:</strong> ${calculatedData.datum || '-'}
+    </div>
+    <div class="label-group">
+      <strong>📆 Tag-Typ:</strong> ${calculatedData.tag_typ || '-'}
+    </div>
+    <div class="label-group">
+      <strong>🕐 Uhrzeit:</strong> ${calculatedData.zeit_von || '-'} – ${calculatedData.zeit_bis || '-'}
+    </div>
+    <div class="label-group">
+      <strong>🚚 Anzahl Fahrten:</strong> ${calculatedData.anzahl_fahrten}x
+    </div>
+    <div class="label-group">
+      <strong>⏱️ Gebuchte Arbeitsstunden:</strong> ${calculatedData.arbeitsstunden} Std.
+    </div>
+    ${calculatedData.gesamtKm > 0 ? `
+    <div class="label-group">
+      <strong>🗺️ Route pro Fahrt:</strong><br>
+      • Home → Von: ${calculatedData.distanceHomeVon} km<br>
+      • Von → Nach: ${calculatedData.distanceVonNach} km<br>
+      • Nach → Home: ${calculatedData.distanceNachHome} km<br>
+      <strong style="margin-top:8px;display:block;">= ${calculatedData.kmProFahrt} km pro Fahrt</strong>
+    </div>
+    <div class="label-group">
+      <strong>📏 Gesamt-KM (alle ${calculatedData.anzahl_fahrten} Fahrten):</strong> ${calculatedData.gesamtKm} km
+    </div>
+    ` : ''}
+    
+    <div class="price-section">
+  <h3>💰 Gesamtpreis</h3>
+  <div class="price-breakdown">
+    <div class="price-breakdown-item">
+      <span>GESAMTPREIS:</span>
+      <span>${calculatedData.totalPrice}€</span>
+    </div>
+  </div>
+</div>
+  `;
+  
+  // Aktualisierte Daten speichern
+  sessionStorage.setItem('transportData', JSON.stringify(calculatedData));
+}
+
+// Buttons
+document.getElementById('back').onclick = () => history.back();
+document.getElementById('confirm').onclick = () => location.href = 'kontakt3.html';
+
+// Daten laden und anzeigen
+displayData();
+</script>
+
+</body>
+</html>

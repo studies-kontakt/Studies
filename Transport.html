@@ -1,0 +1,589 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Transport-Anfrage</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+
+<style>
+* {margin:0;padding:0;box-sizing:border-box;}
+body {
+  font-family:'Roboto',sans-serif;
+  background:#f4f6f8;color:#333;min-height:100vh;
+}
+a {text-decoration:none;color:inherit;}
+
+/* HEADER */
+.Kopfzeile {
+  position:fixed;top:0;left:0;right:0;
+  padding:15px 30px;
+  display:grid;
+  grid-template-columns:1fr auto 1fr;
+  align-items:center;
+  background:#ffffffcc;
+  box-shadow:0 4px 20px rgba(0,0,0,0.08);
+  border-bottom-left-radius:12px;
+  border-bottom-right-radius:12px;
+  backdrop-filter:blur(5px);
+  z-index:1000;
+}
+
+.left-logo img {height:80px;}
+.center-logo {display:flex;justify-content:center;}
+.center-logo img {height:100px;}
+.right-menu {display:flex;justify-content:flex-end;}
+
+.menu-button {
+  display:flex;flex-direction:column;width:32px;height:24px;
+  justify-content:space-between;cursor:pointer;
+}
+.menu-button div {
+  width:100%;height:3px;background:#0077cc;
+  border-radius:2px;transition:0.3s;
+}
+.menu-button.open div:nth-child(1){transform:rotate(45deg) translateY(8px);}
+.menu-button.open div:nth-child(2){opacity:0;}
+.menu-button.open div:nth-child(3){transform:rotate(-45deg) translateY(-8px);}
+
+.nav-links {
+  display:none;flex-direction:column;background:#fff;
+  position:absolute;right:20px;top:90px;width:200px;
+  padding:15px;border-radius:12px;
+  box-shadow:0 8px 18px rgba(0,0,0,0.15);
+}
+.nav-links.active {display:flex;}
+
+.Kopfzeile-Link {
+  font-size:16px;padding:10px 12px;
+  border-radius:8px;transition:0.3s;
+}
+.Kopfzeile-Link:hover {background:#e0f0ff;color:#0077cc;}
+
+@media(max-width:768px){
+  .left-logo img {height:60px;}
+  .center-logo img {height:55px;}
+}
+
+/* HEADER IMAGE + TITLE */
+.umzug-header {
+  display:flex;align-items:center;justify-content:center;
+  gap:25px;margin-bottom:30px;text-align:center;
+}
+.umzug-bild {
+  width:100px;height:auto;
+  filter:drop-shadow(0 5px 10px rgba(0,0,0,0.15));
+}
+.umzug-title {
+  font-size:40px;font-weight:700;color:#0077cc;margin:0;
+}
+
+@media(max-width:600px){
+  .umzug-title {font-size:28px;}
+  .umzug-bild {width:70px;}
+}
+
+/* CONTENT */
+.center-content {
+  margin:160px 20px 40px;text-align:center;
+}
+
+.center-text {
+  font-size:18px;margin-bottom:30px;color:#555;
+  max-width:600px;margin-left:auto;margin-right:auto;
+}
+
+.form-container {
+  background:white;padding:30px;border-radius:20px;
+  box-shadow:0 10px 30px rgba(0,0,0,0.08);
+  max-width:700px;margin:0 auto;text-align:left;
+}
+
+label {
+  display:block;font-weight:500;margin-bottom:6px;
+}
+
+input[type=text],
+input[type=date],
+input[type=time],
+input[type=number],
+select {
+  width:100%;padding:12px 14px;border:1px solid #ddd;
+  border-radius:10px;font-size:16px;outline:none;
+  transition:0.3s;margin-bottom:15px;background:#f9fbfd;
+}
+
+input:focus, select:focus {
+  border-color:#0077cc;
+  box-shadow:0 0 8px rgba(0,119,204,0.2);
+}
+
+/* Zeit-Input mit Fehler-Anzeige */
+input[type=time].error {
+  border-color:#ff4444;
+  background:#fff5f5;
+}
+
+.adresse-gruppe,.plz-stadt {
+  display:grid;gap:15px;margin-bottom:15px;
+}
+.adresse-gruppe {grid-template-columns:2fr 1fr;}
+.plz-stadt {grid-template-columns:1fr 2fr;}
+
+.zeit-gruppe {
+  display:grid;
+  grid-template-columns:1fr auto 1fr;
+  gap:15px;
+  align-items:center;
+  margin-bottom:15px;
+}
+
+.zeit-gruppe span {
+  font-size:24px;
+  font-weight:bold;
+  color:#0077cc;
+  text-align:center;
+}
+
+@media(max-width:600px){
+  .adresse-gruppe,.plz-stadt {grid-template-columns:1fr;}
+}
+
+.info-box {
+  background:#d1ecf1;
+  padding:15px 18px;
+  border-left:4px solid #17a2b8;
+  border-radius:12px;
+  margin-bottom:18px;
+  color:#0c5460;
+}
+
+.info-box strong {
+  color:#0c5460;
+}
+
+/* Fehler-Box für Zeit-Validierung */
+.error-box {
+  background:#f8d7da;
+  padding:15px 18px;
+  border-left:4px solid #dc3545;
+  border-radius:12px;
+  margin-bottom:18px;
+  color:#721c24;
+  display:none;
+}
+
+.error-box strong {
+  color:#721c24;
+}
+
+/* TAG-TYP ANZEIGE */
+.tag-typ-anzeige {
+  background:#e0f0ff;
+  padding:12px 18px;
+  border-left:4px solid #0077cc;
+  border-radius:12px;
+  margin-bottom:18px;
+  color:#0077cc;
+  font-weight:500;
+  display:none;
+}
+
+.tag-typ-anzeige.wochenende {
+  background:#fff3cd;
+  border-left-color:#ffc107;
+  color:#856404;
+}
+
+button {
+  width:100%;padding:15px;font-size:18px;font-weight:600;
+  color:white;border:none;cursor:pointer;
+  background:linear-gradient(90deg,#0077cc,#00aaff);
+  border-radius:12px;margin-top:20px;transition:0.3s;
+}
+
+button:hover {
+  background:linear-gradient(90deg,#005fa3,#0099dd);
+}
+
+h3 {
+  margin-bottom:12px;margin-top:20px;
+  color:#0077cc;font-size:18px;
+}
+
+/* FOOTER */
+.footer {
+  background:#0077cc;padding:40px 20px;
+  color:#fff;margin-top:60px;
+}
+
+.footer-container {
+  max-width:1100px;margin:0 auto;
+  display:flex;justify-content:space-between;flex-wrap:wrap;
+}
+
+.footer-section {width:30%;text-align:center;}
+
+@media(max-width:850px){
+  .footer-section {width:100%;margin-bottom:25px;}
+}
+
+.footer h3 {font-size:22px;margin-bottom:12px;}
+
+.footer-section a {
+  font-size:20px;color:#00e0ff;font-weight:500;
+}
+.footer-section a:hover {
+  color:white;text-decoration:underline;
+}
+
+.footer-section p {margin:5px 0;}
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<div class="Kopfzeile">
+  <div class="left-logo">
+    <a href="index.html"><img src="Img/Logo2.png" alt="Logo"></a>
+  </div>
+  <div class="center-logo">
+    <a href="index.html"><img src="Img/Logo.png" alt="Logo Mitte"></a>
+  </div>
+  <div class="right-menu">
+    <div class="menu-button" id="menuButton"><div></div><div></div><div></div></div>
+  </div>
+  <div class="nav-links" id="navLinks">
+    <a class="Kopfzeile-Link" href="index.html">Home</a>
+    <a class="Kopfzeile-Link" href="Umzug.html">Umzug</a>
+    <a class="Kopfzeile-Link" href="MoebelAufbau.html">Möbel Ab-/Aufbau</a>
+    <a class="Kopfzeile-Link" href="Transport.html">Transport</a>
+    <a class="Kopfzeile-Link" href="ÜberUns.html">Über uns</a>
+  </div>
+</div>
+
+<!-- CONTENT -->
+<div class="center-content">
+  
+  <!-- HEADER IMAGE + TITLE -->
+  <div class="umzug-header">
+    <img src="Img/Transport.png" alt="Transport Bild" class="umzug-bild">
+    <h1 class="umzug-title">Transport</h1>
+  </div>
+  
+  <!-- Hier soll der Rabatt erscheinen -->
+  <div id="rabatt-hinweis"></div>
+  
+  <p class="center-text">
+    Sie möchten einen Transport buchen?<br>
+    Bitte geben Sie die Abhol- und Zieladresse sowie Datum und Uhrzeit an.
+  </p>
+  
+  <div class="form-container">
+
+    <!-- WICHTIGER HINWEIS -->
+    <div class="info-box">
+      <strong>ℹ️ Wichtiger Hinweis:</strong><br>
+      Der Fahrer transportiert Ihre Sachen von A nach B und ist <strong>nicht verpflichtet</strong>, beim Be- oder Entladen mitzuhelfen. Für zusätzliche Unterstützung beim Tragen können Sie weitere Helfer buchen.
+    </div>
+
+    <!-- FEHLER-BOX für Zeit-Validierung -->
+    <div class="error-box" id="zeitFehler">
+      <strong>⚠️ Fehler:</strong> Die End-Zeit muss nach der Start-Zeit liegen!
+    </div>
+
+    <label>VON-Adresse:</label>
+    <div class="adresse-gruppe">
+      <input id="von_strasse" type="text" placeholder="Straße" required>
+      <input id="von_hausnr" type="text" placeholder="Nr." required>
+    </div>
+    <div class="plz-stadt">
+      <input id="von_plz" type="text" placeholder="PLZ" required>
+      <input id="von_stadt" type="text" placeholder="Stadt" required>
+    </div>
+
+    <label>NACH-Adresse:</label>
+    <div class="adresse-gruppe">
+      <input id="nach_strasse" type="text" placeholder="Straße" required>
+      <input id="nach_hausnr" type="text" placeholder="Nr." required>
+    </div>
+    <div class="plz-stadt">
+      <input id="nach_plz" type="text" placeholder="PLZ" required>
+      <input id="nach_stadt" type="text" placeholder="Stadt" required>
+    </div>
+
+    <h3>Zeitangaben</h3>
+
+    <label>Datum:</label>
+    <input id="datum" type="date" required>
+
+    <!-- TAG-TYP AUTOMATISCHE ANZEIGE -->
+    <div class="tag-typ-anzeige" id="tagTypAnzeige"></div>
+
+    <label>Uhrzeit (von – bis):</label>
+    <div class="zeit-gruppe">
+      <input id="zeit_von" type="time" placeholder="Von" required>
+      <span>-</span>
+      <input id="zeit_bis" type="time" placeholder="Bis" required>
+    </div>
+
+    <!-- STUNDEN AUTOMATISCHE ANZEIGE -->
+    <div class="tag-typ-anzeige" id="stundenAnzeige" style="display:none;"></div>
+
+    <h3>Fahrten & Buchung</h3>
+
+    <label>Wie viele Fahrten benötigen Sie?</label>
+    <input id="anzahl_fahrten" type="number" min="1" value="1" placeholder="Anzahl der Fahrten" required>
+
+    <button id="absenden" type="button">Transport anfragen</button>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="footer-container">
+    <div class="footer-section">
+      <a href="Impressum.html">Impressum</a>
+    </div>
+    <div class="footer-section">
+      <h3>Kontakt</h3>
+      <p><a href="mailto:studies.kontakt@gmail.com">studies.kontakt@gmail.com</a></p>
+      <p><a href="tel:+491782550568">+49 178 2550 568</a></p>
+    </div>
+    <div class="footer-section">
+      <a href="Datenschutz.html">Datenschutz</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+const menuButton = document.getElementById('menuButton');
+const navLinks = document.getElementById('navLinks');
+
+menuButton.addEventListener('click', () => {
+  navLinks.classList.toggle('active');
+  menuButton.classList.toggle('open');
+});
+
+// Funktion um Wochentag/Wochenende zu ermitteln
+function getTagTyp(dateString) {
+  const date = new Date(dateString);
+  const dayOfWeek = date.getDay(); // 0 = Sonntag, 6 = Samstag
+  
+  if (dayOfWeek === 0 || dayOfWeek === 6) {
+    return 'Wochenende';
+  } else {
+    return 'Wochentag';
+  }
+}
+
+// Funktion um deutschen Wochentag zu ermitteln
+function getDeutscherWochentag(dateString) {
+  const date = new Date(dateString);
+  const wochentage = ['Sonntag', 'Montag', 'Dienstag', 'Mittwoch', 'Donnerstag', 'Freitag', 'Samstag'];
+  return wochentage[date.getDay()];
+}
+
+// Funktion um Arbeitsstunden zu berechnen
+function berechneArbeitsstunden(vonZeit, bisZeit) {
+  if (!vonZeit || !bisZeit) return 0;
+  
+  const [vonStunden, vonMinuten] = vonZeit.split(':').map(Number);
+  const [bisStunden, bisMinuten] = bisZeit.split(':').map(Number);
+  
+  const vonGesamtMinuten = vonStunden * 60 + vonMinuten;
+  const bisGesamtMinuten = bisStunden * 60 + bisMinuten;
+  
+  let differenzMinuten = bisGesamtMinuten - vonGesamtMinuten;
+  
+  // Falls bis-Zeit vor von-Zeit liegt (über Mitternacht)
+  if (differenzMinuten < 0) {
+    differenzMinuten += 24 * 60;
+  }
+  
+  const stunden = Math.floor(differenzMinuten / 60);
+  const restMinuten = differenzMinuten % 60;
+  
+  // Ab 31 Minuten = ganze Stunde, darunter = halbe Stunde
+  let gesamtStunden;
+  if (restMinuten >= 31) {
+    gesamtStunden = stunden + 1;
+  } else if (restMinuten > 0) {
+    gesamtStunden = stunden + 0.5;
+  } else {
+    gesamtStunden = stunden;
+  }
+  
+  return gesamtStunden;
+}
+
+// Event Listener für Datum-Änderung
+const datumInput = document.getElementById('datum');
+const tagTypAnzeige = document.getElementById('tagTypAnzeige');
+const zeitVonInput = document.getElementById('zeit_von');
+const zeitBisInput = document.getElementById('zeit_bis');
+const stundenAnzeige = document.getElementById('stundenAnzeige');
+const zeitFehlerBox = document.getElementById('zeitFehler');
+
+datumInput.addEventListener('change', () => {
+  if (datumInput.value) {
+    const tagTyp = getTagTyp(datumInput.value);
+    const wochentag = getDeutscherWochentag(datumInput.value);
+    
+    tagTypAnzeige.innerHTML = `📅 <strong>${wochentag}</strong> - ${tagTyp}`;
+    tagTypAnzeige.style.display = 'block';
+    
+    // Styling anpassen
+    if (tagTyp === 'Wochenende') {
+      tagTypAnzeige.classList.add('wochenende');
+    } else {
+      tagTypAnzeige.classList.remove('wochenende');
+    }
+  } else {
+    tagTypAnzeige.style.display = 'none';
+  }
+});
+
+// VERBESSERTE Zeit-Validierung mit Live-Feedback
+function aktualisiereStundenAnzeige() {
+  const arbeitsstunden = berechneArbeitsstunden(zeitVonInput.value, zeitBisInput.value);
+  
+  if (zeitVonInput.value && zeitBisInput.value) {
+    if (arbeitsstunden <= 0) {
+      // FEHLER: End-Zeit vor Start-Zeit
+      zeitBisInput.classList.add('error');
+      zeitFehlerBox.style.display = 'block';
+      stundenAnzeige.style.display = 'none';
+    } else {
+      // ALLES OK
+      zeitBisInput.classList.remove('error');
+      zeitFehlerBox.style.display = 'none';
+      stundenAnzeige.innerHTML = `⏱️ <strong>Buchungsdauer:</strong> ${arbeitsstunden} Stunde${arbeitsstunden !== 1 ? 'n' : ''}`;
+      stundenAnzeige.style.display = 'block';
+      stundenAnzeige.classList.remove('wochenende');
+    }
+  } else {
+    zeitBisInput.classList.remove('error');
+    zeitFehlerBox.style.display = 'none';
+    stundenAnzeige.style.display = 'none';
+  }
+}
+
+zeitVonInput.addEventListener('change', aktualisiereStundenAnzeige);
+zeitBisInput.addEventListener('change', aktualisiereStundenAnzeige);
+// Auch bei Input (während Eingabe) prüfen
+zeitVonInput.addEventListener('input', aktualisiereStundenAnzeige);
+zeitBisInput.addEventListener('input', aktualisiereStundenAnzeige);
+
+// Button -> review3.html mit VERBESSERTER VALIDIERUNG
+document.getElementById('absenden').addEventListener('click', () => {
+  // 1. VON-Adresse prüfen
+  if (!von_strasse.value.trim()) {
+    alert('❌ Bitte geben Sie die VON-Straße ein.');
+    von_strasse.focus();
+    return;
+  }
+  if (!von_hausnr.value.trim()) {
+    alert('❌ Bitte geben Sie die VON-Hausnummer ein.');
+    von_hausnr.focus();
+    return;
+  }
+  if (!von_plz.value.trim()) {
+    alert('❌ Bitte geben Sie die VON-PLZ ein.');
+    von_plz.focus();
+    return;
+  }
+  if (!von_stadt.value.trim()) {
+    alert('❌ Bitte geben Sie die VON-Stadt ein.');
+    von_stadt.focus();
+    return;
+  }
+
+  // 2. NACH-Adresse prüfen
+  if (!nach_strasse.value.trim()) {
+    alert('❌ Bitte geben Sie die NACH-Straße ein.');
+    nach_strasse.focus();
+    return;
+  }
+  if (!nach_hausnr.value.trim()) {
+    alert('❌ Bitte geben Sie die NACH-Hausnummer ein.');
+    nach_hausnr.focus();
+    return;
+  }
+  if (!nach_plz.value.trim()) {
+    alert('❌ Bitte geben Sie die NACH-PLZ ein.');
+    nach_plz.focus();
+    return;
+  }
+  if (!nach_stadt.value.trim()) {
+    alert('❌ Bitte geben Sie die NACH-Stadt ein.');
+    nach_stadt.focus();
+    return;
+  }
+
+  // 3. Datum prüfen
+  if (!datum.value) {
+    alert('❌ Bitte wählen Sie ein Datum aus.');
+    datum.focus();
+    return;
+  }
+  
+  // 4. Uhrzeit prüfen
+  if (!zeitVonInput.value || !zeitBisInput.value) {
+    alert('❌ Bitte geben Sie die Uhrzeit (von - bis) an.');
+    zeitVonInput.focus();
+    return;
+  }
+
+  const tagTyp = getTagTyp(datum.value);
+  const arbeitsstunden = berechneArbeitsstunden(zeitVonInput.value, zeitBisInput.value);
+  
+  // 5. Zeit-Logik prüfen
+  if (arbeitsstunden <= 0) {
+    alert('❌ Die End-Zeit muss nach der Start-Zeit liegen.');
+    zeitBisInput.focus();
+    return;
+  }
+
+  // 6. Anzahl Fahrten prüfen
+  if (!anzahl_fahrten.value || anzahl_fahrten.value < 1) {
+    alert('❌ Bitte geben Sie die Anzahl der Fahrten an (mindestens 1).');
+    anzahl_fahrten.focus();
+    return;
+  }
+
+  // 7. Daten zusammenstellen
+  const data = {
+    von_strasse: von_strasse.value.trim(),
+    von_hausnr: von_hausnr.value.trim(),
+    von_plz: von_plz.value.trim(),
+    von_stadt: von_stadt.value.trim(),
+    nach_strasse: nach_strasse.value.trim(),
+    nach_hausnr: nach_hausnr.value.trim(),
+    nach_plz: nach_plz.value.trim(),
+    nach_stadt: nach_stadt.value.trim(),
+    datum: datum.value,
+    tag_typ: tagTyp,
+    zeit_von: zeit_von.value,
+    zeit_bis: zeit_bis.value,
+    anzahl_fahrten: anzahl_fahrten.value,
+    arbeitsstunden: arbeitsstunden
+  };
+
+  sessionStorage.setItem('transportData', JSON.stringify(data));
+  window.location.href = "review3.html";
+});
+</script>
+
+<!-- Firebase SDK -->
+<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database-compat.js"></script>
+
+<!-- Rabatt-Anzeige Script -->
+<script src="rabatt-anzeige.js"></script>
+
+</body>
+</html>

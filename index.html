@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Studies</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+
+<style>
+  * {margin:0;padding:0;box-sizing:border-box;}
+  body {
+    font-family: 'Roboto', sans-serif;
+    background:#f4f6f8;
+    color:#333;
+    line-height:1.5;
+  }
+  a {text-decoration:none;color:inherit;}
+
+  /* HEADER */
+  .Kopfzeile {
+    position:fixed; top:0; left:0; right:0;
+    padding:15px 30px;
+    display:grid;
+    grid-template-columns:1fr auto 1fr;
+    align-items:center;
+    background:#ffffffcc;
+    box-shadow:0 4px 20px rgba(0,0,0,0.08);
+    border-bottom-left-radius:12px;
+    border-bottom-right-radius:12px;
+    backdrop-filter:blur(5px);
+    z-index:1000;
+  }
+
+  /* LEFT LOGO */
+  .left-logo {
+    display:flex;
+    align-items:center;
+  }
+
+  .left-logo img {
+    height:80px;
+  }
+
+  /* CENTER LOGO */
+  .center-logo {
+    display:flex;
+    justify-content:center;
+  }
+
+  .center-logo img {
+    height:100px;
+  }
+
+  /* RIGHT MENU */
+  .right-menu {
+    display:flex;
+    justify-content:flex-end;
+  }
+
+  @media(max-width:768px){
+    .left-logo img {height:60px;}
+    .center-logo img {height:55px;}
+  }
+
+  /* MENU BUTTON */
+  .menu-button {
+    display:flex;
+    flex-direction:column;
+    width:32px;
+    height:24px;
+    justify-content:space-between;
+    cursor:pointer;
+  }
+  .menu-button div {
+    width:100%;
+    height:3px;
+    background:#0077cc;
+    border-radius:2px;
+    transition:0.3s;
+  }
+  .menu-button.open div:nth-child(1){transform:rotate(45deg) translateY(8px);}
+  .menu-button.open div:nth-child(2){opacity:0;}
+  .menu-button.open div:nth-child(3){transform:rotate(-45deg) translateY(-8px);}
+
+  .nav-links {
+    display:none;
+    flex-direction:column;
+    background:#fff;
+    position:absolute;
+    right:20px;
+    top:90px;
+    width:200px;
+    padding:15px;
+    border-radius:12px;
+    box-shadow:0 8px 18px rgba(0,0,0,0.15);
+  }
+  .nav-links.active {display:flex;}
+
+  .Kopfzeile-Link {
+    font-size:16px;
+    padding:10px 12px;
+    border-radius:8px;
+    transition:0.3s;
+  }
+  .Kopfzeile-Link:hover {
+    background:#e0f0ff;
+    color:#0077cc;
+  }
+
+  /* WELCOME */
+  .welcome-area {
+    margin-top:140px;
+    text-align:center;
+    padding:20px;
+  }
+  .welcome-area h1 {
+    font-size:32px;
+    color:#0077cc;
+    margin-bottom:10px;
+  }
+  .welcome-area p {
+    font-size:18px;
+    color:#555;
+    margin-bottom:30px;
+  }
+
+  /* TARIF BOXES */
+  .tarif-container {
+    max-width:1100px;
+    margin:0 auto;
+    padding:0 20px;
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:25px;
+  }
+
+  @media(max-width:850px){
+    .tarif-container {grid-template-columns:1fr;}
+  }
+
+  .tarif-card {
+    background:white;
+    padding:25px;
+    border-radius:18px;
+    box-shadow:0 10px 25px rgba(0,0,0,0.08);
+    text-align:center;
+    transition:0.3s;
+  }
+  .tarif-card:hover {
+    transform:translateY(-5px);
+    box-shadow:0 15px 35px rgba(0,0,0,0.12);
+  }
+
+  /* BILDER IN DEN KARTEN */
+  .tarif-card img {
+    width:120px;
+    margin-bottom:15px;
+  }
+
+  .tarif-card h3 {
+    color:#0077cc;
+    font-size:22px;
+    margin-bottom:12px;
+  }
+  .tarif-card p {
+    font-size:16px;
+    color:#444;
+    margin-bottom:25px;
+  }
+
+  .tarif-btn {
+    display:block;
+    width:100%;
+    padding:14px;
+    border-radius:12px;
+    font-size:17px;
+    font-weight:600;
+    color:white;
+    background:linear-gradient(90deg,#0077cc,#00aaff);
+    transition:0.3s;
+  }
+  .tarif-btn:hover {background:linear-gradient(90deg,#005fa3,#0099dd);}
+
+  /* FOOTER */
+  .footer {
+    background:#0077cc;
+    padding:40px 20px;
+    color:#fff;
+    margin-top:60px;
+  }
+  .footer-container {
+    max-width:1100px;
+    margin:0 auto;
+    display:flex;
+    justify-content:space-between;
+    flex-wrap:wrap;
+  }
+
+  .footer-section {
+    width:30%;
+    text-align:center;
+  }
+
+  @media(max-width:850px){
+    .footer-section {width:100%; margin-bottom:25px;}
+  }
+
+  .footer h3 {
+    font-size:22px;
+    margin-bottom:12px;
+  }
+
+  /* LINKS DIREKT AUF TITEL */
+  .footer-section a {
+    font-size:20px;
+    color:#00e0ff;
+    font-weight:500;
+  }
+  .footer-section a:hover {
+    color:white;
+    text-decoration:underline;
+  }
+
+  /* KONTAKT ZENTRIERT */
+  .footer-section p {
+    text-align:center;
+    margin:5px 0;
+  }
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<div class="Kopfzeile">
+
+  <!-- LEFT LOGO -->
+  <div class="left-logo">
+    <a href="index.html"><img src="Img/Logo2.png" alt="Logo"></a>
+  </div>
+
+  <!-- CENTER LOGO -->
+  <div class="center-logo">
+    <a href="index.html"><img src="Img/Logo.png" alt="Logo Mitte"></a>
+  </div>
+
+  <!-- RIGHT MENU -->
+  <div class="right-menu">
+    <div class="menu-button" id="menuButton"><div></div><div></div><div></div></div>
+  </div>
+
+  <!-- MENU LINKS -->
+  <div class="nav-links" id="navLinks">
+    <a class="Kopfzeile-Link" href="index.html">Home</a>
+    <a class="Kopfzeile-Link" href="Umzug.html">Umzug</a>
+    <a class="Kopfzeile-Link" href="MoebelAufbau.html">Möbel Ab-/Aufbau</a>
+    <a class="Kopfzeile-Link" href="Transport.html">Transport</a>
+    <a class="Kopfzeile-Link" href="ÜberUns.html">Über uns</a>
+  </div>
+</div>
+
+<!-- CONTENT -->
+<div class="welcome-area">
+  <h1>Willkommen</h1>
+  <p>Alles, was Ihren Umzug leichter macht – wählen Sie Ihren Service und legen wir los!</p>
+    <!-- Hier soll der Rabatt erscheinen -->
+  <div id="rabatt-hinweis"></div>
+</div>
+
+<div class="tarif-container">
+
+  <div class="tarif-card">
+    <h3>Umzug</h3>
+    <img src="Img/Umzug.png" alt="Umzug Symbol">
+    <p>Vom ersten Karton bis zur letzten Fahrt: Wir erledigen Ihren kompletten Umzug.</p>
+    <a class="tarif-btn" href="Umzug.html">Mehr Infos</a>
+  </div>
+
+  <div class="tarif-card">
+    <h3>Möbel Ab-/Aufbau</h3>
+    <img src="Img/aufbau.png" alt="Aufbau Symbol">
+    <p>Sie bringen die Möbel, wir bringen das Werkzeug. Schnell, sauber, fertig.</p>
+    <a class="tarif-btn" href="MoebelAufbau.html">Mehr Infos</a>
+  </div>
+
+  <div class="tarif-card">
+    <h3>Transport</h3>
+    <img src="Img/Transport.png" alt="Transport Symbol">
+    <p>Transportservice mit Sprinter und Fahrer, ohne Tagesarbeit.</p>
+    <a class="tarif-btn" href="Transport.html">Mehr Infos</a>
+  </div>
+
+</div>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="footer-container">
+
+    <div class="footer-section">
+      <a href="Impressum.html">Impressum</a>
+    </div>
+
+    <div class="footer-section">
+      <h3>Kontakt</h3>
+      <p><a href="mailto:studies.kontakt@gmail.com">studies.kontakt@gmail.com</a></p>
+      <p><a href="tel:+491782550568">+49 178 2550 568</a></p>
+    </div>
+
+    <div class="footer-section">
+      <a href="Datenschutz.html">Datenschutz</a>
+    </div>
+
+  </div>
+</footer>
+
+<script>
+  const menuButton = document.getElementById('menuButton');
+  const navLinks = document.getElementById('navLinks');
+
+  menuButton.addEventListener('click', () => {
+    navLinks.classList.toggle('active');
+    menuButton.classList.toggle('open');
+  });
+</script>
+
+<!-- Firebase SDK -->
+<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database-compat.js"></script>
+
+<!-- Rabatt-Anzeige Script -->
+<script src="rabatt-anzeige.js"></script>
+
+</body>
+</html>
