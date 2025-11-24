@@ -153,7 +153,7 @@ input[type=radio]:checked + label {
   background:#0077cc;color:white;border-color:#005fa3;
 }
 
-/* MÖBEL LIST - Verbesserte Mobile Responsiveness */
+/* MÖBEL LIST */
 .moebel-section {
   margin-top:25px;padding:20px;
   background:#f7f9fc;border-radius:12px;
@@ -196,7 +196,7 @@ input[type=radio]:checked + label {
 
 .moebel-item {
   display:grid;
-  grid-template-columns:2fr 1.5fr 80px 40px 40px;
+  grid-template-columns:2fr 1.5fr 80px 40px;
   gap:10px;
   align-items:center;
   background:white;
@@ -205,26 +205,10 @@ input[type=radio]:checked + label {
   box-shadow:0 2px 8px rgba(0,0,0,0.06);
 }
 
-/* Verbesserte Mobile Responsiveness */
 @media(max-width:700px){
   .moebel-item {
     grid-template-columns:1fr;
     gap:8px;
-  }
-  
-  .moebel-item-buttons {
-    display:flex;
-    gap:10px;
-    justify-content:center;
-  }
-}
-
-@media(max-width:400px){
-  .moebel-item input[type=text],
-  .moebel-item select,
-  .moebel-item input[type=number] {
-    font-size:14px;
-    padding:10px;
   }
 }
 
@@ -241,23 +225,12 @@ input[type=radio]:checked + label {
   padding:10px;font-size:14px;margin-bottom:0;
 }
 
-.add-btn, .remove-btn {
+.remove-btn {
   width:40px;height:40px;border-radius:50%;
   display:flex;align-items:center;justify-content:center;
-  font-size:20px;font-weight:bold;
+  font-size:20px;
   cursor:pointer;transition:0.3s;
   border:none;
-}
-
-.add-btn {
-  background:#0077cc;color:white;
-}
-
-.add-btn:hover {
-  background:#005fa3;transform:scale(1.1);
-}
-
-.remove-btn {
   background:#ff4444;color:white;
 }
 
@@ -292,7 +265,7 @@ button.submit-btn:hover {
 
 hr {margin:25px 0;border:none;border-top:1px solid #eee;}
 
-h3 {margin-bottom:12px;font-size:18px;color:#0077cc;}
+h3 {margin-bottom:12px;font-size:18px;color:#ffffff;}
 
 /* FOOTER */
 .footer {
@@ -353,7 +326,6 @@ h3 {margin-bottom:12px;font-size:18px;color:#0077cc;}
     <h1 class="umzug-title">Umzug</h1>
   </div>
   
-  <!-- Hier soll der Rabatt erscheinen -->
   <div id="rabatt-hinweis"></div>
   
   <div class="form-container">
@@ -459,10 +431,7 @@ h3 {margin-bottom:12px;font-size:18px;color:#0077cc;}
             <option value="Beides">Beides</option>
           </select>
           <input type="number" min="1" value="1" class="moebel-menge" placeholder="Anzahl">
-          <div class="moebel-item-buttons">
-            <button type="button" class="add-btn" onclick="addMoebel()">+</button>
-            <button type="button" class="remove-btn" onclick="removeMoebel(this)">−</button>
-          </div>
+          <button type="button" class="remove-btn" onclick="removeMoebel(this)">🗑️</button>
         </div>
       </div>
       
@@ -516,7 +485,6 @@ menuButton.addEventListener('click', () => {
   menuButton.classList.toggle('open');
 });
 
-// Möbel hinzufügen
 function addMoebel() {
   const list = document.getElementById('moebelList');
   const newItem = list.firstElementChild.cloneNode(true);
@@ -526,7 +494,6 @@ function addMoebel() {
   list.appendChild(newItem);
 }
 
-// Möbel entfernen
 function removeMoebel(btn) {
   const list = document.getElementById('moebelList');
   if (list.children.length > 1) {
@@ -536,7 +503,6 @@ function removeMoebel(btn) {
   }
 }
 
-// NEUE FUNKTION: Alle Möbel löschen
 function clearAllMoebel() {
   if (confirm('Möchten Sie wirklich alle Möbel aus der Liste entfernen?')) {
     const list = document.getElementById('moebelList');
@@ -549,18 +515,13 @@ function clearAllMoebel() {
           <option value="Beides">Beides</option>
         </select>
         <input type="number" min="1" value="1" class="moebel-menge" placeholder="Anzahl">
-        <div class="moebel-item-buttons">
-          <button type="button" class="add-btn" onclick="addMoebel()">+</button>
-          <button type="button" class="remove-btn" onclick="removeMoebel(this)">−</button>
-        </div>
+        <button type="button" class="remove-btn" onclick="removeMoebel(this)">🗑️</button>
       </div>
     `;
   }
 }
 
-// VERBESSERTE VALIDIERUNG beim Absenden
 document.getElementById('absenden').addEventListener('click', () => {
-  // 1. VON-Adresse Validierung
   if (!von_strasse.value.trim()) {
     alert('❌ Bitte geben Sie die VON-Straße ein.');
     von_strasse.focus();
@@ -582,7 +543,6 @@ document.getElementById('absenden').addEventListener('click', () => {
     return;
   }
 
-  // 2. NACH-Adresse Validierung
   if (!nach_strasse.value.trim()) {
     alert('❌ Bitte geben Sie die NACH-Straße ein.');
     nach_strasse.focus();
@@ -604,14 +564,12 @@ document.getElementById('absenden').addEventListener('click', () => {
     return;
   }
 
-  // 3. Datum Validierung
   if (!datum.value) {
     alert('❌ Bitte wählen Sie ein Umzugsdatum aus.');
     datum.focus();
     return;
   }
 
-  // 4. Auszug Validierung
   if (!document.querySelector('input[name="wohnart_auszug"]:checked')) {
     alert('❌ Bitte wählen Sie die Wohnart beim Auszug aus.');
     return;
@@ -636,7 +594,6 @@ document.getElementById('absenden').addEventListener('click', () => {
     return;
   }
 
-  // 5. Einzug Validierung
   if (!document.querySelector('input[name="wohnart_einzug"]:checked')) {
     alert('❌ Bitte wählen Sie die Wohnart beim Einzug aus.');
     return;
@@ -661,7 +618,6 @@ document.getElementById('absenden').addEventListener('click', () => {
     return;
   }
 
-  // 6. Zahlung und Transporter Validierung
   if (!document.querySelector('input[name="zahlung"]:checked')) {
     alert('❌ Bitte wählen Sie eine Zahlungsart aus.');
     return;
@@ -671,7 +627,6 @@ document.getElementById('absenden').addEventListener('click', () => {
     return;
   }
 
-  // 7. Möbel-Daten sammeln
   const moebelItems = [];
   document.querySelectorAll('.moebel-item').forEach(item => {
     const art = item.querySelector('.moebel-art').value.trim();
@@ -684,7 +639,6 @@ document.getElementById('absenden').addEventListener('click', () => {
     }
   });
 
-  // 8. Daten zusammenstellen
   const data = {
     von_strasse: von_strasse.value.trim(),
     von_hausnr: von_hausnr.value.trim(),
@@ -716,16 +670,12 @@ document.getElementById('absenden').addEventListener('click', () => {
     moebel: JSON.stringify(moebelItems)
   };
 
-  // 9. Weiterleitung zur Review-Seite
   window.location.href = `review.html?${new URLSearchParams(data).toString()}`;
 });
 </script>
 
-<!-- Firebase SDK -->
 <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database-compat.js"></script>
-
-<!-- Rabatt-Anzeige Script -->
 <script src="rabatt-anzeige.js"></script>
 
 </body>
