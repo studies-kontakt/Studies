@@ -156,7 +156,7 @@ input[type=radio]:checked + label {
   background:#0077cc;color:white;border-color:#005fa3;
 }
 
-/* MÖBEL LIST - Verbessertes Design mit Mobile Responsiveness */
+/* MÖBEL LIST */
 .moebel-section {
   margin-top:25px;padding:20px;
   background:#f7f9fc;border-radius:12px;
@@ -199,7 +199,7 @@ input[type=radio]:checked + label {
 
 .moebel-item {
   display:grid;
-  grid-template-columns:1.5fr 1fr 80px 40px 40px;
+  grid-template-columns:1.5fr 1fr 80px 40px;
   gap:10px;
   align-items:center;
   background:white;
@@ -213,17 +213,10 @@ input[type=radio]:checked + label {
   box-shadow:0 4px 15px rgba(0,0,0,0.1);
 }
 
-/* Verbesserte Mobile Responsiveness */
 @media(max-width:700px){
   .moebel-item {
     grid-template-columns:1fr;
     gap:10px;
-  }
-  
-  .moebel-item-buttons {
-    display:flex;
-    gap:10px;
-    justify-content:center;
   }
 }
 
@@ -252,23 +245,12 @@ input[type=radio]:checked + label {
   padding:10px;font-size:15px;margin-bottom:0;
 }
 
-.add-btn, .remove-btn {
+.remove-btn {
   width:40px;height:40px;border-radius:50%;
   display:flex;align-items:center;justify-content:center;
-  font-size:22px;font-weight:bold;
+  font-size:20px;
   cursor:pointer;transition:0.3s;
   border:none;
-}
-
-.add-btn {
-  background:#0077cc;color:white;
-}
-
-.add-btn:hover {
-  background:#005fa3;transform:scale(1.1);
-}
-
-.remove-btn {
   background:#ff4444;color:white;
 }
 
@@ -331,7 +313,7 @@ button.submit-btn:hover {
 
 hr {margin:25px 0;border:none;border-top:1px solid #eee;}
 
-h3 {margin-bottom:12px;font-size:18px;color:#0077cc;}
+h3 {margin-bottom:12px;font-size:18px;color:#ffffff;}
 
 /* FOOTER */
 .footer {
@@ -393,7 +375,6 @@ h3 {margin-bottom:12px;font-size:18px;color:#0077cc;}
     <h1 class="umzug-title">Möbel Ab-/Aufbau</h1>
   </div>
   
-  <!-- Hier soll der Rabatt erscheinen -->
   <div id="rabatt-hinweis"></div>
   
   <div class="form-container">
@@ -471,10 +452,7 @@ h3 {margin-bottom:12px;font-size:18px;color:#0077cc;}
             <option value="Beides">Beides</option>
           </select>
           <input type="number" min="1" value="1" class="moebel-menge" placeholder="Anzahl">
-          <div class="moebel-item-buttons">
-            <button type="button" class="add-btn" onclick="addMoebel()">+</button>
-            <button type="button" class="remove-btn" onclick="removeMoebel(this)">−</button>
-          </div>
+          <button type="button" class="remove-btn" onclick="removeMoebel(this)">🗑️</button>
         </div>
       </div>
       
@@ -522,7 +500,6 @@ menuButton.addEventListener('click', () => {
   menuButton.classList.toggle('open');
 });
 
-// Adressfelder anzeigen
 const eineAdresse = document.getElementById('eineAdresse');
 const zweiAdressen = document.getElementById('zweiAdressen');
 
@@ -540,7 +517,6 @@ document.getElementById('aufbauOnly').addEventListener('change', updateAdressfel
 document.getElementById('abbauOnly').addEventListener('change', updateAdressfelder);
 document.getElementById('beides').addEventListener('change', updateAdressfelder);
 
-// Möbel hinzufügen
 function addMoebel() {
   const list = document.getElementById('moebelList');
   const newItem = list.firstElementChild.cloneNode(true);
@@ -550,7 +526,6 @@ function addMoebel() {
   list.appendChild(newItem);
 }
 
-// Möbel entfernen
 function removeMoebel(btn) {
   const list = document.getElementById('moebelList');
   if (list.children.length > 1) {
@@ -560,7 +535,6 @@ function removeMoebel(btn) {
   }
 }
 
-// NEUE FUNKTION: Alle Möbel löschen
 function clearAllMoebel() {
   if (confirm('Möchten Sie wirklich alle Möbel aus der Liste entfernen?')) {
     const list = document.getElementById('moebelList');
@@ -573,20 +547,15 @@ function clearAllMoebel() {
           <option value="Beides">Beides</option>
         </select>
         <input type="number" min="1" value="1" class="moebel-menge" placeholder="Anzahl">
-        <div class="moebel-item-buttons">
-          <button type="button" class="add-btn" onclick="addMoebel()">+</button>
-          <button type="button" class="remove-btn" onclick="removeMoebel(this)">−</button>
-        </div>
+        <button type="button" class="remove-btn" onclick="removeMoebel(this)">🗑️</button>
       </div>
     `;
   }
 }
 
-// Absenden mit VERBESSERTER VALIDIERUNG
 document.getElementById('absenden').onclick = () => {
   const data = {};
 
-  // 1. Auf/Abbau Auswahl prüfen
   const aufbauAbb = document.querySelector('input[name="aufbauAbb"]:checked');
   if (!aufbauAbb) {
     alert('❌ Bitte wählen Sie aus, ob Sie Auf- oder Abbau benötigen.');
@@ -594,9 +563,7 @@ document.getElementById('absenden').onclick = () => {
   }
   data.aufbauAbb = aufbauAbb.value;
 
-  // 2. Adressen validieren
   if (data.aufbauAbb === "Beides") {
-    // Zwei Adressen prüfen
     if (!document.getElementById('aufbau_strasse').value.trim()) {
       alert('❌ Bitte geben Sie die Aufbau-Straße ein.');
       document.getElementById('aufbau_strasse').focus();
@@ -652,7 +619,6 @@ document.getElementById('absenden').onclick = () => {
     data.adresse1 = `${aufbau_str} ${aufbau_nr}, ${aufbau_plz} ${aufbau_stadt}`;
     data.adresse2 = `${abbau_str} ${abbau_nr}, ${abbau_plz} ${abbau_stadt}`;
   } else {
-    // Eine Adresse prüfen
     if (!document.getElementById('addr1_strasse').value.trim()) {
       alert('❌ Bitte geben Sie die Straße ein.');
       document.getElementById('addr1_strasse').focus();
@@ -682,7 +648,6 @@ document.getElementById('absenden').onclick = () => {
     data.adresse1 = `${str} ${nr}, ${plz} ${stadt}`;
   }
 
-  // 3. Aufwand prüfen
   const aufwand = document.querySelector('input[name="aufbauAufwand"]:checked');
   if (!aufwand) {
     alert('❌ Bitte wählen Sie den Aufwand aus.');
@@ -690,11 +655,9 @@ document.getElementById('absenden').onclick = () => {
   }
   data.aufbauAufwand = aufwand.value;
 
-  // 4. Zusatzinfo (optional)
   const zusatz = document.getElementById('zusatzinfo').value.trim();
   if (zusatz) data.aufbau_text = zusatz;
 
-  // 5. Möbel sammeln und validieren
   const moebelList = [];
   document.querySelectorAll('.moebel-item').forEach(item => {
     const art = item.querySelector('.moebel-art').value.trim();
@@ -714,17 +677,13 @@ document.getElementById('absenden').onclick = () => {
 
   data.moebel = JSON.stringify(moebelList);
 
-  // 6. Weiterleitung
   const params = new URLSearchParams(data).toString();
   window.location.href = `review2.html?${params}`;
 };
 </script>
 
-<!-- Firebase SDK -->
 <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database-compat.js"></script>
-
-<!-- Rabatt-Anzeige Script -->
 <script src="rabatt-anzeige.js"></script>
 
 </body>
