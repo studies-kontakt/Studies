@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Datenschutz - Studies Umzüge</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+
+<style>
+  * {margin:0;padding:0;box-sizing:border-box;}
+  body {
+    font-family:'Roboto', sans-serif;
+    background:#f4f6f8;
+    color:#333;
+    line-height:1.6;
+  }
+  a {text-decoration:none;color:inherit;}
+
+  /* HEADER */
+  .Kopfzeile {
+    position:fixed; top:0; left:0; right:0;
+    padding:15px 30px;
+    display:grid;
+    grid-template-columns:1fr auto 1fr;
+    align-items:center;
+    background:#ffffffcc;
+    box-shadow:0 4px 20px rgba(0,0,0,0.08);
+    border-bottom-left-radius:12px;
+    border-bottom-right-radius:12px;
+    backdrop-filter:blur(5px);
+    z-index:1000;
+  }
+  .left-logo img {height:80px;}
+  .center-logo img {height:100px;}
+  .right-menu {display:flex;justify-content:flex-end;}
+  @media(max-width:768px){
+    .left-logo img {height:60px;}
+    .center-logo img {height:55px;}
+  }
+
+  .menu-button {
+    display:flex;flex-direction:column;width:32px;height:24px;
+    justify-content:space-between;cursor:pointer;
+  }
+  .menu-button div {
+    width:100%;height:3px;background:#0077cc;
+    border-radius:2px;transition:0.3s;
+  }
+  .menu-button.open div:nth-child(1){transform:rotate(45deg) translateY(8px);}
+  .menu-button.open div:nth-child(2){opacity:0;}
+  .menu-button.open div:nth-child(3){transform:rotate(-45deg) translateY(-8px);}
+
+  .nav-links {
+    display:none;flex-direction:column;background:#fff;
+    position:absolute;right:20px;top:90px;width:200px;
+    padding:15px;border-radius:12px;
+    box-shadow:0 8px 18px rgba(0,0,0,0.15);
+  }
+  .nav-links.active {display:flex;}
+
+  .Kopfzeile-Link {
+    font-size:16px;padding:10px 12px;border-radius:8px;transition:0.3s;
+  }
+  .Kopfzeile-Link:hover {background:#e0f0ff;color:#0077cc;}
+
+  /* CONTENT */
+  .content-wrapper {
+    margin-top:150px;
+    padding:20px;
+    max-width:900px;
+    margin-left:auto;
+    margin-right:auto;
+  }
+  h2 {
+    text-align:center;
+    font-size:32px;
+    color:#0077cc;
+    margin-bottom:25px;
+  }
+
+  .section {
+    background:white;
+    padding:25px;
+    border-radius:16px;
+    margin-bottom:25px;
+    box-shadow:0 10px 25px rgba(0,0,0,0.06);
+  }
+  .section h3 {
+    font-size:22px;
+    margin-bottom:12px;
+    color:#0077cc;
+  }
+  .section p {
+    font-size:16px;
+    color:#444;
+    margin-bottom:10px;
+  }
+
+  /* FOOTER */
+  .footer {
+    background:#0077cc;
+    padding:40px 20px;
+    color:#fff;
+    margin-top:60px;
+  }
+  .footer-container {
+    max-width:1100px;
+    margin:0 auto;
+    display:flex;
+    justify-content:space-between;
+    flex-wrap:wrap;
+  }
+  .footer-section {width:30%;text-align:center;}
+  @media(max-width:850px){
+    .footer-section {width:100%;margin-bottom:25px;}
+  }
+  .footer-section a {
+    font-size:20px;color:#00e0ff;font-weight:500;
+  }
+  .footer-section a:hover {color:white;text-decoration:underline;}
+  .footer-section p {margin:5px 0;}
+
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<div class="Kopfzeile">
+  <div class="left-logo">
+    <a href="index.html"><img src="Img/Logo2.png" alt="Logo"></a>
+  </div>
+  <div class="center-logo">
+    <a href="index.html"><img src="Img/Logo.png" alt="Logo Mitte"></a>
+  </div>
+  <div class="right-menu">
+    <div class="menu-button" id="menuButton"><div></div><div></div><div></div></div>
+  </div>
+  <div class="nav-links" id="navLinks">
+    <a class="Kopfzeile-Link" href="index.html">Home</a>
+    <a class="Kopfzeile-Link" href="Umzug.html">Umzug</a>
+    <a class="Kopfzeile-Link" href="MoebelAufbau.html">Möbel Ab-/Aufbau</a>
+    <a class="Kopfzeile-Link" href="Transport.html">Transport</a>
+    <a class="Kopfzeile-Link" href="ÜberUns.html">Über uns</a>
+  </div>
+</div>
+
+<!-- CONTENT -->
+<div class="content-wrapper">
+  <h2>Datenschutzerklärung</h2>
+
+  <div class="section">
+    <h3>1. Verantwortlicher</h3>
+    <p>Studies Umzüge<br>
+    Herzogenbuscherstraße 1 d<br>
+    54292 Trier</p>
+    <p>Email: <a href="mailto:studies.kontakt@gmail.com">studies.kontakt@gmail.com</a></p>
+  </div>
+
+  <div class="section">
+    <h3>2. Erhebung personenbezogener Daten</h3>
+    <p>Wir verarbeiten personenbezogene Daten, die Sie uns über unsere Anfrageformulare, telefonisch oder per E-Mail übermitteln:</p>
+    <p>• Name<br>
+       • Telefonnummer<br>
+       • E-Mail-Adresse<br>
+       • Adressen für Umzug / Transport / Aufbau<br>
+       • Angaben zu Möbeln und Zusatzinfos<br>
+       • Datum, Uhrzeit und weitere Auftragsdaten
+    </p>
+    <p>Diese Daten benötigen wir zur Bearbeitung Ihrer Anfrage.</p>
+  </div>
+
+  <div class="section">
+    <h3>3. Zweck der Verarbeitung</h3>
+    <p>Die Verarbeitung erfolgt gemäß Art. 6 Abs. 1 lit. b DSGVO zur:</p>
+    <p>• Angebotserstellung<br>
+       • Bearbeitung Ihrer Anfrage<br>
+       • Auftragserfüllung<br>
+       • Kontaktaufnahme bei Rückfragen
+    </p>
+  </div>
+
+  <div class="section">
+    <h3>4. Keine Cookies</h3>
+    <p>Unsere Website verwendet **keine Cookies**.</p>
+  </div>
+
+  <div class="section">
+    <h3>5. EmailJS</h3>
+    <p>Für das Versenden Ihrer Anfrage nutzen wir den Dienst <strong>EmailJS</strong> (EmailJS.com). Beim Absenden eines Formulars werden die eingegebenen Daten an EmailJS übertragen. Der Dienst verarbeitet Daten auf Servern außerhalb der EU, insbesondere in den USA.</p>
+    <p>Rechtsgrundlage: Art. 6 Abs. 1 lit. b DSGVO (Verarbeitung zur Vertragserfüllung).</p>
+    <p>Die Daten werden von EmailJS nicht dauerhaft gespeichert.</p>
+  </div>
+
+  <div class="section">
+    <h3>6. OpenRouteService (Adressen-Verarbeitung)</h3>
+    <p>Zur Entfernungsberechnung übergeben wir die von Ihnen eingegebenen Adressen an den Dienst <strong>OpenRouteService</strong> (ORS). Dadurch werden Ihre Adressdaten an den ORS-Server übertragen.</p>
+    <p>Rechtsgrundlage: Art. 6 Abs. 1 lit. b DSGVO (Notwendig zur Erstellung eines korrekten Angebotes).</p>
+  </div>
+
+  <div class="section">
+    <h3>7. Firebase (Google) – Rabattaktionen</h3>
+    <p>Unsere Seite lädt Rabattaktionen über <strong>Firebase Realtime Database</strong> (Google). Dabei wird Ihre Identität nicht übermittelt.</p>
+    <p>Firebase kann technisch bedingt Daten wie IP-Adressen verarbeiten. Diese Verarbeitung liegt bei Google (USA).</p>
+    <p>Rechtsgrundlage: Art. 6 Abs. 1 lit. f DSGVO (berechtigtes Interesse an Darstellung von Aktionen).</p>
+  </div>
+
+  <div class="section">
+    <h3>8. Google Fonts</h3>
+    <p>Unsere Website lädt Schriftarten von <strong>Google Fonts</strong>. Dadurch wird Ihre IP-Adresse an Google (USA) übertragen.</p>
+    <p>Rechtsgrundlage: Art. 6 Abs. 1 lit. f DSGVO (nutzerfreundliche Darstellung der Website).</p>
+  </div>
+
+  <div class="section">
+    <h3>9. Speicherdauer</h3>
+    <p>Wir speichern Ihre Daten nur so lange, wie es zur Bearbeitung Ihrer Anfrage notwendig ist. Auf Wunsch löschen wir Ihre Daten jederzeit.</p>
+  </div>
+
+  <div class="section">
+    <h3>10. Ihre Rechte</h3>
+    <p>Sie haben folgende Rechte gemäß DSGVO:</p>
+    <p>• Auskunft über Ihre gespeicherten Daten<br>
+       • Löschung Ihrer Daten<br>
+       • Berichtigung unrichtiger Daten<br>
+       • Einschränkung der Verarbeitung<br>
+       • Widerspruch gegen die Verarbeitung
+    </p>
+    <p>Kontakt: <a href="mailto:studies.kontakt@gmail.com">studies.kontakt@gmail.com</a></p>
+  </div>
+
+</div>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="footer-container">
+
+    <div class="footer-section">
+      <a href="Impressum.html">Impressum</a>
+    </div>
+
+    <div class="footer-section">
+      <h3>Kontakt</h3>
+      <p><a href="mailto:studies.kontakt@gmail.com">studies.kontakt@gmail.com</a></p>
+      <p><a href="tel:+491782550568">+49 178 2550 568</a></p>
+    </div>
+
+    <div class="footer-section">
+      <a href="Datenschutz.html">Datenschutz</a>
+    </div>
+
+  </div>
+</footer>
+
+<script>
+  const menuButton = document.getElementById('menuButton');
+  const navLinks = document.getElementById('navLinks');
+
+  menuButton.addEventListener('click', () => {
+    navLinks.classList.toggle('active');
+    menuButton.classList.toggle('open');
+  });
+</script>
+
+</body>
+</html>
