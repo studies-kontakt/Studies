@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="de">
 <head>
 <meta charset="UTF-8">
@@ -200,24 +200,22 @@ async function calculatePrice(data) {
   }
 
   // 2. ARBEITSSTUNDEN
-  // Pro Möbel ca. 35 Minuten = 0,583 Stunden
-  const minutenProMoebel = 35;
   const stundenlohn = 25;
+  let gesamtMinuten = 0;
   
-  let gesamtStunden = 0;
   if (data.aufbauAbb === "Beides") {
-    // Abbau + Aufbau
-    const stundenAbbau = (anzahlMoebel * minutenProMoebel) / 60;
-    const stundenAufbau = (anzahlMoebel * minutenProMoebel) / 60;
-    gesamtStunden = stundenAbbau + stundenAufbau;
+    gesamtMinuten = anzahlMoebel * 120; // 120 Minuten pro Stück
   } else {
-    // Nur Aufbau ODER Abbau
-    gesamtStunden = (anzahlMoebel * minutenProMoebel) / 60;
+    gesamtMinuten = anzahlMoebel * 35;  // 35 Minuten pro Stück
   }
   
-  // Runden nach Regeln: ab 31 Min = volle Stunde, darunter = halbe Stunde
+  const gesamtStunden = gesamtMinuten / 60;
+  
+  // Runden nach Regeln: 
+  // Minuten < 31: Auf halbe Stunde (z.B. 1h 20m -> 1,5h)
+  // Minuten >= 31: Auf volle Stunde (z.B. 1h 40m -> 2,0h)
   const volleStunden = Math.floor(gesamtStunden);
-  const restMinuten = (gesamtStunden - volleStunden) * 60;
+  const restMinuten = Math.round((gesamtStunden - volleStunden) * 60);
   
   let abgerechneteStunden;
   if (restMinuten >= 31) {
@@ -241,7 +239,7 @@ async function calculatePrice(data) {
     if (data.adresse1) entfernungGesamt += await getDistance(home, data.adresse1);
   }
 
-  price += entfernungGesamt * 2 * 0.83; // Hin- und Rückfahrt
+  price += entfernungGesamt * 2 * 0.83; // Hin- und Rückfahrt (Faktor 2)
 
   // Daten speichern
   data.anzahlMoebel = anzahlMoebel;
@@ -312,6 +310,5 @@ render();
 
 </body>
 </html>
-
 
 
