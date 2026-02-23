@@ -1,0 +1,344 @@
+﻿<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Eingaben überprüfen</title><link rel="icon" href="../Img/Logo.png" type="image/png"><link rel="stylesheet" href="../styles/Kopzeile.css"><link rel="stylesheet" href="../styles/footer.css">
+<link rel="stylesheet" href="../fonts/roboto-condensed.css">
+
+
+<style>
+* {margin:0;padding:0;box-sizing:border-box;}
+body {
+  font-family:'Roboto Condensed', sans-serif;
+  background:#f4f6f8;color:#333;
+  min-height:100vh;line-height:1.6;
+}
+a {text-decoration:none;color:inherit;}
+
+@media(max-width:768px){
+  .left-logo img {height:60px;}
+  .center-logo img {height:55px;}
+}
+
+/* CONTENT */
+.content-wrapper {
+  margin:130px 20px 40px;
+  max-width:800px;
+  margin-left:auto;
+  margin-right:auto;
+}
+
+h2 {
+  text-align:center;color:#0077cc;margin-bottom:20px;
+}
+
+.section {
+  background:white;padding:25px;border-radius:16px;
+  margin-bottom:20px;
+  box-shadow:0 10px 25px rgba(0,0,0,0.06);
+}
+
+.field {margin-bottom:10px;}
+.field span {font-weight:600;}
+
+.moebel-list {
+  margin-top:10px;
+  padding:10px;
+  background:#f7f9fc;
+  border-radius:8px;
+}
+
+.moebel-item {
+  padding:8px;
+  margin-bottom:6px;
+  background:white;
+  border-radius:6px;
+  font-size:14px;
+}
+
+button {
+  padding:14px 20px;font-size:18px;font-weight:600;
+  border:none;border-radius:12px;cursor:pointer;
+  margin:10px 5px;
+  background:linear-gradient(90deg,#0077cc,#00aaff);
+  color:white;transition:0.3s;
+}
+
+button:hover {
+  background:linear-gradient(90deg,#005fa3,#0099dd);
+}
+
+button:active {transform:scale(0.97);}
+
+#back {background:#ccc;color:#000;}
+
+/* LOADING */
+.loading {
+  text-align:center;
+  padding:40px;
+  color:#0077cc;
+  font-size:18px;
+}
+
+.loading-spinner {
+  border: 4px solid #f3f3f3;
+  border-top: 4px solid #0077cc;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  animation: spin 1s linear infinite;
+  margin: 20px auto;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<div class="Kopfzeile">
+  <div class="left-logo">
+    <a href="../index.html"><img src="../Img/Logo2.png" alt="Logo"></a>
+  </div>
+  <div class="center-logo">
+    <a href="../index.html"><img src="../Img/Logo.png" alt="Logo Mitte"></a>
+  </div>
+  <div class="right-menu">
+    <div class="menu-button" id="menuButton"><div></div><div></div><div></div></div>
+  </div>
+  <div class="nav-links" id="navLinks">
+    <a class="Kopfzeile-Link" href="../index.html">Home</a>
+    <a class="Kopfzeile-Link" href="Umzug.html">Umzug</a>
+    <a class="Kopfzeile-Link" href="MoebelAufbau.html">Möbel Ab-/Aufbau</a>
+    <a class="Kopfzeile-Link" href="Transport.html">Transport</a>
+    <a class="Kopfzeile-Link" href="ÜberUns.html">Über uns</a>
+  </div>
+</div>
+
+<!-- CONTENT -->
+<div class="content-wrapper">
+  <h2>Bitte überprüfen Sie alle Angaben</h2>
+  <div id="content">
+    <div class="loading">
+      <div class="loading-spinner"></div>
+      📄 Ihre Daten werden bearbeitet...<br>Bitte warten Sie einen Moment.
+    </div>
+  </div>
+  <div style="text-align:center;">
+    <button id="back">Zurück</button>
+    <button id="confirm">Angebot anfordern</button>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="footer-container">
+    <div class="footer-section">
+      <a href="Impressum.html">Impressum</a>
+    </div>
+    <div class="footer-section">
+      <h3>Kontakt</h3>
+      <p><a href="mailto:studies.kontakt@gmail.com">studies.kontakt@gmail.com</a></p>
+      <p><a href="tel:+491782550568">+49 178 2550 568</a></p>
+    </div>
+    <div class="footer-section">
+      <a href="Datenschutz.html">Datenschutz</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+const menuButton = document.getElementById('menuButton');
+const navLinks = document.getElementById('navLinks');
+menuButton.addEventListener('click', () => {
+  navLinks.classList.toggle('active');
+  menuButton.classList.toggle('open');
+});
+
+function getQueryData() {
+  const data = JSON.parse(sessionStorage.getItem('umzugData') || '{}');
+  if (data.moebel && typeof data.moebel === 'string') {
+    try {
+      data.moebel = JSON.parse(data.moebel);
+    } catch(e) {
+      data.moebel = [];
+    }
+  }
+  return data;
+}
+
+function calculateTrips(groesse) {
+  return Math.ceil(groesse / 20);
+}
+
+async function getDistance(vonAdresse, nachAdresse) {
+  const apiKey = 'eyJvcmciOiI1YjNjZTM1OTc4NTExMTAwMDFjZjYyNDgiLCJpZCI6IjZhMzUxMGQyMDMzODRhNzNiY2ExYmFiYjRjYTRhYTRkIiwiaCI6Im11cm11cjY0In0=';
+  try {
+    let res = await fetch(`https://api.openrouteservice.org/geocode/search?api_key=${apiKey}&text=${encodeURIComponent(vonAdresse)}`);
+    if (!res.ok) throw new Error('Geocoding fehlgeschlagen');
+    let data = await res.json();
+    if (!data.features || data.features.length === 0) throw new Error('Adresse nicht gefunden');
+    const vonCoords = data.features[0].geometry.coordinates;
+
+    res = await fetch(`https://api.openrouteservice.org/geocode/search?api_key=${apiKey}&text=${encodeURIComponent(nachAdresse)}`);
+    if (!res.ok) throw new Error('Geocoding fehlgeschlagen');
+    data = await res.json();
+    if (!data.features || data.features.length === 0) throw new Error('Adresse nicht gefunden');
+    const nachCoords = data.features[0].geometry.coordinates;
+
+    res = await fetch('https://api.openrouteservice.org/v2/directions/driving-car/geojson', {
+      method:'POST',
+      headers:{'Authorization':apiKey,'Content-Type':'application/json'},
+      body:JSON.stringify({coordinates:[vonCoords,nachCoords]})
+    });
+    if (!res.ok) throw new Error('Routing fehlgeschlagen');
+    data = await res.json();
+    const distanceMeters = data.features[0].properties.summary.distance;
+    return distanceMeters / 1000;
+  } catch(e) {
+    console.error('Fehler bei Entfernungsberechnung:', e);
+    return 0;
+  }
+}
+
+async function calculatePrice(data) {
+  let price = 80;
+  
+  price += (Number(data.zimmer_auszug) || 0) * 50;
+  price += (Number(data.groesse_auszug) || 0) * 2;
+  if (data.aufzug_auszug === 'Nein') price += 20;
+  price += (parseInt(data.etage_auszug) || 0) * 5;
+
+  price += (Number(data.zimmer_einzug) || 0) * 50;
+  price += (Number(data.groesse_einzug) || 0) * 2;
+  if (data.aufzug_einzug === 'Nein') price += 20;
+  price += (parseInt(data.etage_einzug) || 0) * 5;
+
+  const trips = calculateTrips(Number(data.groesse_auszug));
+
+  const home = 'Herzogenbuscherstraße 1d, 54292 Trier';
+  const auszug = `${data.von_strasse} ${data.von_hausnr}, ${data.von_plz} ${data.von_stadt}`;
+  const einzug = `${data.nach_strasse} ${data.nach_hausnr}, ${data.nach_plz} ${data.nach_stadt}`;
+
+  
+  const distanceHomeToAuszug = await getDistance(home, auszug);
+  console.log(`Home → Auszug: ${distanceHomeToAuszug.toFixed(2)} km`);
+  
+  const distanceAuszugToEinzug = await getDistance(auszug, einzug);
+  
+  const distanceEinzugToHome = await getDistance(einzug, home);
+  console.log(`Einzug → Home: ${distanceEinzugToHome.toFixed(2)} km`);
+
+  const kmPreis = 0.83;
+  
+  const kostenHomeToAuszug = distanceHomeToAuszug * kmPreis;
+  const kostenAuszugEinzug = distanceAuszugToEinzug * trips * kmPreis;
+  const kostenEinzugToHome = distanceEinzugToHome * kmPreis;
+  
+  const gesamtKM = distanceHomeToAuszug + (distanceAuszugToEinzug * trips) + distanceEinzugToHome;
+  const gesamtKMKosten = kostenHomeToAuszug + kostenAuszugEinzug + kostenEinzugToHome;
+  
+  price += gesamtKMKosten;
+
+  if (data.moebel && data.moebel.length > 0) {
+    const totalMoebel = data.moebel.reduce((sum, m) => sum + parseInt(m.menge), 0);
+    
+    const moebelGrundpreis = totalMoebel * 20;
+    const geschaetzteStunden = Math.ceil((totalMoebel * 0.5) * 2) / 2;
+    const stundenLohn = geschaetzteStunden * 25;
+    
+    price += moebelGrundpreis + stundenLohn;
+    
+    data.moebelStunden = geschaetzteStunden;
+  }
+
+  data.distanceKm = distanceAuszugToEinzug.toFixed(2);
+  data.gesamtKM = gesamtKM.toFixed(2);
+  data.trips = trips;
+  data.totalPrice = price.toFixed(2);
+  
+  return data;
+}
+
+function displayData(data) {
+  const content = document.getElementById('content');
+  const von = `${data.von_strasse} ${data.von_hausnr}, ${data.von_plz} ${data.von_stadt}`;
+  const nach = `${data.nach_strasse} ${data.nach_hausnr}, ${data.nach_plz} ${data.nach_stadt}`;
+  
+  let moebelHTML = '';
+  if (data.moebel && data.moebel.length > 0) {
+    moebelHTML = '<div class="moebel-list">';
+    data.moebel.forEach(m => {
+      let photoImg = m.photo ? `<img src="${m.photo}" style="width:40px;height:40px;object-fit:cover;border-radius:4px;margin-left:10px;vertical-align:middle;">` : '';
+      moebelHTML += `<div class="moebel-item">• ${m.art} (${m.typ}) - Anzahl: ${m.menge}${photoImg}</div>`;
+    });
+    moebelHTML += '</div>';
+    if (data.moebelStunden) {
+      moebelHTML += `<p style="margin-top:10px;color:#666;font-size:14px;">⏱️ Geschätzte Arbeitszeit: ${data.moebelStunden} Stunden</p>`;
+    }
+  } else {
+    moebelHTML = '<p style="color:#999;">Keine Möbel angegeben</p>';
+  }
+
+  content.innerHTML = `
+  <div class="section">
+    <h3>Von / Nach</h3>
+    <div class="field"><span>Von:</span> ${von}</div>
+    <div class="field"><span>Nach:</span> ${nach}</div>
+    <div class="field"><span>Datum:</span> ${data.datum||'-'}</div>
+    <div class="field"><span>Entfernung Auszug↔Einzug:</span> ${data.distanceKm} km</div>
+    <div class="field"><span>🚚 Anzahl Fahrten:</span> ${data.trips}x</div>
+    <div class="field"><span>📍 Gesamt-KM:</span> ${data.gesamtKM} km</div>
+  </div>
+  <div class="section">
+    <h3>Auszug</h3>
+    <div class="field"><span>Wohnart:</span> ${data.wohnart_auszug||'-'}</div>
+    <div class="field"><span>Etage:</span> ${data.etage_auszug||'-'}</div>
+    <div class="field"><span>Zimmer:</span> ${data.zimmer_auszug||'-'}</div>
+    <div class="field"><span>Größe:</span> ${data.groesse_auszug||'-'} m²</div>
+    <div class="field"><span>Aufzug:</span> ${data.aufzug_auszug||'-'}</div>
+  </div>
+  <div class="section">
+    <h3>Einzug</h3>
+    <div class="field"><span>Wohnart:</span> ${data.wohnart_einzug||'-'}</div>
+    <div class="field"><span>Etage:</span> ${data.etage_einzug||'-'}</div>
+    <div class="field"><span>Zimmer:</span> ${data.zimmer_einzug||'-'}</div>
+    <div class="field"><span>Größe:</span> ${data.groesse_einzug||'-'} m²</div>
+    <div class="field"><span>Aufzug:</span> ${data.aufzug_einzug||'-'}</div>
+  </div>
+  <div class="section">
+    <h3>Möbel zum Auf-/Abbau</h3>
+    ${moebelHTML}
+  </div>
+  <div class="section">
+    <h3>Zusatzoptionen</h3>
+    <div class="field"><span>Zahlung durch:</span> ${data.zahlung||'-'}</div>
+    <div class="field"><span>Transporter nötig:</span> ${data.transporter||'-'}</div>
+  </div>
+  <div class="section" style="text-align:center;font-size:22px;font-weight:700;color:#0077cc;">
+    💰 Gesamtpreis: ${data.totalPrice} €
+  </div>
+  `;
+}
+
+(async () => {
+  let data = getQueryData();
+  data = await calculatePrice(data);
+  displayData(data);
+
+  document.getElementById('back').addEventListener('click', () => window.history.back());
+  document.getElementById('confirm').addEventListener('click', () => {
+    sessionStorage.setItem('umzugData', JSON.stringify(data));
+    window.location.href = 'kontakt.html';
+  });
+})();
+</script>
+
+</body>
+</html>
+
+
