@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="de">
 <head>
 <meta charset="UTF-8">
@@ -245,14 +245,25 @@ async function calculatePrice(data) {
   price += gesamtKMKosten;
 
   if (data.moebel && data.moebel.length > 0) {
-    const totalMoebel = data.moebel.reduce((sum, m) => sum + parseInt(m.menge), 0);
+    let totalMoebel = 0;
+    let totalMinuten = 0;
+    
+    data.moebel.forEach(m => {
+      const menge = parseInt(m.menge) || 0;
+      totalMoebel += menge;
+      
+      let minutenProStueck = 40;
+      if (m.typ === 'Beides') {
+        minutenProStueck = 80;
+      }
+      totalMinuten += minutenProStueck * menge;
+    });
     
     const moebelGrundpreis = totalMoebel * 20;
-    const geschaetzteStunden = Math.ceil((totalMoebel * 0.5) * 2) / 2;
+    const geschaetzteStunden = Math.ceil((totalMinuten / 60) * 2) / 2;
     const stundenLohn = geschaetzteStunden * 25;
     
     price += moebelGrundpreis + stundenLohn;
-    
     data.moebelStunden = geschaetzteStunden;
   }
 
