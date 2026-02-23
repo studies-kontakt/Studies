@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Umzugshilfe Trier | Studies Umzüge</title>
+<meta name="description" content="Professionelle Umzugshilfe in Trier. Wir bieten Umzüge, Möbelmontage und Transporte. Schnell, zuverlässig & günstig. Jetzt anfragen!">
+<link rel="icon" href="Img/Logo.png" type="image/png">
+
+<!-- JSON-LD für Google (Strukturierte Daten) -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "LocalBusiness",
+  "name": "Studies Umzüge",
+  "image": "Img/Logo.png",
+  "telephone": "+49 178 2550 568",
+  "email": "studies.kontakt@gmail.com",
+  "address": {
+    "@type": "PostalAddress",
+    "streetAddress": "Herzogenbuschersstraße 1 d",
+    "addressLocality": "Trier",
+    "postalCode": "54292",
+    "addressCountry": "DE"
+  },
+  "url": "index.html",
+  "priceRange": "€€"
+}
+</script>
+
+<link rel="stylesheet" href="fonts/roboto-condensed.css">
+<link rel="stylesheet" href="styles/Kopzeile.css">
+<link rel="stylesheet" href="styles/footer.css">
+<style>
+  * {margin:0;padding:0;box-sizing:border-box;}
+  body {
+    font-family:'Roboto Condensed', sans-serif;
+    background:#f4f6f8;
+    color:#333;
+    line-height:1.5;
+  }
+  a {text-decoration:none;color:inherit;}
+
+  /* WELCOME */
+  .welcome-area {
+    margin-top:140px;
+    text-align:center;
+    padding:20px;
+  }
+  .welcome-area h1 {
+    font-size:32px;
+    color:#0077cc;
+    margin-bottom:10px;
+  }
+  .welcome-area p {
+    font-size:18px;
+    color:#555;
+    margin-bottom:30px;
+  }
+
+  /* TARIF BOXES */
+  .tarif-container {
+    max-width:1100px;
+    margin:0 auto;
+    padding:0 20px;
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:25px;
+  }
+
+  @media(max-width:850px){
+    .tarif-container {grid-template-columns:1fr;}
+  }
+
+  .tarif-card {
+    background:white;
+    padding:25px;
+    border-radius:18px;
+    box-shadow:0 10px 25px rgba(0,0,0,0.08);
+    text-align:center;
+    transition:0.3s;
+  }
+  .tarif-card:hover {
+    transform:translateY(-5px);
+    box-shadow:0 15px 35px rgba(0,0,0,0.12);
+  }
+
+  /* BILDER IN DEN KARTEN */
+  .tarif-card img {
+    width:120px;
+    margin-bottom:15px;
+  }
+
+  .tarif-card h3 {
+    color:#0077cc;
+    font-size:22px;
+    margin-bottom:12px;
+  }
+  .tarif-card p {
+    font-size:16px;
+    color:#444;
+    margin-bottom:25px;
+  }
+
+  .tarif-btn {
+    display:block;
+    width:100%;
+    padding:14px;
+    border-radius:12px;
+    font-size:17px;
+    font-weight:600;
+    color:white;
+    background:linear-gradient(90deg,#0077cc,#00aaff);
+    transition:0.3s;
+  }
+  .tarif-btn:hover {background:linear-gradient(90deg,#005fa3,#0099dd);}
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<div class="Kopfzeile">
+
+  <!-- LEFT LOGO -->
+  <div class="left-logo">
+    <a href="index.html"><img src="Img/Logo2.png" alt="Logo"></a>
+  </div>
+
+  <!-- CENTER LOGO -->
+  <div class="center-logo">
+    <a href="index.html"><img src="Img/Logo.png" alt="Logo Mitte"></a>
+  </div>
+
+  <!-- RIGHT MENU -->
+  <div class="right-menu">
+    <div class="menu-button" id="menuButton"><div></div><div></div><div></div></div>
+  </div>
+
+  <!-- MENU LINKS -->
+  <div class="nav-links" id="navLinks">
+    <a class="Kopfzeile-Link" href="index.html">Home</a>
+    <a class="Kopfzeile-Link" href="Unterseiten/Umzug.html">Umzug</a>
+    <a class="Kopfzeile-Link" href="Unterseiten/MoebelAufbau.html">Möbel Ab-/Aufbau</a>
+    <a class="Kopfzeile-Link" href="Unterseiten/Transport.html">Transport</a>
+    <a class="Kopfzeile-Link" href="Unterseiten/ÜberUns.html">Über uns</a>
+  </div>
+</div>
+
+<!-- CONTENT -->
+<div class="welcome-area">
+  <h1>Willkommen</h1>
+  <p>Alles, was Ihren Umzug leichter macht – wählen Sie Ihren Service und legen wir los!</p>
+    <!-- Hier soll der Rabatt erscheinen -->
+  <div id="rabatt-hinweis"></div>
+</div>
+
+<div class="tarif-container">
+
+  <div class="tarif-card">
+    <h3>Umzug</h3>
+    <img src="Img/Umzug.png" alt="Umzug Symbol">
+    <p>Vom ersten Karton bis zur letzten Fahrt: Wir erledigen Ihren kompletten Umzug.</p>
+    <a class="tarif-btn" href="Unterseiten/Umzug.html">Mehr Infos</a>
+  </div>
+
+  <div class="tarif-card">
+    <h3>Möbel Ab-/Aufbau</h3>
+    <img src="Img/aufbau.png" alt="Aufbau Symbol">
+    <p>Sie bringen die Möbel, wir bringen das Werkzeug. Schnell, sauber, fertig.</p>
+    <a class="tarif-btn" href="Unterseiten/MoebelAufbau.html">Mehr Infos</a>
+  </div>
+
+  <div class="tarif-card">
+    <h3>Transport</h3>
+    <img src="Img/Transport.png" alt="Transport Symbol">
+    <p>Transportservice mit Sprinter und Fahrer, ohne Tagesarbeit.</p>
+    <a class="tarif-btn" href="Unterseiten/Transport.html">Mehr Infos</a>
+  </div>
+
+</div>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="footer-container">
+
+    <div class="footer-section">
+      <a href="Unterseiten/Impressum.html">Impressum</a>
+    </div>
+
+    <div class="footer-section">
+      <h3>Kontakt</h3>
+      <p><a href="mailto:studies.kontakt@gmail.com">studies.kontakt@gmail.com</a></p>
+      <p><a href="tel:+491782550568">+49 178 2550 568</a></p>
+    </div>
+
+    <div class="footer-section">
+      <a href="Unterseiten/Datenschutz.html">Datenschutz</a>
+    </div>
+
+  </div>
+</footer>
+
+<script>
+  const menuButton = document.getElementById('menuButton');
+  const navLinks = document.getElementById('navLinks');
+
+  menuButton.addEventListener('click', () => {
+    navLinks.classList.toggle('active');
+    menuButton.classList.toggle('open');
+  });
+</script>
+
+<!-- Firebase SDK -->
+<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database-compat.js"></script>
+
+<!-- Rabatt-Anzeige Script -->
+<script src="rabatt-anzeige.js"></script>
+
+</body>
+</html>
