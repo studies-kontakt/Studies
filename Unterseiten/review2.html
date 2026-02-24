@@ -240,13 +240,21 @@ async function calculatePrice(data) {
   let entfernungGesamt = 0;
 
   if (data.aufbauAbb === "Beides") {
-    if (data.adresse1) entfernungGesamt += await getDistance(home, data.adresse1) || 0;
-    if (data.adresse2) entfernungGesamt += await getDistance(home, data.adresse2) || 0;
+    // Strecke 1: Home → Adresse 1 (Aufbau)
+    const strecke1 = data.adresse1 ? (await getDistance(home, data.adresse1) || 0) : 0;
+    // Strecke 2: Home → Adresse 2 (Abbau)
+    const strecke2 = data.adresse2 ? (await getDistance(home, data.adresse2) || 0) : 0;
+    // Entfernung gesamt = Strecke 1 + Strecke 2
+    entfernungGesamt = strecke1 + strecke2;
+    data.strecke1 = strecke1.toFixed(2);
+    data.strecke2 = strecke2.toFixed(2);
+    price += entfernungGesamt * 0.83; // Keine ×2, da zwei separate Fahrten
   } else {
-    if (data.adresse1) entfernungGesamt += await getDistance(home, data.adresse1) || 0;
+    // Einzelne Adresse: Hin- und Rückfahrt (×2)
+    const strecke = data.adresse1 ? (await getDistance(home, data.adresse1) || 0) : 0;
+    entfernungGesamt = strecke;
+    price += entfernungGesamt * 2 * 0.83; // ×2 für Hin- und Rückfahrt
   }
-
-  price += entfernungGesamt * 2 * 0.83; // Hin- und Rückfahrt (Faktor 2)
 
   // Daten speichern
   data.anzahlMoebel = anzahlMoebel;
@@ -305,6 +313,12 @@ async function render() {
     </div>
 
     <div class="section" style="text-align:center;font-size:20px;font-weight:600;">
+      ${data.aufbauAbb === "Beides" ? `
+        <div style="font-size:15px;font-weight:400;text-align:left;margin-bottom:12px;background:#f7f9fc;padding:12px;border-radius:8px;">
+          📍 Strecke 1 (Home → Aufbau): ${data.strecke1 || '0.00'} km<br>
+          📍 Strecke 2 (Home → Abbau): ${data.strecke2 || '0.00'} km
+        </div>
+      ` : ''}
       📍 Entfernung gesamt: ${data.entfernungGesamt} km<br><br>
       ${preisBadge}
     </div>
