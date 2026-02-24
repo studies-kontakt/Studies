@@ -303,19 +303,25 @@ async function calculatePrice() {
     data.gesamtKm = 0;
     data.kmKosten = 0;
   } else {
-    const kmProFahrt = distHomeVon + distVonNach + distNachHome;
     const anzahlFahrten = parseInt(data.anzahl_fahrten) || 1;
-    const gesamtKm = kmProFahrt * anzahlFahrten;
+    
+    // Home→Von: nur einmal (Hinfahrt zum Startort)
+    // Von→Nach: × Anzahl Fahrten (mehrere Touren zwischen Auflade- und Abladeplatz)
+    // Nach→Home: nur einmal (Rückfahrt nach Hause)
+    const gesamtKm = distHomeVon + (distVonNach * anzahlFahrten) + distNachHome;
     const kmKosten = gesamtKm * 0.85;
     
     data.distanceHomeVon = distHomeVon.toFixed(2);
     data.distanceVonNach = distVonNach.toFixed(2);
     data.distanceNachHome = distNachHome.toFixed(2);
-    data.kmProFahrt = kmProFahrt.toFixed(2);
+    data.kmProFahrt = distVonNach.toFixed(2); // Eine Fahrt Von→Nach
     data.gesamtKm = gesamtKm.toFixed(2);
     data.kmKosten = kmKosten.toFixed(2);
     
-    console.log(`🚗 ${anzahlFahrten}x Rundfahrt: ${kmProFahrt.toFixed(2)} km = ${gesamtKm.toFixed(2)} km gesamt`);
+    console.log(`🚗 Home→Von: ${distHomeVon.toFixed(2)} km (einmal)`);
+    console.log(`🚗 Von→Nach: ${distVonNach.toFixed(2)} km × ${anzahlFahrten} Fahrten = ${(distVonNach * anzahlFahrten).toFixed(2)} km`);
+    console.log(`🚗 Nach→Home: ${distNachHome.toFixed(2)} km (einmal)`);
+    console.log(`🚗 Gesamt: ${gesamtKm.toFixed(2)} km`);
   }
   
   const startpreis = data.tag_typ === 'Wochenende' ? 300 : 100;
@@ -368,14 +374,13 @@ async function displayData() {
     </div>
     ${calculatedData.gesamtKm > 0 ? `
     <div class="label-group">
-      <strong>🗺️ Route pro Fahrt:</strong><br>
-      • Home → Von: ${calculatedData.distanceHomeVon} km<br>
-      • Von → Nach: ${calculatedData.distanceVonNach} km<br>
-      • Nach → Home: ${calculatedData.distanceNachHome} km<br>
-      <strong style="margin-top:8px;display:block;">= ${calculatedData.kmProFahrt} km pro Fahrt</strong>
+      <strong>🗺️ Streckenaufschlüsselung:</strong><br>
+      • Home → Von: ${calculatedData.distanceHomeVon} km (einmal)<br>
+      • Von → Nach: ${calculatedData.kmProFahrt} km × ${calculatedData.anzahl_fahrten} Fahrten = <strong>${(parseFloat(calculatedData.kmProFahrt) * parseInt(calculatedData.anzahl_fahrten)).toFixed(2)} km</strong><br>
+      • Nach → Home: ${calculatedData.distanceNachHome} km (einmal)
     </div>
     <div class="label-group">
-      <strong>📍 Gesamt-KM (alle ${calculatedData.anzahl_fahrten} Fahrten):</strong> ${calculatedData.gesamtKm} km
+      <strong>📍 Gesamt-KM:</strong> ${calculatedData.gesamtKm} km
     </div>
     ` : ''}
     
