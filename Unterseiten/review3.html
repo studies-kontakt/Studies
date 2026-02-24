@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="de">
 <head>
 <meta charset="UTF-8">
@@ -328,8 +328,8 @@ async function calculatePrice() {
   const gesamtpreis = startpreis + stundenKosten + parseFloat(data.kmKosten || 0);
   
   data.startpreis = startpreis;
-  data.stundenKosten = stundenKosten.toFixed(2);
-  data.totalPrice = gesamtpreis.toFixed(2);
+  data.stundenKosten = isFinite(stundenKosten) ? stundenKosten.toFixed(2) : '0.00';
+  data.totalPrice = isFinite(gesamtpreis) ? gesamtpreis.toFixed(2) : null;
   
   console.log('✅ Berechnung abgeschlossen. Gesamtpreis:', data.totalPrice, '€');
   
@@ -384,7 +384,7 @@ async function displayData() {
       <div class="price-breakdown">
         <div class="price-breakdown-item">
           <span>GESAMTPREIS:</span>
-          <span>${calculatedData.totalPrice}€</span>
+          <span>${calculatedData.totalPrice ? calculatedData.totalPrice + ' €' : '<span style="color:#e67e22;font-size:16px;">⚠️ Preis auf Anfrage</span>'}</span>
         </div>
       </div>
     </div>
