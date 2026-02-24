@@ -172,10 +172,12 @@ function getQueryData() {
 }
 
 function calculateTrips(groesse) {
-  return Math.ceil(groesse / 20);
+  const g = Number(groesse) || 0;
+  return g > 0 ? Math.ceil(g / 20) : 1;
 }
 
 async function getDistance(vonAdresse, nachAdresse) {
+  if (!vonAdresse || !nachAdresse) return 0;
   const apiKey = 'eyJvcmciOiI1YjNjZTM1OTc4NTExMTAwMDFjZjYyNDgiLCJpZCI6IjZhMzUxMGQyMDMzODRhNzNiY2ExYmFiYjRjYTRhYTRkIiwiaCI6Im11cm11cjY0In0=';
   try {
     let res = await fetch(`https://api.openrouteservice.org/geocode/search?api_key=${apiKey}&text=${encodeURIComponent(vonAdresse)}`);
@@ -197,8 +199,9 @@ async function getDistance(vonAdresse, nachAdresse) {
     });
     if (!res.ok) throw new Error('Routing fehlgeschlagen');
     data = await res.json();
+    if (!data.features || !data.features[0] || !data.features[0].properties || !data.features[0].properties.summary) throw new Error('Keine Route');
     const distanceMeters = data.features[0].properties.summary.distance;
-    return distanceMeters / 1000;
+    return isFinite(distanceMeters) ? distanceMeters / 1000 : 0;
   } catch(e) {
     console.error('Fehler bei Entfernungsberechnung:', e);
     return 0;
@@ -218,67 +221,49 @@ async function calculatePrice(data) {
   if (data.aufzug_einzug === 'Nein') price += 20;
   price += (parseInt(data.etage_einzug) || 0) * 5;
 
-  const trips = calculateTrips(Number(data.groesse_auszug));
+  const groesse = Number(data.groesse_auszug) || 0;
+  const trips = calculateTrips(groesse);
 
   const home = 'Herzogenbuscherstraße 1d, 54292 Trier';
-  const auszug = `${data.von_strasse} ${data.von_hausnr}, ${data.von_plz} ${data.von_stadt}`;
-  const einzug = `${data.nach_strasse} ${data.nach_hausnr}, ${data.nach_plz} ${data.nach_stadt}`;
+  const auszug = [data.von_strasse, data.von_hausnr, data.von_plz, data.von_stadt].filter(Boolean).join(' ');
+  const einzug = [data.nach_strasse, data.nach_hausnr, data.nach_plz, data.nach_stadt].filter(Boolean).join(' ');
 
-  
-  const distanceHomeToAuszug = await getDistance(home, auszug);
-  console.log(`Home → Auszug: ${distanceHomeToAuszug.toFixed(2)} km`);
-  
-  const distanceAuszugToEinzug = await getDistance(auszug, einzug);
-  
-  const distanceEinzugToHome = await getDistance(einzug, home);
-  console.log(`Einzug → Home: ${distanceEinzugToHome.toFixed(2)} km`);
+  const distanceHomeToAuszug = await getDistance(home, auszug) || 0;
+  const distanceAuszugToEinzug = await getDistance(auszug, einzug) || 0;
+  const distanceEinzugToHome = await getDistance(einzug, home) || 0;
 
   const kmPreis = 0.83;
-  
-  const kostenHomeToAuszug = distanceHomeToAuszug * kmPreis;
-  const kostenAuszugEinzug = distanceAuszugToEinzug * trips * kmPreis;
-  const kostenEinzugToHome = distanceEinzugToHome * kmPreis;
-  
   const gesamtKM = distanceHomeToAuszug + (distanceAuszugToEinzug * trips) + distanceEinzugToHome;
-  const gesamtKMKosten = kostenHomeToAuszug + kostenAuszugEinzug + kostenEinzugToHome;
-  
-  price += gesamtKMKosten;
+  price += gesamtKM * kmPreis;
 
   if (data.moebel && data.moebel.length > 0) {
     let totalMoebel = 0;
     let totalMinuten = 0;
-    
     data.moebel.forEach(m => {
       const menge = parseInt(m.menge) || 0;
       totalMoebel += menge;
-      
-      let minutenProStueck = 40;
-      if (m.typ === 'Beides') {
-        minutenProStueck = 80;
-      }
+      let minutenProStueck = m.typ === 'Beides' ? 80 : 40;
       totalMinuten += minutenProStueck * menge;
     });
-    
     const moebelGrundpreis = totalMoebel * 20;
     const geschaetzteStunden = Math.ceil((totalMinuten / 60) * 2) / 2;
     const stundenLohn = geschaetzteStunden * 25;
-    
     price += moebelGrundpreis + stundenLohn;
     data.moebelStunden = geschaetzteStunden;
   }
 
-  data.distanceKm = distanceAuszugToEinzug.toFixed(2);
-  data.gesamtKM = gesamtKM.toFixed(2);
+  data.distanceKm = isFinite(distanceAuszugToEinzug) ? distanceAuszugToEinzug.toFixed(2) : '0.00';
+  data.gesamtKM = isFinite(gesamtKM) ? gesamtKM.toFixed(2) : '0.00';
   data.trips = trips;
-  data.totalPrice = price.toFixed(2);
+  data.totalPrice = isFinite(price) ? price.toFixed(2) : null;
   
   return data;
 }
 
 function displayData(data) {
   const content = document.getElementById('content');
-  const von = `${data.von_strasse} ${data.von_hausnr}, ${data.von_plz} ${data.von_stadt}`;
-  const nach = `${data.nach_strasse} ${data.nach_hausnr}, ${data.nach_plz} ${data.nach_stadt}`;
+  const von = [data.von_strasse, data.von_hausnr, data.von_plz, data.von_stadt].filter(Boolean).join(' ');
+  const nach = [data.nach_strasse, data.nach_hausnr, data.nach_plz, data.nach_stadt].filter(Boolean).join(' ');
   
   let moebelHTML = '';
   if (data.moebel && data.moebel.length > 0) {
@@ -295,11 +280,15 @@ function displayData(data) {
     moebelHTML = '<p style="color:#999;">Keine Möbel angegeben</p>';
   }
 
+  const preisBadge = data.totalPrice
+    ? `💰 Gesamtpreis: ${data.totalPrice} €`
+    : `<span style="color:#e67e22;">⚠️ Preis auf Anfrage (Adresse konnte nicht berechnet werden)</span>`;
+
   content.innerHTML = `
   <div class="section">
     <h3>Von / Nach</h3>
-    <div class="field"><span>Von:</span> ${von}</div>
-    <div class="field"><span>Nach:</span> ${nach}</div>
+    <div class="field"><span>Von:</span> ${von || '-'}</div>
+    <div class="field"><span>Nach:</span> ${nach || '-'}</div>
     <div class="field"><span>Datum:</span> ${data.datum||'-'}</div>
     <div class="field"><span>Entfernung Auszug↔Einzug:</span> ${data.distanceKm} km</div>
     <div class="field"><span>🚚 Anzahl Fahrten:</span> ${data.trips}x</div>
@@ -331,7 +320,7 @@ function displayData(data) {
     <div class="field"><span>Transporter nötig:</span> ${data.transporter||'-'}</div>
   </div>
   <div class="section" style="text-align:center;font-size:22px;font-weight:700;color:#0077cc;">
-    💰 Gesamtpreis: ${data.totalPrice} €
+    ${preisBadge}
   </div>
   `;
 }
