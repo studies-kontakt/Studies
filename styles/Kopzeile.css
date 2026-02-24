@@ -20,7 +20,7 @@
 }
 
 .left-logo img {
-  height:80px;
+  height:55px;
 }
 
 /* CENTER LOGO */
@@ -30,7 +30,7 @@
 }
 
 .center-logo img {
-  height:100px;
+  height:120px;
 }
 
 /* RIGHT MENU */
@@ -40,8 +40,8 @@
 }
 
 @media(max-width:768px){
-  .left-logo img {height:60px;}
-  .center-logo img {height:55px;}
+  .left-logo img {height:40px;}
+  .center-logo img {height:80px;}
 }
 
 /* MENU BUTTON */
