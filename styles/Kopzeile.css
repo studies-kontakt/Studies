@@ -31,7 +31,7 @@
 }
 
 .center-logo img {
-  height:120px;
+  height:145px;
 }
 
 /* RIGHT MENU */
@@ -42,7 +42,7 @@
 
 @media(max-width:768px){
   .left-logo img {height:40px;}
-  .center-logo img {height:80px;}
+  .center-logo img {height:90px;}
 }
 
 /* MENU BUTTON */
