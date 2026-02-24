@@ -1,4 +1,4 @@
-﻿<!doctype html>
+<!doctype html>
 <html lang="de">
   <head>
     <meta charset="UTF-8" />
@@ -90,6 +90,7 @@
 
       input[type="text"],
       input[type="number"],
+      input[type="date"],
       textarea,
       select {
         width: 100%;
@@ -605,6 +606,10 @@
           Wir werden Sie anschließend schnellstmöglich kontaktieren.
         </div>
 
+        <!-- Wunschtermin -->
+        <label for="wunschtermin" style="margin-top: 20px;">Wunschtermin:</label>
+        <input type="date" id="wunschtermin" style="margin-bottom: 20px;">
+
         <!-- Zusatzinfo -->
         <label>Wollen Sie uns noch etwas mitteilen?</label>
         <textarea
@@ -874,6 +879,13 @@
           return;
         }
         data.aufbauAufwand = aufwand.value;
+
+        const wunschtermin = document.getElementById("wunschtermin").value;
+        if (wunschtermin) {
+          // Datum von YYYY-MM-DD in DD.MM.YYYY umwandeln
+          const [y, m, d] = wunschtermin.split("-");
+          data.wunschtermin = `${d}.${m}.${y}`;
+        }
 
         const zusatz = document.getElementById("zusatzinfo").value.trim();
         if (zusatz) data.aufbau_text = zusatz;
