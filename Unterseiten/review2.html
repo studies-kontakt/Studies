@@ -282,6 +282,7 @@ async function render() {
     <div class="section">
       <h3>Auf-/Abbau</h3>
       <div class="field"><span>Art:</span> ${data.aufbauAbb || '-'}</div>
+      ${data.wunschtermin ? `<div class="field"><span>Wunschtermin:</span> ${data.wunschtermin}</div>` : ""}
       ${data.aufbau_text ? `<div class="field"><span>Zusatzinfo:</span> ${data.aufbau_text}</div>` : ""}
     </div>
 
