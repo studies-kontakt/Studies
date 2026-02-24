@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="de">
 <head>
 <meta charset="UTF-8">
@@ -218,6 +218,7 @@ document.getElementById("reviewData").innerHTML = `
     <strong>Auf-/Abbau:</strong><br>
     • Art: ${data.aufbauAbb || "-"}<br>
     • Aufwand: ${data.aufbauAufwand || "-"}
+    ${data.wunschtermin ? `<br>• Wunschtermin: ${data.wunschtermin}` : ""}
     ${data.aufbau_text ? `<br>• Beschreibung: ${data.aufbau_text}` : ""}
   </div>
 
