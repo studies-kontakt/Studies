@@ -154,15 +154,20 @@ function getData() {
 
 // Entfernung berechnen (OpenRouteService)
 async function getDistance(vonAdresse, nachAdresse) {
+  if (!vonAdresse || !nachAdresse) return 0;
   const apiKey = "eyJvcmciOiI1YjNjZTM1OTc4NTExMTAwMDFjZjYyNDgiLCJpZCI6IjZhMzUxMGQyMDMzODRhNzNiY2ExYmFiYjRjYTRhYTRkIiwiaCI6Im11cm11cjY0In0=";
 
   try {
     let res = await fetch(`https://api.openrouteservice.org/geocode/search?api_key=${apiKey}&text=${encodeURIComponent(vonAdresse)}`);
+    if (!res.ok) throw new Error('Geocoding fehlgeschlagen');
     let geoData = await res.json();
+    if (!geoData.features || geoData.features.length === 0) throw new Error('Adresse nicht gefunden');
     const von = geoData.features[0].geometry.coordinates;
 
     res = await fetch(`https://api.openrouteservice.org/geocode/search?api_key=${apiKey}&text=${encodeURIComponent(nachAdresse)}`);
+    if (!res.ok) throw new Error('Geocoding fehlgeschlagen');
     geoData = await res.json();
+    if (!geoData.features || geoData.features.length === 0) throw new Error('Adresse nicht gefunden');
     const nach = geoData.features[0].geometry.coordinates;
 
     res = await fetch("https://api.openrouteservice.org/v2/directions/driving-car/geojson", {
@@ -170,9 +175,11 @@ async function getDistance(vonAdresse, nachAdresse) {
       headers: { "Authorization": apiKey, "Content-Type": "application/json" },
       body: JSON.stringify({ coordinates: [von, nach] })
     });
-
+    if (!res.ok) throw new Error('Routing fehlgeschlagen');
     geoData = await res.json();
-    return geoData.features[0].properties.summary.distance / 1000;
+    if (!geoData.features || !geoData.features[0] || !geoData.features[0].properties || !geoData.features[0].properties.summary) throw new Error('Keine Route');
+    const distanceMeters = geoData.features[0].properties.summary.distance;
+    return isFinite(distanceMeters) ? distanceMeters / 1000 : 0;
   } catch (e) {
     console.error('Fehler bei Entfernungsberechnung:', e);
     return 0;
@@ -187,7 +194,7 @@ async function calculatePrice(data) {
   let anzahlMoebel = 0;
   if (data.moebel && data.moebel.length > 0) {
     data.moebel.forEach(item => {
-      const menge = Number(item.menge);
+      const menge = parseInt(item.menge) || 0;
       anzahlMoebel += menge;
       
       // Bei "Beides" (Auf- UND Abbau): Doppelter Preis pro Möbel
@@ -233,10 +240,10 @@ async function calculatePrice(data) {
   let entfernungGesamt = 0;
 
   if (data.aufbauAbb === "Beides") {
-    if (data.adresse1) entfernungGesamt += await getDistance(home, data.adresse1);
-    if (data.adresse2) entfernungGesamt += await getDistance(home, data.adresse2);
+    if (data.adresse1) entfernungGesamt += await getDistance(home, data.adresse1) || 0;
+    if (data.adresse2) entfernungGesamt += await getDistance(home, data.adresse2) || 0;
   } else {
-    if (data.adresse1) entfernungGesamt += await getDistance(home, data.adresse1);
+    if (data.adresse1) entfernungGesamt += await getDistance(home, data.adresse1) || 0;
   }
 
   price += entfernungGesamt * 2 * 0.83; // Hin- und Rückfahrt (Faktor 2)
@@ -244,8 +251,8 @@ async function calculatePrice(data) {
   // Daten speichern
   data.anzahlMoebel = anzahlMoebel;
   data.abgerechneteStunden = abgerechneteStunden;
-  data.entfernungGesamt = entfernungGesamt.toFixed(2);
-  data.totalPrice = price.toFixed(2);
+  data.entfernungGesamt = isFinite(entfernungGesamt) ? entfernungGesamt.toFixed(2) : '0.00';
+  data.totalPrice = isFinite(price) && price > 0 ? price.toFixed(2) : null;
 
   return data;
 }
@@ -266,6 +273,10 @@ async function render() {
   } else {
     moebelHTML = '<p style="color:#999;font-style:italic;">Keine Möbel angegeben</p>';
   }
+
+  const preisBadge = data.totalPrice
+    ? `💰 Gesamtpreis: ${data.totalPrice} €`
+    : `<span style="color:#e67e22;">⚠️ Preis auf Anfrage (Adresse konnte nicht berechnet werden)</span>`;
 
   // Anzeige
   document.getElementById("review").innerHTML = `
@@ -295,7 +306,7 @@ async function render() {
 
     <div class="section" style="text-align:center;font-size:20px;font-weight:600;">
       📍 Entfernung gesamt: ${data.entfernungGesamt} km<br><br>
-      💰 Gesamtpreis: ${data.totalPrice} €
+      ${preisBadge}
     </div>
   `;
 
