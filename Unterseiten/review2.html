@@ -207,13 +207,13 @@ async function calculatePrice(data) {
   }
 
   // 2. ARBEITSSTUNDEN
-  const stundenlohn = 25;
+  const stundenlohn = 30;
   let gesamtMinuten = 0;
   
   if (data.aufbauAbb === "Beides") {
     gesamtMinuten = anzahlMoebel * 120; // 120 Minuten pro Stück
   } else {
-    gesamtMinuten = anzahlMoebel * 35;  // 35 Minuten pro Stück
+    gesamtMinuten = anzahlMoebel * 60;  // 60 Minuten pro Stück
   }
   
   const gesamtStunden = gesamtMinuten / 60;
