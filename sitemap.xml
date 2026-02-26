@@ -2,31 +2,31 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <!-- ERSETZEN SIE "https://www.ihre-domain.de" MIT IHRER ECHTEN DOMAIN -->
   <url>
-    <loc>https://www.ihre-domain.de/index.html</loc>
+    <loc>https://studies-service.de/index.html</loc>
     <priority>1.0</priority>
   </url>
   <url>
-    <loc>https://www.ihre-domain.de/Unterseiten/Umzug.html</loc>
+    <loc>https://studies-service.de/Unterseiten/Umzug.html</loc>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://www.ihre-domain.de/Unterseiten/MoebelAufbau.html</loc>
+    <loc>https://studies-service.de/Unterseiten/MoebelAufbau.html</loc>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://www.ihre-domain.de/Unterseiten/Transport.html</loc>
+    <loc>https://studies-service.de/Unterseiten/Transport.html</loc>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://www.ihre-domain.de/Unterseiten/ÜberUns.html</loc>
+    <loc>https://studies-service.de/Unterseiten/ÜberUns.html</loc>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://www.ihre-domain.de/Unterseiten/Impressum.html</loc>
+    <loc>https://studies-service.de/Unterseiten/Impressum.html</loc>
     <priority>0.5</priority>
   </url>
   <url>
-    <loc>https://www.ihre-domain.de/Unterseiten/Datenschutz.html</loc>
+    <loc>https://studies-service.de/Unterseiten/Datenschutz.html</loc>
     <priority>0.5</priority>
   </url>
 </urlset>
