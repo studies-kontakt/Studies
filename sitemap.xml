@@ -1,32 +1,63 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <!-- ERSETZEN SIE "https://www.ihre-domain.de" MIT IHRER ECHTEN DOMAIN -->
   <url>
-    <loc>https://studies-service.de/index.html</loc>
+    <loc>https://studies-service.de/</loc>
+    <lastmod>2026-03-06</lastmod>
     <priority>1.0</priority>
   </url>
   <url>
     <loc>https://studies-service.de/Unterseiten/Umzug.html</loc>
+    <lastmod>2026-03-06</lastmod>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://studies-service.de/Unterseiten/MoebelAufbau.html</loc>
+    <lastmod>2026-03-06</lastmod>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://studies-service.de/Unterseiten/Transport.html</loc>
+    <lastmod>2026-03-06</lastmod>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://studies-service.de/Unterseiten/ÜberUns.html</loc>
+    <loc>https://studies-service.de/Unterseiten/%C3%9CberUns.html</loc>
+    <lastmod>2026-03-06</lastmod>
     <priority>0.7</priority>
   </url>
   <url>
+    <loc>https://studies-service.de/Unterseiten/kontakt.html</loc>
+    <lastmod>2026-03-06</lastmod>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://studies-service.de/Unterseiten/Tanke.html</loc>
+    <lastmod>2026-03-06</lastmod>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://studies-service.de/Unterseiten/review.html</loc>
+    <lastmod>2026-03-06</lastmod>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://studies-service.de/Unterseiten/review2.html</loc>
+    <lastmod>2026-03-06</lastmod>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://studies-service.de/Unterseiten/review3.html</loc>
+    <lastmod>2026-03-06</lastmod>
+    <priority>0.6</priority>
+  </url>
+  <url>
     <loc>https://studies-service.de/Unterseiten/Impressum.html</loc>
+    <lastmod>2026-03-06</lastmod>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://studies-service.de/Unterseiten/Datenschutz.html</loc>
+    <lastmod>2026-03-06</lastmod>
     <priority>0.5</priority>
   </url>
 </urlset>
