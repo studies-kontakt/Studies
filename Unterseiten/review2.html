@@ -1,0 +1,360 @@
+﻿<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Überprüfen Sie Ihre Angaben</title>
+<link rel="icon" href="../Img/Logo.png" type="image/png">
+<link rel="canonical" href="https://studies-service.de/Unterseiten/review2.html"><link rel="stylesheet" href="../styles/Kopzeile.css"><link rel="stylesheet" href="../styles/footer.css">
+<link rel="stylesheet" href="../fonts/roboto-condensed.css">
+
+
+
+<style>
+* {margin:0;padding:0;box-sizing:border-box;}
+body {
+  font-family:'Roboto Condensed', sans-serif;
+  background:#f4f6f8;color:#333;
+  min-height:100vh;line-height:1.6;
+}
+a {text-decoration:none;color:inherit;}
+
+@media(max-width:768px){  }
+
+/* CONTENT */
+.content-wrapper {
+  margin:130px 20px 40px;
+  max-width:800px;
+  margin-left:auto;
+  margin-right:auto;
+}
+
+h2 {
+  text-align:center;color:#0077cc;margin-bottom:20px;
+}
+
+.section {
+  background:white;padding:25px;border-radius:16px;
+  margin-bottom:20px;
+  box-shadow:0 10px 25px rgba(0,0,0,0.06);
+}
+
+.field {margin-bottom:10px;}
+.field span {font-weight:600;}
+
+.moebel-list {
+  margin-top:10px;
+  padding:15px;
+  background:#f7f9fc;
+  border-radius:8px;
+}
+
+.moebel-item {
+  padding:10px;
+  margin-bottom:8px;
+  background:white;
+  border-radius:6px;
+  font-size:14px;
+  border-left:3px solid #0077cc;
+}
+
+.moebel-item:last-child {
+  margin-bottom:0;
+}
+
+button {
+  padding:14px 20px;font-size:18px;font-weight:600;
+  border:none;border-radius:12px;cursor:pointer;
+  margin:10px 5px;
+  background:linear-gradient(90deg,#0077cc,#00aaff);
+  color:white;transition:0.3s;
+}
+
+button:hover {
+  background:linear-gradient(90deg,#005fa3,#0099dd);
+}
+
+button:active {transform:scale(0.97);}
+
+#back {background:#ccc;color:#000;}
+
+/* LOADING */
+.loading {
+  text-align:center;
+  padding:40px;
+  color:#0077cc;
+  font-size:18px;
+}
+
+.loading-spinner {
+  border: 4px solid #f3f3f3;
+  border-top: 4px solid #0077cc;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  animation: spin 1s linear infinite;
+  margin: 20px auto;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<div class="Kopfzeile">
+  <div class="left-logo">
+    <a href="../index.html"><img src="../Img/Logo2.png" alt="Logo"></a>
+  </div>
+  <div class="center-logo">
+    <a href="../index.html"><img src="../Img/Logo.png" alt="Logo Mitte"></a>
+  </div>
+  <div class="right-menu">
+    <div class="menu-button" id="menuButton"><div></div><div></div><div></div></div>
+  </div>
+  <div class="nav-links" id="navLinks">
+    <a class="Kopfzeile-Link" href="../index.html">Home</a>
+    <a class="Kopfzeile-Link" href="Umzug.html">Umzug</a>
+    <a class="Kopfzeile-Link" href="MoebelAufbau.html">Möbel Ab-/Aufbau</a>
+    <a class="Kopfzeile-Link" href="Transport.html">Transport</a>
+    <a class="Kopfzeile-Link" href="ÜberUns.html">Über uns</a>
+  </div>
+</div>
+
+<!-- CONTENT -->
+<div class="content-wrapper">
+  <h2>Bitte überprüfen Sie Ihre Angaben</h2>
+  <div id="review">
+    <div class="loading">
+      <div class="loading-spinner"></div>
+      📄 Ihre Daten werden bearbeitet...<br>Bitte warten Sie einen Moment.
+    </div>
+  </div>
+
+  <div style="text-align:center;">
+    <button id="back">Zurück</button>
+    <button id="confirm">Weiter zur Kontaktseite</button>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="footer-container">
+    <div class="footer-section">
+      <a href="Impressum.html">Impressum</a>
+    </div>
+    <div class="footer-section">
+      <h3>Kontakt</h3>
+      <p><a href="mailto:studies.kontakt@gmail.com">studies.kontakt@gmail.com</a></p>
+      <p><a href="tel:+491782550568">+49 178 2550 568</a></p>
+    </div>
+    <div class="footer-section">
+      <a href="Datenschutz.html">Datenschutz</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+// Navigation
+const menuButton = document.getElementById("menuButton");
+const navLinks = document.getElementById("navLinks");
+menuButton.onclick = () => {
+  navLinks.classList.toggle("active");
+  menuButton.classList.toggle("open");
+};
+
+// Daten aus URL lesen
+function getData() {
+  const data = JSON.parse(sessionStorage.getItem('moebelAufbauData') || '{}');
+  if (data.moebel && typeof data.moebel === 'string') {
+    try {
+      data.moebel = JSON.parse(data.moebel);
+    } catch(e) {
+      data.moebel = [];
+    }
+  }
+  return data;
+}
+
+// Entfernung berechnen (OpenRouteService)
+async function getDistance(vonAdresse, nachAdresse) {
+  if (!vonAdresse || !nachAdresse) return 0;
+  const apiKey = "eyJvcmciOiI1YjNjZTM1OTc4NTExMTAwMDFjZjYyNDgiLCJpZCI6IjZhMzUxMGQyMDMzODRhNzNiY2ExYmFiYjRjYTRhYTRkIiwiaCI6Im11cm11cjY0In0=";
+
+  try {
+    let res = await fetch(`https://api.openrouteservice.org/geocode/search?api_key=${apiKey}&text=${encodeURIComponent(vonAdresse)}`);
+    if (!res.ok) throw new Error('Geocoding fehlgeschlagen');
+    let geoData = await res.json();
+    if (!geoData.features || geoData.features.length === 0) throw new Error('Adresse nicht gefunden');
+    const von = geoData.features[0].geometry.coordinates;
+
+    res = await fetch(`https://api.openrouteservice.org/geocode/search?api_key=${apiKey}&text=${encodeURIComponent(nachAdresse)}`);
+    if (!res.ok) throw new Error('Geocoding fehlgeschlagen');
+    geoData = await res.json();
+    if (!geoData.features || geoData.features.length === 0) throw new Error('Adresse nicht gefunden');
+    const nach = geoData.features[0].geometry.coordinates;
+
+    res = await fetch("https://api.openrouteservice.org/v2/directions/driving-car/geojson", {
+      method: "POST",
+      headers: { "Authorization": apiKey, "Content-Type": "application/json" },
+      body: JSON.stringify({ coordinates: [von, nach] })
+    });
+    if (!res.ok) throw new Error('Routing fehlgeschlagen');
+    geoData = await res.json();
+    if (!geoData.features || !geoData.features[0] || !geoData.features[0].properties || !geoData.features[0].properties.summary) throw new Error('Keine Route');
+    const distanceMeters = geoData.features[0].properties.summary.distance;
+    return isFinite(distanceMeters) ? distanceMeters / 1000 : 0;
+  } catch (e) {
+    console.error('Fehler bei Entfernungsberechnung:', e);
+    return 0;
+  }
+}
+
+// Preisberechnung
+async function calculatePrice(data) {
+  let price = 0;
+
+  // 1. MÖBEL-KOSTEN
+  let anzahlMoebel = 0;
+  if (data.moebel && data.moebel.length > 0) {
+    data.moebel.forEach(item => {
+      const menge = parseInt(item.menge) || 0;
+      anzahlMoebel += menge;
+      
+      // Bei "Beides" (Auf- UND Abbau): Doppelter Preis pro Möbel
+      if (data.aufbauAbb === "Beides") {
+        price += 20 * 2 * menge; // 40€ pro Möbel (Auf- + Abbau)
+      } else {
+        price += 20 * menge; // 20€ pro Möbel
+      }
+    });
+  }
+
+  // 2. ARBEITSSTUNDEN
+  const stundenlohn = 30;
+  let gesamtMinuten = 0;
+  
+  if (data.aufbauAbb === "Beides") {
+    gesamtMinuten = anzahlMoebel * 120; // 120 Minuten pro Stück
+  } else {
+    gesamtMinuten = anzahlMoebel * 60;  // 60 Minuten pro Stück
+  }
+  
+  const gesamtStunden = gesamtMinuten / 60;
+  
+  // Runden nach Regeln: 
+  // Minuten < 31: Auf halbe Stunde (z.B. 1h 20m -> 1,5h)
+  // Minuten >= 31: Auf volle Stunde (z.B. 1h 40m -> 2,0h)
+  const volleStunden = Math.floor(gesamtStunden);
+  const restMinuten = Math.round((gesamtStunden - volleStunden) * 60);
+  
+  let abgerechneteStunden;
+  if (restMinuten >= 31) {
+    abgerechneteStunden = volleStunden + 1;
+  } else if (restMinuten > 0) {
+    abgerechneteStunden = volleStunden + 0.5;
+  } else {
+    abgerechneteStunden = volleStunden;
+  }
+  
+  price += abgerechneteStunden * stundenlohn;
+
+  // 3. ENTFERNUNGSKOSTEN
+  const home = "Herzogenbuscherstraße 1d, 54292 Trier";
+  let entfernungGesamt = 0;
+
+  if (data.aufbauAbb === "Beides") {
+    // Strecke 1: Home → Adresse 1 (Aufbau)
+    const strecke1 = data.adresse1 ? (await getDistance(home, data.adresse1) || 0) : 0;
+    // Strecke 2: Home → Adresse 2 (Abbau)
+    const strecke2 = data.adresse2 ? (await getDistance(home, data.adresse2) || 0) : 0;
+    // Entfernung gesamt = Strecke 1 + Strecke 2
+    entfernungGesamt = strecke1 + strecke2;
+    data.strecke1 = strecke1.toFixed(2);
+    data.strecke2 = strecke2.toFixed(2);
+    price += entfernungGesamt * 0.83; // Keine ×2, da zwei separate Fahrten
+  } else {
+    // Einzelne Adresse: Hin- und Rückfahrt (×2)
+    const strecke = data.adresse1 ? (await getDistance(home, data.adresse1) || 0) : 0;
+    entfernungGesamt = strecke;
+    price += entfernungGesamt * 2 * 0.83; // ×2 für Hin- und Rückfahrt
+  }
+
+  // Daten speichern
+  data.anzahlMoebel = anzahlMoebel;
+  data.abgerechneteStunden = abgerechneteStunden;
+  data.entfernungGesamt = isFinite(entfernungGesamt) ? entfernungGesamt.toFixed(2) : '0.00';
+  data.totalPrice = isFinite(price) && price > 0 ? price.toFixed(2) : null;
+
+  return data;
+}
+
+// Daten anzeigen + speichern
+async function render() {
+  const data = await calculatePrice(getData());
+
+  // Möbel HTML
+  let moebelHTML = '';
+  if (data.moebel && data.moebel.length > 0) {
+    moebelHTML = '<div class="moebel-list">';
+    data.moebel.forEach(m => {
+      let photoImg = m.photo ? `<img src="${m.photo}" style="width:40px;height:40px;object-fit:cover;border-radius:4px;margin-left:10px;vertical-align:middle;">` : '';
+      moebelHTML += `<div class="moebel-item">📦 ${m.art} (${m.typ}) - Anzahl: ${m.menge}${photoImg}</div>`;
+    });
+    moebelHTML += '</div>';
+  } else {
+    moebelHTML = '<p style="color:#999;font-style:italic;">Keine Möbel angegeben</p>';
+  }
+
+  const preisBadge = data.totalPrice
+    ? `💰 Gesamtpreis: ${data.totalPrice} €`
+    : `<span style="color:#e67e22;">⚠️ Preis auf Anfrage (Adresse konnte nicht berechnet werden)</span>`;
+
+  // Anzeige
+  document.getElementById("review").innerHTML = `
+    <div class="section">
+      <h3>Adresse(n)</h3>
+      ${data.aufbauAbb === "Beides" ? `
+        <div class="field"><span>Aufbau-Adresse:</span> ${data.adresse1 || '-'}</div>
+        <div class="field"><span>Abbau-Adresse:</span> ${data.adresse2 || '-'}</div>
+      ` : `
+        <div class="field"><span>Adresse:</span> ${data.adresse1 || '-'}</div>
+      `}
+    </div>
+
+    <div class="section">
+      <h3>Auf-/Abbau</h3>
+      <div class="field"><span>Art:</span> ${data.aufbauAbb || '-'}</div>
+      ${data.wunschtermin ? `<div class="field"><span>Wunschtermin:</span> ${data.wunschtermin}</div>` : ""}
+      ${data.aufbau_text ? `<div class="field"><span>Zusatzinfo:</span> ${data.aufbau_text}</div>` : ""}
+    </div>
+
+    <div class="section">
+      <h3>Möbel</h3>
+      ${moebelHTML}
+      <div class="field" style="margin-top:15px;"><span>Gesamt-Anzahl:</span> ${data.anzahlMoebel} Möbelstück${data.anzahlMoebel !== 1 ? 'e' : ''}</div>
+      <div class="field"><span>Arbeitsstunden:</span> ${data.abgerechneteStunden} Std.</div>
+    </div>
+
+    <div class="section" style="text-align:center;font-size:20px;font-weight:600;">
+      ${preisBadge}
+    </div>
+  `;
+
+  // ✓ ALLE Daten speichern für kontakt2.html
+  sessionStorage.setItem("fullReviewData", JSON.stringify(data));
+}
+
+document.getElementById("back").onclick = () => history.back();
+document.getElementById("confirm").onclick = () => location.href = "Kontakt2.html";
+
+render();
+</script>
+
+</body>
+</html>
+
+

@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Admin Login - Studies Umzüge</title>
+<link rel="icon" href="../Img/Logo.png" type="image/png">
+<link rel="stylesheet" href="../styles/Kopzeile.css">
+<link rel="stylesheet" href="../fonts/roboto-condensed.css">
+
+<style>
+* {margin:0;padding:0;box-sizing:border-box;}
+body {
+  font-family:'Roboto Condensed', sans-serif;
+  background:#f4f6f8;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  min-height:100vh;
+  margin:0;
+}
+
+.login-container {
+  background:white;
+  padding:40px;
+  border-radius:24px;
+  box-shadow:0 20px 50px rgba(0,0,0,0.1);
+  width:100%;
+  max-width:400px;
+  text-align:center;
+}
+
+.logo {
+  width:80px;
+  margin-bottom:20px;
+}
+
+h1 {
+  color:#0077cc;
+  margin-bottom:10px;
+  font-size:28px;
+}
+
+p {
+  color:#666;
+  margin-bottom:30px;
+}
+
+label {
+  display:block;
+  text-align:left;
+  font-weight:600;
+  margin-bottom:8px;
+  color:#333;
+}
+
+input {
+  width:100%;
+  padding:14px;
+  border:1px solid #ddd;
+  border-radius:12px;
+  font-size:16px;
+  margin-bottom:20px;
+  outline:none;
+  transition:0.3s;
+}
+
+input:focus {
+  border-color:#0077cc;
+  box-shadow:0 0 10px rgba(0,119,204,0.1);
+}
+
+button {
+  width:100%;
+  padding:14px;
+  font-size:18px;
+  font-weight:600;
+  color:white;
+  background:linear-gradient(90deg, #0077cc, #00aaff);
+  border:none;
+  border-radius:12px;
+  cursor:pointer;
+  transition:0.3s;
+}
+
+button:hover {
+  background:linear-gradient(90deg, #005fa3, #0099dd);
+  transform:translateY(-2px);
+  box-shadow:0 5px 15px rgba(0,119,204,0.3);
+}
+
+.error-msg {
+  color:#ff4444;
+  margin-bottom:15px;
+  display:none;
+}
+</style>
+</head>
+<body>
+
+<div class="login-container">
+  <img src="../Img/Logo.png" alt="Logo" class="logo">
+  <h1>Admin Login</h1>
+  <p>Bitte melden Sie sich an, um fortzufahren.</p>
+  
+  <div id="error" class="error-msg">Ungültiger Benutzername oder Passwort.</div>
+  
+  <form id="loginForm">
+    <label for="username">Benutzername</label>
+    <input type="text" id="username" required>
+    
+    <label for="password">Passwort</label>
+    <input type="password" id="password" required>
+    
+    <button type="submit">Anmelden</button>
+  </form>
+</div>
+
+<script>
+document.getElementById('loginForm').addEventListener('submit', (e) => {
+  e.preventDefault();
+  const user = document.getElementById('username').value;
+  const pass = document.getElementById('password').value;
+  
+  // Einfache Prüfung (vom Benutzer gewünscht: Nutzername + Passwort)
+  // Standardmäßig: admin / Studies3813702
+  if (user === "admin" && pass === "Studies3813702") {
+    sessionStorage.setItem('adminLoggedIn', 'true');
+    window.location.href = 'admin-rabatt.html';
+  } else {
+    document.getElementById('error').style.display = 'block';
+  }
+});
+</script>
+
+</body>
+</html>

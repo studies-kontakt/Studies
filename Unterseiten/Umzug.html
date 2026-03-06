@@ -1,0 +1,681 @@
+﻿<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Umzugshilfe & Umzüge in Trier | Studies Umzüge</title>
+<meta name="description" content="Planen Sie Ihren Umzug in Trier mit Studies Umzüge. Wir bieten Full-Service Umzüge, professionelle Helfer und faire Preise. Jetzt Angebot anfordern!">
+<link rel="icon" href="../Img/Logo.png" type="image/png">
+<link rel="canonical" href="https://studies-service.de/Unterseiten/Umzug.html">
+<link rel="stylesheet" href="../styles/Kopzeile.css">
+<link rel="stylesheet" href="../styles/footer.css">
+<link rel="stylesheet" href="../fonts/roboto-condensed.css">
+<style>
+* {margin:0;padding:0;box-sizing:border-box;}
+body {
+  font-family:'Roboto Condensed', sans-serif;
+
+  background:#f4f6f8;
+  color:#333;
+  line-height:1.6;
+}
+a {text-decoration:none;color:inherit;}
+
+/* HEADER IMAGE + TITLE */
+.umzug-header {
+  display:flex;align-items:center;justify-content:center;
+  gap:25px;margin-bottom:30px;text-align:center;
+}
+.umzug-bild {
+  width:100px;height:auto;
+  filter:drop-shadow(0 5px 10px rgba(0,0,0,0.15));
+}
+.umzug-title {
+  font-size:40px;font-weight:700;color:#0077cc;margin:0;
+}
+
+/* CONTENT */
+.center-content {
+  margin-top:160px;padding:20px;text-align:center;
+}
+
+.form-container {
+  background:white;padding:30px;max-width:700px;
+  margin:0 auto;border-radius:20px;
+  box-shadow:0 10px 30px rgba(0,0,0,0.08);
+  text-align:left;
+}
+
+label {font-weight:500;margin-bottom:6px;display:block;}
+
+input[type=text],
+input[type=number],
+input[type=date],
+select {
+  width:100%;padding:12px 14px;border:1px solid #ddd;
+  border-radius:10px;font-size:16px;transition:0.3s;
+  background:#f9fbfd;
+}
+
+input:focus, select:focus {
+  border-color:#0077cc;
+  box-shadow:0 0 8px rgba(0,119,204,0.2);
+  outline:none;
+}
+
+/* GRIDS */
+.adresse-gruppe,.plz-stadt {
+  display:grid;gap:15px;margin-bottom:15px;
+}
+.adresse-gruppe {grid-template-columns:2fr 1fr;}
+.plz-stadt {grid-template-columns:1fr 2fr;}
+
+@media(max-width:600px){
+  .adresse-gruppe,.plz-stadt {grid-template-columns:1fr;}
+}
+
+/* RADIO GROUPS */
+.wohnart-gruppe,.aufzug-gruppe,.zahlung-gruppe,.transporter-gruppe,.benoetigt-gruppe {
+  display:flex;flex-wrap:wrap;gap:10px;margin-bottom:16px;
+}
+
+.wohnart-gruppe label,
+.aufzug-gruppe label,
+.zahlung-gruppe label,
+.transporter-gruppe label,
+.benoetigt-gruppe label {
+  flex:1;text-align:center;padding:10px 12px;
+  border-radius:10px;background:#f7f9fc;
+  border:1px solid #ccc;cursor:pointer;transition:0.2s;
+  min-width:80px;
+}
+
+.wohnart-gruppe label:hover,
+.aufzug-gruppe label:hover,
+.zahlung-gruppe label:hover,
+.transporter-gruppe label:hover,
+.benoetigt-gruppe label:hover {
+  background:#e0f0ff;border-color:#0077cc;
+}
+
+input[type=radio] {display:none;}
+
+input[type=radio]:checked + label {
+  background:#0077cc;color:white;border-color:#005fa3;
+}
+
+/* MÖBEL LIST */
+.moebel-section {
+  margin-top:25px;padding:20px;
+  background:#f7f9fc;border-radius:12px;
+  border:2px dashed #0077cc;
+}
+
+.moebel-section h4 {
+  color:#0077cc;margin-bottom:15px;font-size:18px;
+}
+
+.moebel-section-header {
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-bottom:15px;
+  flex-wrap:wrap;
+  gap:10px;
+}
+
+.clear-all-btn {
+  padding:8px 16px;
+  background:#ff4444;
+  color:white;
+  border:none;
+  border-radius:8px;
+  font-size:14px;
+  font-weight:600;
+  cursor:pointer;
+  transition:0.3s;
+}
+
+.clear-all-btn:hover {
+  background:#cc0000;
+}
+
+.moebel-list {
+  display:flex;flex-direction:column;gap:12px;
+  margin-bottom:15px;
+}
+
+.moebel-item {
+  display:grid;
+  grid-template-columns:2fr 1.5fr 80px 40px 40px;
+  gap:10px;
+  align-items:center;
+  background:white;
+  padding:12px;
+  border-radius:10px;
+  box-shadow:0 2px 8px rgba(0,0,0,0.06);
+}
+
+@media(max-width:700px){
+  .moebel-item {
+    grid-template-columns:1fr;
+    gap:8px;
+  }
+}
+
+.moebel-item input[type=text] {
+  padding:10px;font-size:14px;margin-bottom:0;
+}
+
+.moebel-item select {
+  padding:10px;font-size:14px;margin-bottom:0;
+}
+
+.moebel-item input[type=number] {
+  width:100%;text-align:center;
+  padding:10px;font-size:14px;margin-bottom:0;
+}
+
+.remove-btn {
+  width:40px;height:40px;border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  font-size:20px;
+  cursor:pointer;transition:0.3s;
+  border:none;
+  background:#ff4444;color:white;
+}
+
+.remove-btn:hover {
+  background:#cc0000;transform:scale(1.1);
+}
+
+.camera-btn {
+  width:40px;height:40px;border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  font-size:18px;
+  cursor:pointer;transition:0.3s;
+  border:none;
+  background:#28a745;color:white;
+}
+
+.camera-btn:hover {
+  background:#218838;transform:scale(1.1);
+}
+
+.preview-container {
+  grid-column: 1 / -1;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 10px;
+}
+
+.photo-thumb {
+  width: 60px;
+  height: 60px;
+  object-fit: cover;
+  border-radius: 8px;
+  border: 2px solid #0077cc;
+}
+
+.add-moebel-btn {
+  width:100%;padding:12px;
+  background:#e0f0ff;color:#0077cc;
+  border:2px dashed #0077cc;
+  border-radius:10px;font-size:16px;
+  font-weight:600;cursor:pointer;
+  transition:0.3s;
+}
+
+.add-moebel-btn:hover {
+  background:#0077cc;color:white;
+}
+
+/* BUTTON */
+button.submit-btn {
+  width:100%;padding:15px;margin-top:20px;
+  border:none;border-radius:12px;
+  background:linear-gradient(90deg,#0077cc,#00aaff);
+  color:white;font-size:18px;font-weight:600;
+  cursor:pointer;transition:0.3s;
+}
+button.submit-btn:hover {
+  background:linear-gradient(90deg,#005fa3,#0099dd);
+}
+
+hr {margin:25px 0;border:none;border-top:1px solid #eee;}
+
+h3 {margin-bottom:12px;font-size:18px;color:#ffffff;}
+</style>
+</head>
+
+<body>
+
+<!-- HEADER -->
+<div class="Kopfzeile">
+  <div class="left-logo">
+    <a href="../index.html"><img src="../Img/Logo2.png" alt="Logo"></a>
+  </div>
+  <div class="center-logo">
+    <a href="../index.html"><img src="../Img/Logo.png" alt="Logo Mitte"></a>
+  </div>
+  <div class="right-menu">
+    <div class="menu-button" id="menuButton"><div></div><div></div><div></div></div>
+  </div>
+  <div class="nav-links" id="navLinks">
+    <a class="Kopfzeile-Link" href="../index.html">Home</a>
+    <a class="Kopfzeile-Link" href="Umzug.html">Umzug</a>
+    <a class="Kopfzeile-Link" href="MoebelAufbau.html">Möbel Ab-/Aufbau</a>
+    <a class="Kopfzeile-Link" href="Transport.html">Transport</a>
+    <a class="Kopfzeile-Link" href="ÜberUns.html">Über uns</a>
+  </div>
+</div>
+
+<!-- CONTENT -->
+<div class="center-content">
+  <div class="umzug-header">
+    <img src="../Img/Umzug.png" alt="Umzug Bild" class="umzug-bild">
+    <h1 class="umzug-title">Umzug</h1>
+  </div>
+  
+  <div id="rabatt-hinweis"></div>
+  
+  <div class="form-container">
+
+    <!-- VON -->
+    <label>VON-Adresse:</label>
+    <div class="adresse-gruppe">
+      <input id="von_strasse" type="text" placeholder="Straße" required>
+      <input id="von_hausnr" type="text" placeholder="Nr." required>
+    </div>
+    <div class="plz-stadt">
+      <input id="von_plz" type="text" placeholder="PLZ" required>
+      <input id="von_stadt" type="text" placeholder="Stadt" required>
+    </div>
+
+    <!-- NACH -->
+    <label style="margin-top:20px;">NACH-Adresse:</label>
+    <div class="adresse-gruppe">
+      <input id="nach_strasse" type="text" placeholder="Straße" required>
+      <input id="nach_hausnr" type="text" placeholder="Nr." required>
+    </div>
+    <div class="plz-stadt">
+      <input id="nach_plz" type="text" placeholder="PLZ" required>
+      <input id="nach_stadt" type="text" placeholder="Stadt" required>
+    </div>
+
+    <!-- DATUM -->
+    <label style="margin-top:20px;">Datum des Umzugs:</label>
+    <input id="datum" type="date" required>
+
+    <hr>
+
+    <!-- AUSZUG -->
+    <h3>Auszug</h3>
+
+    <label>Wohnart:</label>
+    <div class="wohnart-gruppe">
+      <input type="radio" id="haus_auszug" name="wohnart_auszug" value="Haus"><label for="haus_auszug">Haus</label>
+      <input type="radio" id="wohnung_auszug" name="wohnart_auszug" value="Wohnung"><label for="wohnung_auszug">Wohnung</label>
+      <input type="radio" id="zimmer_auszug" name="wohnart_auszug" value="Zimmer"><label for="zimmer_auszug">Zimmer</label>
+    </div>
+
+    <label for="etage_auszug">Etage:</label>
+    <input id="etage_auszug" type="text" placeholder="z.B. EG, 1, 2" required>
+
+    <label for="zimmer_auszug_input">Anzahl der Zimmer:</label>
+    <input id="zimmer_auszug_input" type="number" min="1" placeholder="Anzahl" required>
+
+    <label for="groesse_auszug">Größe (ca. m²):</label>
+    <input id="groesse_auszug" type="number" min="1" placeholder="m²" required>
+
+    <label>Aufzug vorhanden?</label>
+    <div class="aufzug-gruppe">
+      <input type="radio" id="aufzug_ja_auszug" name="aufzug_auszug" value="Ja"><label for="aufzug_ja_auszug">Ja</label>
+      <input type="radio" id="aufzug_nein_auszug" name="aufzug_auszug" value="Nein"><label for="aufzug_nein_auszug">Nein</label>
+    </div>
+
+    <hr>
+
+    <!-- EINZUG -->
+    <h3>Einzug</h3>
+
+    <label>Wohnart:</label>
+    <div class="wohnart-gruppe">
+      <input type="radio" id="haus_einzug" name="wohnart_einzug" value="Haus"><label for="haus_einzug">Haus</label>
+      <input type="radio" id="wohnung_einzug" name="wohnart_einzug" value="Wohnung"><label for="wohnung_einzug">Wohnung</label>
+      <input type="radio" id="zimmer_einzug" name="wohnart_einzug" value="Zimmer"><label for="zimmer_einzug">Zimmer</label>
+    </div>
+
+    <label for="etage_einzug">Etage:</label>
+    <input id="etage_einzug" type="text" placeholder="z.B. EG, 1, 2" required>
+
+    <label for="zimmer_einzug_input">Anzahl der Zimmer:</label>
+    <input id="zimmer_einzug_input" type="number" min="1" placeholder="Anzahl" required>
+
+    <label for="groesse_einzug">Größe (ca. m²):</label>
+    <input id="groesse_einzug" type="number" min="1" placeholder="m²" required>
+
+    <label>Aufzug vorhanden?</label>
+    <div class="aufzug-gruppe">
+      <input type="radio" id="aufzug_ja_einzug" name="aufzug_einzug" value="Ja"><label for="aufzug_ja_einzug">Ja</label>
+      <input type="radio" id="aufzug_nein_einzug" name="aufzug_einzug" value="Nein"><label for="aufzug_nein_einzug">Nein</label>
+    </div>
+
+    <hr>
+
+    <!-- MÖBEL SECTION -->
+    <div class="moebel-section">
+      <div class="moebel-section-header">
+        <h4>Möbel zum Auf-/Abbau (Optional)</h4>
+        <button type="button" class="clear-all-btn" onclick="clearAllMoebel()">🗑️ Alle löschen</button>
+      </div>
+      <p style="font-size:14px;color:#666;margin-bottom:15px;">
+        Geben Sie hier an, welche Möbel auf- oder abgebaut werden sollen.
+      </p>
+
+      <div class="moebel-list" id="moebelList">
+        <div class="moebel-item">
+          <input type="text" placeholder="Möbelart (z.B. Schrank, Bett)" class="moebel-art">
+          <select class="moebel-typ">
+            <option value="Aufbau">Aufbau</option>
+            <option value="Abbau">Abbau</option>
+            <option value="Beides">Beides</option>
+          </select>
+          <input type="number" min="1" value="1" class="moebel-menge" placeholder="Anzahl">
+          <button type="button" class="camera-btn" onclick="triggerFile(this)" title="Foto hinzufügen">📷</button>
+          <button type="button" class="remove-btn" onclick="removeMoebel(this)">🗑️</button>
+          <input type="file" class="moebel-file" style="display:none;" accept="image/*" onchange="handleFile(this)">
+          <div class="preview-container"></div>
+        </div>
+      </div>
+      
+      <button type="button" class="add-moebel-btn" onclick="addMoebel()">+ Weiteres Möbelstück hinzufügen</button>
+    </div>
+
+    <hr>
+
+    <!-- ZAHLUNG -->
+    <label>Zahlung durch:</label>
+    <div class="zahlung-gruppe">
+      <input type="radio" id="bar" name="zahlung" value="Bar"><label for="bar">Bar</label>
+      <input type="radio" id="ueberweisung" name="zahlung" value="Überweisung"><label for="ueberweisung">Überweisung</label>
+    </div>
+
+    <!-- TRANSPORTER -->
+    <label>Transporter bis max. 3,5t nötig?</label>
+    <div class="transporter-gruppe">
+      <input type="radio" id="transporter_ja" name="transporter" value="Ja"><label for="transporter_ja">Ja</label>
+      <input type="radio" id="transporter_nein" name="transporter" value="Nein"><label for="transporter_nein">Nein</label>
+    </div>
+
+    <button class="submit-btn" id="absenden" type="button">Angebot anfordern</button>
+
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="footer-container">
+    <div class="footer-section">
+      <a href="Impressum.html">Impressum</a>
+    </div>
+    <div class="footer-section">
+      <h3>Kontakt</h3>
+      <p><a href="mailto:studies.kontakt@gmail.com">studies.kontakt@gmail.com</a></p>
+      <p><a href="tel:+491782550568">+49 178 2550 568</a></p>
+    </div>
+    <div class="footer-section">
+      <a href="Datenschutz.html">Datenschutz</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+const menuButton = document.getElementById('menuButton');
+const navLinks = document.getElementById('navLinks');
+
+menuButton.addEventListener('click', () => {
+  navLinks.classList.toggle('active');
+  menuButton.classList.toggle('open');
+});
+
+function addMoebel() {
+  const list = document.getElementById('moebelList');
+  const newItem = list.firstElementChild.cloneNode(true);
+  newItem.querySelector('.moebel-art').value = '';
+  newItem.querySelector('.moebel-menge').value = 1;
+  newItem.querySelector('.moebel-typ').value = 'Aufbau';
+  newItem.querySelector('.preview-container').innerHTML = '';
+  newItem.querySelector('.moebel-file').value = '';
+  list.appendChild(newItem);
+}
+
+function triggerFile(btn) {
+  btn.closest('.moebel-item').querySelector('.moebel-file').click();
+}
+
+function handleFile(input) {
+  const file = input.files[0];
+  if (!file) return;
+
+  const reader = new FileReader();
+  reader.onload = (e) => {
+    const img = new Image();
+    img.onload = () => {
+      // Komprimierung: Max 800px
+      const canvas = document.createElement('canvas');
+      let w = img.width;
+      let h = img.height;
+      const max = 800;
+      if (w > h && w > max) { h *= max / w; w = max; }
+      else if (h > max) { w *= max / h; h = max; }
+      canvas.width = w;
+      canvas.height = h;
+      const ctx = canvas.getContext('2d');
+      ctx.drawImage(img, 0, 0, w, h);
+      
+      const compressedData = canvas.toDataURL('image/jpeg', 0.7);
+      input.dataset.photo = compressedData;
+
+      const container = input.closest('.moebel-item').querySelector('.preview-container');
+      container.innerHTML = `<img src="${compressedData}" class="photo-thumb">`;
+    };
+    img.src = e.target.result;
+  };
+  reader.readAsDataURL(file);
+}
+
+function removeMoebel(btn) {
+  const list = document.getElementById('moebelList');
+  if (list.children.length > 1) {
+    btn.closest('.moebel-item').remove();
+  } else {
+    alert('Mindestens ein Möbelstück muss vorhanden sein.');
+  }
+}
+
+function clearAllMoebel() {
+  if (confirm('Möchten Sie wirklich alle Möbel aus der Liste entfernen?')) {
+    const list = document.getElementById('moebelList');
+    list.innerHTML = `
+      <div class="moebel-item">
+        <input type="text" placeholder="Möbelart (z.B. Schrank, Bett)" class="moebel-art">
+        <select class="moebel-typ">
+          <option value="Aufbau">Aufbau</option>
+          <option value="Abbau">Abbau</option>
+          <option value="Beides">Beides</option>
+        </select>
+        <input type="number" min="1" value="1" class="moebel-menge" placeholder="Anzahl">
+        <button type="button" class="camera-btn" onclick="triggerFile(this)" title="Foto hinzufügen">📷</button>
+        <button type="button" class="remove-btn" onclick="removeMoebel(this)">🗑️</button>
+        <input type="file" class="moebel-file" style="display:none;" accept="image/*" onchange="handleFile(this)">
+        <div class="preview-container"></div>
+      </div>
+    `;
+  }
+}
+
+document.getElementById('absenden').addEventListener('click', () => {
+  if (!von_strasse.value.trim()) {
+    alert('❌ Bitte geben Sie die VON-Straße ein.');
+    von_strasse.focus();
+    return;
+  }
+  if (!von_hausnr.value.trim()) {
+    alert('❌ Bitte geben Sie die VON-Hausnummer ein.');
+    von_hausnr.focus();
+    return;
+  }
+  if (!von_plz.value.trim()) {
+    alert('❌ Bitte geben Sie die VON-PLZ ein.');
+    von_plz.focus();
+    return;
+  }
+  if (!von_stadt.value.trim()) {
+    alert('❌ Bitte geben Sie die VON-Stadt ein.');
+    von_stadt.focus();
+    return;
+  }
+
+  if (!nach_strasse.value.trim()) {
+    alert('❌ Bitte geben Sie die NACH-Straße ein.');
+    nach_strasse.focus();
+    return;
+  }
+  if (!nach_hausnr.value.trim()) {
+    alert('❌ Bitte geben Sie die NACH-Hausnummer ein.');
+    nach_hausnr.focus();
+    return;
+  }
+  if (!nach_plz.value.trim()) {
+    alert('❌ Bitte geben Sie die NACH-PLZ ein.');
+    nach_plz.focus();
+    return;
+  }
+  if (!nach_stadt.value.trim()) {
+    alert('❌ Bitte geben Sie die NACH-Stadt ein.');
+    nach_stadt.focus();
+    return;
+  }
+
+  if (!datum.value) {
+    alert('❌ Bitte wählen Sie ein Umzugsdatum aus.');
+    datum.focus();
+    return;
+  }
+
+  if (!document.querySelector('input[name="wohnart_auszug"]:checked')) {
+    alert('❌ Bitte wählen Sie die Wohnart beim Auszug aus.');
+    return;
+  }
+  if (!etage_auszug.value.trim()) {
+    alert('❌ Bitte geben Sie die Etage beim Auszug an.');
+    etage_auszug.focus();
+    return;
+  }
+  if (!zimmer_auszug_input.value || zimmer_auszug_input.value < 1) {
+    alert('❌ Bitte geben Sie die Anzahl der Zimmer beim Auszug an.');
+    zimmer_auszug_input.focus();
+    return;
+  }
+  if (!groesse_auszug.value || groesse_auszug.value < 1) {
+    alert('❌ Bitte geben Sie die Größe beim Auszug an.');
+    groesse_auszug.focus();
+    return;
+  }
+  if (!document.querySelector('input[name="aufzug_auszug"]:checked')) {
+    alert('❌ Bitte wählen Sie aus, ob beim Auszug ein Aufzug vorhanden ist.');
+    return;
+  }
+
+  if (!document.querySelector('input[name="wohnart_einzug"]:checked')) {
+    alert('❌ Bitte wählen Sie die Wohnart beim Einzug aus.');
+    return;
+  }
+  if (!etage_einzug.value.trim()) {
+    alert('❌ Bitte geben Sie die Etage beim Einzug an.');
+    etage_einzug.focus();
+    return;
+  }
+  if (!zimmer_einzug_input.value || zimmer_einzug_input.value < 1) {
+    alert('❌ Bitte geben Sie die Anzahl der Zimmer beim Einzug an.');
+    zimmer_einzug_input.focus();
+    return;
+  }
+  if (!groesse_einzug.value || groesse_einzug.value < 1) {
+    alert('❌ Bitte geben Sie die Größe beim Einzug an.');
+    groesse_einzug.focus();
+    return;
+  }
+  if (!document.querySelector('input[name="aufzug_einzug"]:checked')) {
+    alert('❌ Bitte wählen Sie aus, ob beim Einzug ein Aufzug vorhanden ist.');
+    return;
+  }
+
+  if (!document.querySelector('input[name="zahlung"]:checked')) {
+    alert('❌ Bitte wählen Sie eine Zahlungsart aus.');
+    return;
+  }
+  if (!document.querySelector('input[name="transporter"]:checked')) {
+    alert('❌ Bitte wählen Sie aus, ob ein Transporter nötig ist.');
+    return;
+  }
+
+  const moebelItems = [];
+  document.querySelectorAll('.moebel-item').forEach(item => {
+    const art = item.querySelector('.moebel-art').value.trim();
+    if (art) {
+      moebelItems.push({
+        art: art,
+        typ: item.querySelector('.moebel-typ').value,
+        menge: item.querySelector('.moebel-menge').value,
+        photo: item.querySelector('.moebel-file').dataset.photo || null
+      });
+    }
+  });
+
+  const data = {
+    von_strasse: von_strasse.value.trim(),
+    von_hausnr: von_hausnr.value.trim(),
+    von_plz: von_plz.value.trim(),
+    von_stadt: von_stadt.value.trim(),
+
+    nach_strasse: nach_strasse.value.trim(),
+    nach_hausnr: nach_hausnr.value.trim(),
+    nach_plz: nach_plz.value.trim(),
+    nach_stadt: nach_stadt.value.trim(),
+
+    datum: datum.value,
+
+    wohnart_auszug: document.querySelector('input[name="wohnart_auszug"]:checked').value,
+    etage_auszug: etage_auszug.value.trim(),
+    zimmer_auszug: zimmer_auszug_input.value,
+    groesse_auszug: groesse_auszug.value,
+    aufzug_auszug: document.querySelector('input[name="aufzug_auszug"]:checked').value,
+
+    wohnart_einzug: document.querySelector('input[name="wohnart_einzug"]:checked').value,
+    etage_einzug: etage_einzug.value.trim(),
+    zimmer_einzug: zimmer_einzug_input.value,
+    groesse_einzug: groesse_einzug.value,
+    aufzug_einzug: document.querySelector('input[name="aufzug_einzug"]:checked').value,
+
+    zahlung: document.querySelector('input[name="zahlung"]:checked').value,
+    transporter: document.querySelector('input[name="transporter"]:checked').value,
+
+    moebel: JSON.stringify(moebelItems)
+  };
+
+  sessionStorage.setItem('umzugData', JSON.stringify(data));
+  window.location.href = 'review.html';
+});
+</script>
+
+<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database-compat.js"></script>
+<script src="../rabatt-anzeige.js"></script>
+
+</body>
+</html>
+
+
