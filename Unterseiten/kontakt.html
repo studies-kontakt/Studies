@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="de">
 <head>
 <meta charset="UTF-8">
@@ -376,6 +376,9 @@ function sendMail(){
 ${escapeHTML((data.moebel && data.moebel.length > 0)
   ? data.moebel.map(m => `${m.art} (${m.typ}) x${m.menge}`).join(", ")
   : "Keine Möbel")}
+
+<b>Transporter nötig:</b> ${escapeHTML(data.transporter || "-")}
+<b>Zahlung durch:</b> ${escapeHTML(data.zahlung || "-")}
 
 <b>Preis:</b> ${escapeHTML(String(data.totalPrice || "-"))} €`;
 
